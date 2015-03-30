@@ -1,0 +1,66 @@
+//-----------------------------------------------------------------
+// Game File
+// C++ Source - Roguelight.cpp - version v2_16 jan 2015
+// Copyright DAE Programming Team
+// http://www.digitalartsandentertainment.be/
+//-----------------------------------------------------------------
+#include "stdafx.h"		// this include must be the first include line of every cpp file (due to using precompiled header)
+	
+//-----------------------------------------------------------------
+// Include Files
+//-----------------------------------------------------------------
+#include "Roguelight.h"																				
+
+//-----------------------------------------------------------------
+// Defines
+//-----------------------------------------------------------------
+#define GAME_ENGINE (GameEngine::GetSingleton())
+
+//-----------------------------------------------------------------
+// Roguelight methods																				
+//-----------------------------------------------------------------
+
+Roguelight::Roguelight()
+{
+	// nothing to create
+}
+
+Roguelight::~Roguelight()																						
+{
+	// nothing to destroy
+}
+
+void Roguelight::GameInitialize(GameSettings &gameSettings)
+{
+	gameSettings.SetWindowTitle(String("Roguelight - Name, First name - group"));
+	gameSettings.SetWindowWidth(842);
+	gameSettings.SetWindowHeight(480);
+	gameSettings.EnableConsole(false);
+	gameSettings.EnableAntiAliasing(false);
+}
+
+void Roguelight::GameStart()
+{
+	// Insert the code that needs to be executed at the start of the game
+}
+
+void Roguelight::GameEnd()
+{
+	// Insert the code that needs to be executed at the closing of the game
+}
+
+void Roguelight::GameTick(double deltaTime)
+{
+	// Insert the code that needs to be executed, EXCEPT for paint commands (see next method)
+}
+
+void Roguelight::GamePaint(RECT rect)
+{
+
+	// Insert the code that needs to be executed each time a new frame needs to be drawn to the screen
+	// Technical note: engine uses double buffering when the gamecycle is running
+
+}
+
+
+
