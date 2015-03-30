@@ -1,0 +1,89 @@
+﻿Build started 3/30/2015 2:37:14 PM.
+     1>Project "C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Roguelight.vcxproj" on node 2 (Build target(s)).
+     1>PreBuildEvent:
+         xcopy "C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\\Box2DInclude\box2d.pdb" "C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\" /y /D
+         :VCEnd
+         0 File(s) copied
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./Box2DInclude /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Roguelight.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Roguelight.cpp
+         Roguelight.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\Roguelight.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\Roguelight.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\Roguelight.lib" /MACHINE:X86 Debug\Roguelight.res
+         Debug\AbstractGame.obj
+         Debug\AudioDecoder.obj
+         Debug\AudioSystem.obj
+         Debug\Bitmap.obj
+         Debug\Box2DDebugRenderer.obj
+         Debug\Button.obj
+         Debug\Font.obj
+         Debug\GameEngine.obj
+         Debug\GameSettings.obj
+         Debug\GameWinMain.obj
+         Debug\GUIBase.obj
+         Debug\InputManager.obj
+         Debug\PhysicsActor.obj
+         Debug\PhysicsDistanceJoint.obj
+         Debug\PhysicsPrismaticJoint.obj
+         Debug\PhysicsRevoluteJoint.obj
+         Debug\PrecisionTimer.obj
+         Debug\Sound.obj
+         Debug\stdafx.obj
+         Debug\String.obj
+         Debug\Structs.obj
+         Debug\SVGParser.obj
+         Debug\TextBox.obj
+         Debug\Roguelight.obj
+         Debug\ContactListener.obj
+         Debug\Elf.obj
+         Box2DInclude\Box2DDebug.lib
+     1>Box2DDebug.lib(b2BroadPhase.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2CollideCircle.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2CollideEdge.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2CollidePolygon.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Collision.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Distance.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2DynamicTree.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2TimeOfImpact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2ChainShape.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2CircleShape.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2EdgeShape.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2PolygonShape.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2BlockAllocator.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Draw.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Math.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Settings.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2StackAllocator.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Timer.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Body.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2ContactManager.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Fixture.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Island.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2World.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2WorldCallbacks.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2ChainAndCircleContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2ChainAndPolygonContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2CircleContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Contact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2ContactSolver.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2EdgeAndCircleContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2EdgeAndPolygonContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2PolygonAndCircleContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2PolygonContact.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2DistanceJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2FrictionJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2GearJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2Joint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2MotorJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2MouseJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2PrismaticJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2PulleyJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2RevoluteJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2RopeJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2WeldJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+     1>Box2DDebug.lib(b2WheelJoint.obj) : warning LNK4204: 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\box2d.pdb' is missing debugging information for referencing module; linking object as if no debug info
+         Roguelight.vcxproj -> C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Debug\Roguelight.exe
+     1>Done Building Project "C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Roguelight.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.30

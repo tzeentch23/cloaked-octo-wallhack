@@ -7,8 +7,8 @@
 
 //-----------------------------------------------------------------
 // Student data
-// Name:
-// Group:
+// Name: Kirkorova Angelika
+// Group: 1DAE2
 //-----------------------------------------------------------------
 
 #pragma once
@@ -23,6 +23,7 @@
 //-----------------------------------------------------------------
 // Roguelight Class																
 //-----------------------------------------------------------------
+class Elf;
 class Roguelight : public AbstractGame
 {
 public:				
@@ -35,6 +36,7 @@ public:
 	// Destructor
 	//---------------------------
 	virtual ~Roguelight();
+
 
 	// C++11 make the class non-copyable
 	Roguelight(const Roguelight&) = delete;
@@ -53,6 +55,8 @@ public:
 	// -------------------------
 	// Public Member functions
 	// -------------------------
+	PhysicsActor * m_ActFloorPtr = nullptr;
+
 
 private:
 	// -------------------------
@@ -62,5 +66,6 @@ private:
 	// -------------------------
 	// Private Datamembers
 	// -------------------------
-
+	Elf *m_ElfPtr = nullptr;
+	bool m_IsPhysicsDebugRenderingOn = false;
 };

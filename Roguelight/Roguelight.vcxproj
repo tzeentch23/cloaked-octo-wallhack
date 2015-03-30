@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{65FE775A-8525-4C8D-97DC-AD30A84B2A2E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Roguelight</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./Box2DInclude</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(ProjectDir)\Box2DInclude\box2d.pdb" "$(OutDir)" /y /D</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>./Box2DInclude</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AbstractGame.cpp" />
+    <ClCompile Include="EngineFiles\AudioDecoder.cpp" />
+    <ClCompile Include="EngineFiles\AudioSystem.cpp" />
+    <ClCompile Include="EngineFiles\Bitmap.cpp" />
+    <ClCompile Include="EngineFiles\Box2DDebugRenderer.cpp" />
+    <ClCompile Include="EngineFiles\Button.cpp" />
+    <ClCompile Include="EngineFiles\Font.cpp" />
+    <ClCompile Include="EngineFiles\GameEngine.cpp" />
+    <ClCompile Include="EngineFiles\GameSettings.cpp" />
+    <ClCompile Include="GameWinMain.cpp" />
+    <ClCompile Include="EngineFiles\GUIBase.cpp" />
+    <ClCompile Include="EngineFiles\InputManager.cpp" />
+    <ClCompile Include="EngineFiles\PhysicsActor.cpp" />
+    <ClCompile Include="EngineFiles\PhysicsDistanceJoint.cpp" />
+    <ClCompile Include="EngineFiles\PhysicsPrismaticJoint.cpp" />
+    <ClCompile Include="EngineFiles\PhysicsRevoluteJoint.cpp" />
+    <ClCompile Include="EngineFiles\PrecisionTimer.cpp" />
+    <ClCompile Include="EngineFiles\Sound.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="EngineFiles\String.cpp" />
+    <ClCompile Include="EngineFiles\Structs.cpp" />
+    <ClCompile Include="EngineFiles\SVGParser.cpp" />
+    <ClCompile Include="EngineFiles\TextBox.cpp" />
+    <ClCompile Include="Roguelight.cpp" />
+    <ClCompile Include="ContactListener.cpp" />
+    <ClCompile Include="Elf.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AbstractGame.h" />
+    <ClInclude Include="EngineFiles\AudioDecoder.h" />
+    <ClInclude Include="EngineFiles\AudioSystem.h" />
+    <ClInclude Include="EngineFiles\Bitmap.h" />
+    <ClInclude Include="EngineFiles\Box2DDebugRenderer.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Box2D.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\b2BroadPhase.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\b2Collision.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\b2Distance.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\b2DynamicTree.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2BlockAllocator.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2Draw.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2GrowableStack.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2Math.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2Settings.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2StackAllocator.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Common\b2Timer.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2Body.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2Fixture.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2Island.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2World.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2MotorJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="Box2DInclude\Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="EngineFiles\Button.h" />
+    <ClInclude Include="EngineFiles\Font.h" />
+    <ClInclude Include="EngineFiles\GameEngine.h" />
+    <ClInclude Include="EngineFiles\GameSettings.h" />
+    <ClInclude Include="GameWinMain.h" />
+    <ClInclude Include="EngineFiles\GUIBase.h" />
+    <ClInclude Include="EngineFiles\InputManager.h" />
+    <ClInclude Include="EngineFiles\PhysicsActor.h" />
+    <ClInclude Include="EngineFiles\PhysicsDistanceJoint.h" />
+    <ClInclude Include="EngineFiles\PhysicsPrismaticJoint.h" />
+    <ClInclude Include="EngineFiles\PhysicsRevoluteJoint.h" />
+    <ClInclude Include="EngineFiles\PrecisionTimer.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="EngineFiles\Sound.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="EngineFiles\String.h" />
+    <ClInclude Include="EngineFiles\Structs.h" />
+    <ClInclude Include="EngineFiles\SVGParser.h" />
+    <ClInclude Include="EngineFiles\TextBox.h" />
+    <ClInclude Include="Roguelight.h" />
+    <ClInclude Include="ContactListener.h" />
+    <ClInclude Include="Elf.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="big.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Box2DInclude\box2d.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Roguelight.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Box2DInclude\Box2DDebug.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="Box2DInclude\Box2DRelease.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Library>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
