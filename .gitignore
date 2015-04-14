@@ -5,3 +5,7 @@
 *.sdf
 **/Debug/*
 **/ipch/*
+*.idb
+*.tlog
+*.suo
+*.opensdf
