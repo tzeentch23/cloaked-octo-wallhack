@@ -3,3 +3,5 @@
 *.bak
 *.sln
 *.sdf
+**/Debug/*
+**/ipch/*

@@ -110,6 +110,8 @@
     <ClCompile Include="Roguelight.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Elf.cpp" />
+    <ClCompile Include="Enemies.cpp" />
+    <ClCompile Include="Shadyguy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractGame.h" />
@@ -186,6 +188,8 @@
     <ClInclude Include="Roguelight.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Elf.h" />
+    <ClInclude Include="Enemies.h" />
+    <ClInclude Include="Shadyguy.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="big.ico" />

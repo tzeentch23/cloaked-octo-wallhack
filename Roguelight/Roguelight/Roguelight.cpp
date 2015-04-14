@@ -5,7 +5,8 @@
 // http://www.digitalartsandentertainment.be/
 //-----------------------------------------------------------------
 #include "stdafx.h"		// this include must be the first include line of every cpp file (due to using precompiled header)
-#include "Elf.h"	
+#include "Elf.h"
+#include "Enemies.h"
 //-----------------------------------------------------------------
 // Include Files
 //-----------------------------------------------------------------
@@ -41,11 +42,10 @@ void Roguelight::GameInitialize(GameSettings &gameSettings)
 
 void Roguelight::GameStart()
 {
-	DOUBLE2 elfSpawn(20, 20);
+	DOUBLE2 elfSpawn(GAME_ENGINE->GetWidth()-100, 20);
 	m_ElfPtr = new Elf(elfSpawn);
 	m_ActFloorPtr = new PhysicsActor(DOUBLE2(GAME_ENGINE->GetWidth()/2, GAME_ENGINE->GetHeight() - 10), 0, BodyType::STATIC);
-	m_ActFloorPtr->AddBoxShape(GAME_ENGINE->GetHeight(), 20, 0, 0, 0);
-
+	m_ActFloorPtr->AddBoxShape(GAME_ENGINE->GetHeight(), 20, 0, 0, 1.0);
 	// Insert the code that needs to be executed at the start of the game
 }
 

@@ -21,7 +21,7 @@
 Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 {
 	m_ActElfPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
-	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0, 1.0);
+	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.1, 0, 1.0);
 	m_ActElfPtr->SetFixedRotation(true);
 	// nothing to create
 	// m_ActCirclePtr->AddContactListener(this);
