@@ -1,48 +1,48 @@
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name:Kirkorova
+// First name:Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
 	
 //---------------------------
 // Includes
 //---------------------------
-#include "Y.h"
+#include "Skelethon.h"
 
 //---------------------------
 // Defines
 //---------------------------
-//#define GAME_ENGINE (GameEngine::GetSingleton())
+#define GAME_ENGINE (GameEngine::GetSingleton())
 
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Y::Y()
+Skelethon::Skelethon()
 {
 	// nothing to create
 	// m_ActCirclePtr->AddContactListener(this);
 }
 
-Y::~Y()
+Skelethon::~Skelethon()
 {
-	// nothing to destroy
+	// nothing to destroSkelethon
 }
 
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
-//void Y::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+//void Skelethon::BeginContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr)
 //{
 //
 //}
 //
-//void Y::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+//void Skelethon::EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr)
 //{
 //
 //}
 //
-//void Y::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
+//void Skelethon::ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse)
 //{
 //
 //}

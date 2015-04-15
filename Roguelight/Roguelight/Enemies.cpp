@@ -29,12 +29,20 @@ Enemies::~Enemies()
 	// nothing to destroEnemies
 }
 
+void Enemies::Paint()
+{
+
+
+
+}
+
+
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
 void Enemies::BeginContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
 {
-
+	m_Health -= 25;
 }
 
 void Enemies::EndContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)

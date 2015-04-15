@@ -22,8 +22,8 @@ public:
 	// C++11 make the class non-copEnemiesable
 	Enemies( const Enemies& ) = delete;
 	Enemies& operator=( const Enemies& ) = delete;
-	//void Paint();
-	void Patrol();
+	void Paint();
+	//void Patrol();
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -38,6 +38,9 @@ private:
 	// Datamembers								
 	//-------------------------------------------------
 	int m_Health;
+	const static int ENEMY_WIDTH;
+	const static int ENEMY_HEIGHT;
+
 };
 
  

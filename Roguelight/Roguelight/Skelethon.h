@@ -1,41 +1,45 @@
 #pragma once
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name:Kirkorova
+// First name:Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 
 //-----------------------------------------------------
 // Include Files
 //-----------------------------------------------------
-
+#include "Enemies.h"
 //#include "ContactListener.h"
 //-----------------------------------------------------
-// Y Class									
+// Skelethon Class									
 //-----------------------------------------------------
-class Y //: public ContactListener
+class Skelethon : public Enemies
 {
 public:
-	Y( );
-	virtual ~Y( );
+	Skelethon( );
+	virtual ~Skelethon( );
 
-	// C++11 make the class non-copyable
-	Y( const Y& ) = delete;
-	Y& operator=( const Y& ) = delete;
+	// C++11 make the class non-copSkelethonable
+	Skelethon( const Skelethon& ) = delete;
+	Skelethon& operator=( const Skelethon& ) = delete;
 
+	void Follow(PhysicsActor *actCharPtr);
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	//virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
-	//virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
-	//virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
+	//virtual void BeginContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr); 
+	//virtual void EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr);   
+	//virtual void ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse);
 
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-
+	PhysicsActor * m_ActSkelethonPtr = nullptr;
+	Bitmap * m_BmpSkelethonPtr = nullptr;
+	
+	
 };
 
  

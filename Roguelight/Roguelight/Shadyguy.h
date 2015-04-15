@@ -22,7 +22,7 @@ public:
 	// C++11 make the class non-copShadyguyable
 	Shadyguy( const Shadyguy& ) = delete;
 	Shadyguy& operator=( const Shadyguy& ) = delete;
-
+	void Patrol();
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
@@ -36,6 +36,7 @@ private:
 	// Datamembers								
 	//-------------------------------------------------
 	Bitmap *m_BmpShadyPtr = nullptr;
+	PhysicsActor * m_ActShadyPtr = nullptr;
 };
 
  

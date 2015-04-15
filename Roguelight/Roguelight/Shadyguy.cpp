@@ -21,13 +21,10 @@
 //---------------------------
 Shadyguy::Shadyguy()
 {
-	// nothing to create
-	// m_ActCirclePtr->AddContactListener(this);
 }
 
 Shadyguy::~Shadyguy()
 {
-	// nothi
 }
 
 //-------------------------------------------------------
