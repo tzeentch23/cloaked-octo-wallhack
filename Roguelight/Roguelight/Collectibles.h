@@ -1,7 +1,7 @@
 #pragma once
 //-----------------------------------------------------
-// Name: Kirkorova
-// First name: Angelika
+// Name:Kirkorova
+// First name:Angelika
 // Group: 1DAE2
 //-----------------------------------------------------
 
@@ -9,37 +9,32 @@
 // Include Files
 //-----------------------------------------------------
 
-#include "ContactListener.h"
+//#include "ContactListener.h"
 //-----------------------------------------------------
-// Enemies Class									
+// Collectibles Class									
 //-----------------------------------------------------
-class Enemies : public ContactListener
+class Collectibles //: public ContactListener
 {
 public:
-	Enemies( );
-	virtual ~Enemies( );
+	Collectibles( );
+	virtual ~Collectibles( );
 
-	// C++11 make the class non-copEnemiesable
-	Enemies( const Enemies& ) = delete;
-	Enemies& operator=( const Enemies& ) = delete;
-	void Paint();
-	void Patrol();
+	// C++11 make the class non-copCollectiblesable
+	Collectibles( const Collectibles& ) = delete;
+	Collectibles& operator=( const Collectibles& ) = delete;
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
-	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
-	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
+	//virtual void BeginContact(PhCollectiblessicsActor *actThisPtr, PhCollectiblessicsActor *actOtherPtr); 
+	//virtual void EndContact(PhCollectiblessicsActor *actThisPtr, PhCollectiblessicsActor *actOtherPtr);   
+	//virtual void ContactImpulse(PhCollectiblessicsActor *actThisPtr, double impulse);
 
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	int m_Health;
-	const static int ENEMY_WIDTH;
-	const static int ENEMY_HEIGHT;
 
 };
 

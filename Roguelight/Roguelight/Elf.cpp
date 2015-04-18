@@ -84,3 +84,9 @@ void Elf::Tick(double deltatime)
 	impulse = mass* velocityChange / PhysicsActor::SCALE;
 	m_ActElfPtr->ApplyLinearImpulse(impulse);
 }
+
+DOUBLE2 Elf::GetPosition()
+{
+	DOUBLE2 posActor = m_ActElfPtr->GetPosition();
+	return posActor;
+}

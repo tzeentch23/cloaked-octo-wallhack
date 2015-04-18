@@ -22,7 +22,7 @@ public:
 	// C++11 make the class non-copShadyguyable
 	Shadyguy( const Shadyguy& ) = delete;
 	Shadyguy& operator=( const Shadyguy& ) = delete;
-	void Patrol();
+	
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------

@@ -31,6 +31,7 @@ public:
 	//virtual void ContactImpulse(PhElfsicsActor *actThisPtr, double impulse);
 	void Paint();
 	void Tick(double deltaTime);
+	DOUBLE2 GetPosition();
 
 private: 
 	//-------------------------------------------------

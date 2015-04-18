@@ -23,7 +23,7 @@ public:
 	Skelethon( const Skelethon& ) = delete;
 	Skelethon& operator=( const Skelethon& ) = delete;
 
-	void Follow(PhysicsActor *actCharPtr);
+	void Follow(DOUBLE2 posActor);
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------

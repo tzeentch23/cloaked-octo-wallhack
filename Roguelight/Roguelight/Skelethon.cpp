@@ -47,4 +47,19 @@ Skelethon::~Skelethon()
 //
 //}
 
+void Skelethon::Follow(DOUBLE2 posActor)
+{
+		double difX = posActor.x - m_ActSkelethonPtr->GetPosition().x;
+		double difY = posActor.y - m_ActSkelethonPtr->GetPosition().y;
+	if ((difX<300) && (difY<300))
+	{
+		for (size_t i = 0; i < difX; i++)
+		{
+			for (size_t j = 0; j < difY; j++)
+			{
+				m_ActSkelethonPtr->SetLinearVelocity(DOUBLE2(5, 5));
+			}
+		}
+	}
 
+}
