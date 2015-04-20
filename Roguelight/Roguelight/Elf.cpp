@@ -21,15 +21,16 @@
 Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 {
 	m_ActElfPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
-	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0, 0);
+	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0, 1.0);
 	m_ActElfPtr->SetFixedRotation(true);
-	// nothing to create
-	// m_ActCirclePtr->AddContactListener(this);
+	//m_ActElfPtr->SetGravityScale(10.0);
+	
 }
 
 Elf::~Elf()
 {
-	// nothing to destroElf
+	delete m_ActElfPtr;
+	m_ActElfPtr = nullptr;
 }
 
 //-------------------------------------------------------
@@ -61,7 +62,7 @@ void Elf::Tick(double deltatime)
 	double mass = m_ActElfPtr->GetMass();
 	m_Time += deltatime;
 	if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
-	{//double jump attempt
+	{
 //		if (m_Time < 0.25)
 //		{
 			newVelocity.y = -200;
@@ -89,4 +90,12 @@ DOUBLE2 Elf::GetPosition()
 {
 	DOUBLE2 posActor = m_ActElfPtr->GetPosition();
 	return posActor;
+}
+
+void Elf::ResetPosition()
+{
+	m_ActElfPtr->SetPosition(DOUBLE2(GAME_ENGINE->GetWidth() / 2, GAME_ENGINE->GetHeight() / 2));
+	m_ActElfPtr->SetAngle(0.0);
+	m_ActElfPtr->SetAngularVelocity(0.0);
+	m_ActElfPtr->SetLinearVelocity(DOUBLE2(0, 0));
 }

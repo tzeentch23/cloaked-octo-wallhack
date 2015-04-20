@@ -32,6 +32,7 @@ public:
 	void Paint();
 	void Tick(double deltaTime);
 	DOUBLE2 GetPosition();
+	void ResetPosition();
 
 private: 
 	//-------------------------------------------------
@@ -42,6 +43,17 @@ private:
 	const static int ACTOR_WIDTH = 40;
 	DOUBLE2 m_SpawnPos, m_Position;
 	double m_Time;
+	
+	enum class State {
+		STANDING,
+		JUMPING, 
+		WALKING,
+		AIMING,
+		JUMPANDAIM,
+		WALKANDAIM,
+	};
+
+	State m_State;
 };
 
  

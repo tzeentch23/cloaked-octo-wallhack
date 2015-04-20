@@ -25,6 +25,10 @@ Shadyguy::Shadyguy()
 
 Shadyguy::~Shadyguy()
 {
+	delete m_BmpShadyPtr;
+	m_BmpShadyPtr = nullptr;
+	delete m_ActShadyPtr;
+	m_ActShadyPtr = nullptr;
 }
 
 //-------------------------------------------------------

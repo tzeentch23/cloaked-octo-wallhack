@@ -54,16 +54,39 @@ public:
 	// -------------------------
 	// Public Member functions
 	// -------------------------
+	void Camera();
 
 private:
 	// -------------------------
 	// Private Member functions
 	// -------------------------
-
+	
+	
 	// -------------------------
 	// Private Datamembers
 	// -------------------------
-	PhysicsActor * m_ActFloorPtr = nullptr;
+	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Elf * m_ElfPtr = nullptr;
+	Bitmap * m_BmpLvlPtr = nullptr;
 
+	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 
+		matCamScale, matPivot, matCamWorldTransform;
+	DOUBLE2 m_CameraPos;
+	double m_CameraAngle = 0;
+	double m_CameraScale = 1;
+
+	struct CameraDimension {
+		DOUBLE2 topLeft;
+		DOUBLE2 bottomRight;
+	};
+
+	CameraDimension m_CameraDimension;
+	DOUBLE2 cameraSize;
+	
+	double m_Width = W, m_Height = H;
+
+	static const int W = 400;
+	static const int H = 400;
+	static const int MIN_LEFT = W / 2;
+	static const int MAX_RIGHT = W / 2;
 };
