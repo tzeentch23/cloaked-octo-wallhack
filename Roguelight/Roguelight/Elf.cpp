@@ -21,10 +21,8 @@
 Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 {
 	m_ActElfPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
-	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0, 1.0);
+	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0.2, 1);
 	m_ActElfPtr->SetFixedRotation(true);
-	//m_ActElfPtr->SetGravityScale(10.0);
-	
 }
 
 Elf::~Elf()
@@ -59,30 +57,27 @@ void Elf::Paint()
 void Elf::Tick(double deltatime)
 {
 	DOUBLE2 velocityChange, newVelocity, impulse;
-	double mass = m_ActElfPtr->GetMass();
+	newVelocity.y = 200;
+	double mass = m_ActElfPtr->GetMass();//tova da ne e 
 	m_Time += deltatime;
 	if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
 	{
-//		if (m_Time < 0.25)
-//		{
-			newVelocity.y = -200;
-//		}
-//		else if ((m_Time >= 0.25) && (GAME_ENGINE->IsKeyboardKeyReleased('Z')))
-//		{
-//			newVelocity.y = -400;
-//		}
+		m_State = State::JUMPING;
+		newVelocity.y = -3500;
 	}
 	if (GAME_ENGINE->IsKeyboardKeyDown(VK_LEFT))
 	{
+		m_State = State::WALKING;
 		newVelocity.x = -100;
 	}
 	if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
 	{
+		m_State = State::WALKING;
 		newVelocity.x = 100;
 	}
 	velocityChange.y = newVelocity.y - m_ActElfPtr->GetLinearVelocity().y;
 	velocityChange.x = newVelocity.x - m_ActElfPtr->GetLinearVelocity().x;
-	impulse = mass* velocityChange / PhysicsActor::SCALE;
+	impulse = mass * velocityChange / PhysicsActor::SCALE;
 	m_ActElfPtr->ApplyLinearImpulse(impulse);
 }
 

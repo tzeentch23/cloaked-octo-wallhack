@@ -34,22 +34,23 @@ Roguelight::~Roguelight()
 void Roguelight::GameInitialize(GameSettings &gameSettings)
 {
 	gameSettings.SetWindowTitle(String("Roguelight - Kirkorova Angelika, 1DAE2"));
-	gameSettings.SetWindowWidth(m_Width);
-	gameSettings.SetWindowHeight(m_Height);
+	gameSettings.SetWindowWidth(m_Width*3);
+	gameSettings.SetWindowHeight(m_Height*2);
 	gameSettings.EnableConsole(false);
 	gameSettings.EnableAntiAliasing(false);
 }
 
 void Roguelight::GameStart()
 {
-	DOUBLE2 elfSpawn(GAME_ENGINE->GetWidth()-100, 20);
-	m_ElfPtr = new Elf(elfSpawn);
 	
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 
-	m_ActLevelPtr = new PhysicsActor(DOUBLE2(m_Width/2, m_Height), 0, BodyType::STATIC);
-	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"),0,0);
-	//m_ActLevelPtr->AddBoxShape(400, 20);
+	DOUBLE2 elfSpawn(m_BmpLvlPtr->GetWidth()/2+200, 20);
+	m_ElfPtr = new Elf(elfSpawn);
+	
+	
+	m_ActLevelPtr = new PhysicsActor(DOUBLE2(0, 0), 0, BodyType::STATIC);	
+	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0 ,0.2, 1.0);
 
 	m_CameraDimension.topLeft.x = m_Width / 2;
 	m_CameraDimension.topLeft.y = m_Height / 2;
@@ -73,6 +74,16 @@ void Roguelight::GameTick(double deltaTime)
 {
 	m_ElfPtr->Tick(deltaTime);
 	GAME_ENGINE->EnablePhysicsDebugRendering(true);
+
+	if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
+	{
+		m_CameraScale -= 0.05;
+	}
+
+	if (GAME_ENGINE->IsKeyboardKeyDown(VK_NEXT))
+	{
+		m_CameraScale += 0.05;
+	}
 
 	if (GAME_ENGINE->IsKeyboardKeyDown(VK_UP)) 
 	{
@@ -108,15 +119,15 @@ void Roguelight::GameTick(double deltaTime)
 	{
 		m_CameraPos.x = elfPos.x;
 	}
-	
-	if (0 && (elfPos.y < m_Height - cameraSize.y)) {
+
+	if (1 && (elfPos.y < m_Height - cameraSize.y)) {
 		m_CameraPos.y = elfPos.y;
 	}
 
-	if (0 && (cameraSize.y / m_CameraScale < m_Height)) {
-		cameraSize.y = m_Height;
-		m_CameraScale = cameraSize.y / m_Height;
-	}
+	//if (1 && (cameraSize.y / m_CameraScale < m_Height)) {
+	//	cameraSize.y = m_Height;
+	//	m_CameraScale = cameraSize.y / m_Height;
+	//}
 
 	cameraSize *= m_CameraScale;
 
@@ -148,8 +159,9 @@ void Roguelight::GamePaint(RECT rect)
 
 void Roguelight::Camera() 
 {
+	DOUBLE2 elfPos = m_ElfPtr->GetPosition();
 	matCamRotate.SetAsRotate(m_CameraAngle);
-	matCamTranslate.SetAsTranslate(m_CameraPos);
+	matCamTranslate.SetAsTranslate(elfPos);
 	matCamScale.SetAsScale(m_CameraScale);
 	matPivot.SetAsTranslate(-GAME_ENGINE->GetWidth() / 2, -GAME_ENGINE->GetHeight() / 2);
 	matCamera = matPivot* matCamScale * matCamRotate * matCamTranslate;
