@@ -35,12 +35,13 @@ public:
 	void ResetPosition();
 
 private: 
+	
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
 	PhysicsActor * m_ActElfPtr = nullptr;
-	const static int ACTOR_HEIGHT = 48;
-	const static int ACTOR_WIDTH = 24;
+	const static int ACTOR_HEIGHT = 40;
+	const static int ACTOR_WIDTH = 20;
 	DOUBLE2 m_SpawnPos, m_Position;
 	double m_Time;
 	

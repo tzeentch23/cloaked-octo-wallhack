@@ -34,9 +34,9 @@ Roguelight::~Roguelight()
 void Roguelight::GameInitialize(GameSettings &gameSettings)
 {
 	gameSettings.SetWindowTitle(String("Roguelight - Kirkorova Angelika, 1DAE2"));
-	gameSettings.SetWindowWidth(m_Width*3);
-	gameSettings.SetWindowHeight(m_Height*2);
-	gameSettings.EnableConsole(false);
+	gameSettings.SetWindowWidth((int)(m_Width));
+	gameSettings.SetWindowHeight((int)(m_Height));
+	gameSettings.EnableConsole(true);
 	gameSettings.EnableAntiAliasing(false);
 }
 
@@ -47,17 +47,16 @@ void Roguelight::GameStart()
 
 	DOUBLE2 elfSpawn(m_BmpLvlPtr->GetWidth()/2+200, 20);
 	m_ElfPtr = new Elf(elfSpawn);
-	
-	
+
 	m_ActLevelPtr = new PhysicsActor(DOUBLE2(0, 0), 0, BodyType::STATIC);	
-	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0 ,0.2, 1.0);
+	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0 ,0.2, 0);
 
 	m_CameraDimension.topLeft.x = m_Width / 2;
 	m_CameraDimension.topLeft.y = m_Height / 2;
 	m_CameraDimension.bottomRight.x = m_BmpLvlPtr->GetWidth() - m_Width / 2;
 	m_CameraDimension.bottomRight.y = m_BmpLvlPtr->GetHeight() - m_Height / 2;
 	cameraSize = DOUBLE2(m_Width, m_Height);
-	
+
 }
 
 void Roguelight::GameEnd()
@@ -113,15 +112,14 @@ void Roguelight::GameTick(double deltaTime)
 		m_CameraAngle -= 0.2;
 	}
 
-	DOUBLE2 elfPos = m_ElfPtr->GetPosition();
-
-	if (((elfPos.x + MAX_RIGHT) < m_BmpLvlPtr->GetWidth()) && ((elfPos.x - MIN_LEFT) >= 0))
+	
+	if (((m_ElfPos.x + MAX_RIGHT) < m_BmpLvlPtr->GetWidth()) && ((m_ElfPos.x - MIN_LEFT) >= 0))
 	{
-		m_CameraPos.x = elfPos.x;
+		m_CameraPos.x = m_ElfPos.x;
 	}
 
-	if (1 && (elfPos.y < m_Height - cameraSize.y)) {
-		m_CameraPos.y = elfPos.y;
+	if (1 && (m_ElfPos.y < m_Height - cameraSize.y)) {
+		m_CameraPos.y = m_ElfPos.y;
 	}
 
 	//if (1 && (cameraSize.y / m_CameraScale < m_Height)) {
@@ -147,7 +145,11 @@ void Roguelight::GameTick(double deltaTime)
 	{
 		m_CameraPos.x = m_BmpLvlPtr->GetWidth() - cameraSize.x / 2;
 	}
-		
+	m_ElfPos = m_ElfPtr->GetPosition();
+
+	String Pos = String(m_ElfPos.x) + String(m_ElfPos.y);
+	OutputDebugString(Pos);
+
 }
 
 void Roguelight::GamePaint(RECT rect)
@@ -159,14 +161,13 @@ void Roguelight::GamePaint(RECT rect)
 
 void Roguelight::Camera() 
 {
-	DOUBLE2 elfPos = m_ElfPtr->GetPosition();
 	matCamRotate.SetAsRotate(m_CameraAngle);
-	matCamTranslate.SetAsTranslate(elfPos);
+	matCamTranslate.SetAsTranslate(m_ElfPos);
 	matCamScale.SetAsScale(m_CameraScale);
 	matPivot.SetAsTranslate(-GAME_ENGINE->GetWidth() / 2, -GAME_ENGINE->GetHeight() / 2);
 	matCamera = matPivot* matCamScale * matCamRotate * matCamTranslate;
 	matCamWorldTransform = matCamera.Inverse();
 	GAME_ENGINE->SetViewMatrix(matCamWorldTransform);
-}
+	}
 
 

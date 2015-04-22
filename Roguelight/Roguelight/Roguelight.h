@@ -71,7 +71,7 @@ private:
 
 	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 
 		matCamScale, matPivot, matCamWorldTransform;
-	DOUBLE2 m_CameraPos;
+	DOUBLE2 m_CameraPos, m_ElfPos;
 	double m_CameraAngle = 0;
 	double m_CameraScale = 1;
 
