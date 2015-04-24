@@ -115,6 +115,15 @@
     <ClCompile Include="Skelethon.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Collectibles.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Moss.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spikes.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -346,6 +355,15 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Skelethon.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collectibles.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Moss.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Spikes.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>

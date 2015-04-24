@@ -1,27 +1,27 @@
 #pragma once
 //-----------------------------------------------------
-// Name:Angelika
-// First name:Kirkorova
-// Group: 1DAE2
+// Name:
+// First name:
+// Group: 1DAE.
 //-----------------------------------------------------
 
 //-----------------------------------------------------
 // Include Files
 //-----------------------------------------------------
 
-#include "ContactListener.h"
+//#include "ContactListener.h"
 //-----------------------------------------------------
-// Elf Class									
+// Moss Class									
 //-----------------------------------------------------
-class Elf //: public ContactListener
+class Moss //: public ContactListener
 {
 public:
-	Elf(DOUBLE2 spawnPos);
-	virtual ~Elf( );
+	Moss( );
+	virtual ~Moss( );
 
-	// C++11 make the class non-copElfable
-	Elf( const Elf& ) = delete;
-	Elf& operator=( const Elf& ) = delete;
+	// C++11 make the class non-copMossable
+	Moss( const Moss& ) = delete;
+	Moss& operator=( const Moss& ) = delete;
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -30,37 +30,13 @@ public:
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
-	void Tick(double deltaTime);
-	DOUBLE2 GetPosition();
-	void ResetPosition();
-	 
+
 private: 
-	
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	PhysicsActor * m_ActElfPtr = nullptr;
-	Bitmap * m_BmpElfPtr = nullptr;
-	double m_Time = 0.0;
-	int m_FrameNr = 0;	
-	const static int FRAMERATE = 25;
-	const static int NR_COLS = 6;
-	const static int NR_ROWS = 5;
-	const static int ACTOR_HEIGHT = 35;
-	const static int ACTOR_WIDTH = 20;
-	DOUBLE2 m_SpawnPos, m_Position;
-	
-	
-	enum class State {
-		STANDING,
-		JUMPING, 
-		WALKING,
-		AIMING,
-		JUMPANDAIM,
-		WALKANDAIM,
-	};
-
-	State m_State;
+	PhysicsActor * m_ActMossPtr = nullptr;
+	Bitmap * m_BmpMossPtr = nullptr;
 };
 
  

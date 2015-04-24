@@ -34,10 +34,10 @@ Roguelight::~Roguelight()
 void Roguelight::GameInitialize(GameSettings &gameSettings)
 {
 	gameSettings.SetWindowTitle(String("Roguelight - Kirkorova Angelika, 1DAE2"));
-	gameSettings.SetWindowWidth((int)(m_Width));
-	gameSettings.SetWindowHeight((int)(m_Height));
-	gameSettings.EnableConsole(true);
-	gameSettings.EnableAntiAliasing(false);
+	gameSettings.SetWindowWidth((int)(2*m_Width));
+	gameSettings.SetWindowHeight((int)(2*m_Height));
+	gameSettings.EnableConsole(false);
+	gameSettings.EnableAntiAliasing(true);
 }
 
 void Roguelight::GameStart()
@@ -122,11 +122,6 @@ void Roguelight::GameTick(double deltaTime)
 		m_CameraPos.y = m_ElfPos.y;
 	}
 
-	//if (1 && (cameraSize.y / m_CameraScale < m_Height)) {
-	//	cameraSize.y = m_Height;
-	//	m_CameraScale = cameraSize.y / m_Height;
-	//}
-
 	cameraSize *= m_CameraScale;
 
 	if (m_CameraPos.y < m_Height - cameraSize.y / 2)
@@ -147,13 +142,12 @@ void Roguelight::GameTick(double deltaTime)
 	}
 	m_ElfPos = m_ElfPtr->GetPosition();
 
-	String Pos = String(m_ElfPos.x) + String(m_ElfPos.y);
-	OutputDebugString(Pos);
 
 }
 
 void Roguelight::GamePaint(RECT rect)
 {
+	String Pos = String(m_ElfPos.x) + String(" ") + String(m_ElfPos.y);
 	GAME_ENGINE->DrawBitmap(m_BmpLvlPtr, 0, 0);
 	m_ElfPtr->Paint();
 	Camera();
