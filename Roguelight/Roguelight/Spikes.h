@@ -9,11 +9,11 @@
 // Include Files
 //-----------------------------------------------------
 
-//#include "ContactListener.h"
+#include "ContactListener.h"
 //-----------------------------------------------------
 // Spikes Class									
 //-----------------------------------------------------
-class Spikes //: public ContactListener
+class Spikes : public ContactListener
 {
 public:
 	Spikes( );

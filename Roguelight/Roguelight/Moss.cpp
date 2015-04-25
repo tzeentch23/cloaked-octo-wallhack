@@ -22,7 +22,7 @@ Moss::Moss()
 {
 	m_ActMossPtr = new PhysicsActor(DOUBLE2(399.41, 1725.23), 0, BodyType::STATIC);
 	m_ActMossPtr->AddBoxShape(40, 10, 0.2, 0.9, 0.2);
-	m_ActMossPtr->SetGhost();
+	//m_ActMossPtr->SetGhost();
 	// m_ActCirclePtr->AddContactListener(this);
 }
 

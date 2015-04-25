@@ -13,7 +13,7 @@
 //-----------------------------------------------------
 // Elf Class									
 //-----------------------------------------------------
-class Elf //: public ContactListener
+class Elf : public ContactListener
 {
 public:
 	Elf(DOUBLE2 spawnPos);
@@ -33,9 +33,18 @@ public:
 	void Tick(double deltaTime);
 	DOUBLE2 GetPosition();
 	void ResetPosition();
-	 
-private: 
+	int IncreaseHealth(int health);
+	int DecreaseHealth(int health);
+	int IncreaseAmmo(int ammo);
+	int DecreaseAmmo(int ammo);
+	int IncreaseMoney(int money);
+	int DecreaseMoney(int money);
 	
+	//tozi variant ne e naj-dobria no shte ti svyrshi rabota na pyrvo vreme//
+	static Elf player;
+	 
+public: 
+	static Elf * getPlayer();
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
@@ -43,6 +52,7 @@ private:
 	Bitmap * m_BmpElfPtr = nullptr;
 	double m_Time = 0.0;
 	int m_FrameNr = 0;	
+	int m_Ammo, m_Health, m_Money;
 	const static int FRAMERATE = 25;
 	const static int NR_COLS = 6;
 	const static int NR_ROWS = 5;

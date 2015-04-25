@@ -9,11 +9,11 @@
 // Include Files
 //-----------------------------------------------------
 
-//#include "ContactListener.h"
+#include "ContactListener.h"
 //-----------------------------------------------------
 // Collectibles Class									
 //-----------------------------------------------------
-class Collectibles //: public ContactListener
+class Collectibles : public ContactListener
 {
 public:
 	Collectibles( );
@@ -26,16 +26,25 @@ public:
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	//virtual void BeginContact(PhCollectiblessicsActor *actThisPtr, PhCollectiblessicsActor *actOtherPtr); 
-	//virtual void EndContact(PhCollectiblessicsActor *actThisPtr, PhCollectiblessicsActor *actOtherPtr);   
-	//virtual void ContactImpulse(PhCollectiblessicsActor *actThisPtr, double impulse);
+	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
+	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
+	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
+	void Paint();
+	void Tick();
 
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
+	enum class Type
+	{
+		COINS,
+		HEARTS,
+		ARROWS,
 
+	};
+	Type m_Type;
 };
 
  

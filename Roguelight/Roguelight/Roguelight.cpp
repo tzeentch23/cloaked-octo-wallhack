@@ -34,8 +34,8 @@ Roguelight::~Roguelight()
 void Roguelight::GameInitialize(GameSettings &gameSettings)
 {
 	gameSettings.SetWindowTitle(String("Roguelight - Kirkorova Angelika, 1DAE2"));
-	gameSettings.SetWindowWidth((int)(2*m_Width));
-	gameSettings.SetWindowHeight((int)(2*m_Height));
+	gameSettings.SetWindowWidth((int)(m_Width));
+	gameSettings.SetWindowHeight((int)(m_Height));
 	gameSettings.EnableConsole(false);
 	gameSettings.EnableAntiAliasing(true);
 }
@@ -72,7 +72,10 @@ void Roguelight::GameEnd()
 void Roguelight::GameTick(double deltaTime)
 {
 	m_ElfPtr->Tick(deltaTime);
-	GAME_ENGINE->EnablePhysicsDebugRendering(true);
+	if (GAME_ENGINE->IsKeyboardKeyDown('P'))
+	{
+		GAME_ENGINE->EnablePhysicsDebugRendering(true);
+	}
 
 	if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
 	{

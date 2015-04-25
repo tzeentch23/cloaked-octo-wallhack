@@ -20,6 +20,10 @@
 //---------------------------
 Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 {
+	player = this;
+	m_Ammo = 5;
+	m_Health = 5;
+	m_Money = 0;
 	
 	m_ActElfPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
 	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0.2, 0.2);
@@ -27,8 +31,7 @@ Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 	//m_ActElfPtr->SetTrigger(false);
 	m_ActElfPtr->SetGravityScale(1);
 
-	m_State = State::STANDING;
-
+	
 	m_BmpElfPtr = new Bitmap(String("./resources/spritesElf.png"));
 	m_BmpElfPtr->SetTransparencyColor(COLOR(0, 0, 0));
 }
@@ -44,7 +47,6 @@ Elf::~Elf()
 //-------------------------------------------------------
 void Elf::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-
 }
 
 void Elf::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
@@ -60,10 +62,10 @@ void Elf::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
 void Elf::Paint()
 {
 	DOUBLE2 currentPos = m_ActElfPtr->GetPosition();
-	DOUBLE2 spritePos(currentPos.x - (m_BmpElfPtr->GetWidth() / 2),
-		currentPos.y - (m_BmpElfPtr->GetHeight() / 2));
+	DOUBLE2 spritePos(currentPos.x - (m_BmpElfPtr->GetWidth() / 12),
+		currentPos.y - (m_BmpElfPtr->GetHeight() / 10));
 	int spriteWidth = m_BmpElfPtr->GetWidth()/NR_COLS;
-	int spriteHeight = m_BmpElfPtr->GetWidth()/ NR_ROWS;
+	int spriteHeight = m_BmpElfPtr->GetHeight()/ NR_ROWS;
 	int col = m_FrameNr / NR_COLS;
 	int row;
 		if (m_State == State::STANDING)
@@ -106,6 +108,8 @@ void Elf::Paint()
 
 void Elf::Tick(double deltatime)
 {
+		m_State = State::STANDING;
+
 		DOUBLE2 velocityChange, newVelocity, impulse;
 		newVelocity.y = 200;
 		double mass = m_ActElfPtr->GetMass(); 
@@ -154,4 +158,42 @@ void Elf::ResetPosition()
 	m_ActElfPtr->SetAngle(0.0);
 	m_ActElfPtr->SetAngularVelocity(0.0);
 	m_ActElfPtr->SetLinearVelocity(DOUBLE2(0, 0));
+}
+
+int Elf::IncreaseAmmo()
+{
+	//tezi metodi ti triabva da sa void, increacse/decrease imam predvid.. ne ti tokriabva she gi opravq posle
+	
+
+	return ++m_Ammo; //posle samo mahni returna
+}
+int Elf::DecreaseAmmo()
+{
+	
+	return --m_Ammo; //toje
+
+}
+int Elf::IncreaseHealth()
+{
+	health = m_Health;//dai posle she gi pisha
+	++health;
+	return health;
+}
+int Elf:: DecreaseHealth()
+{
+	health = m_Health;
+	--health;
+	return health;
+
+
+}
+int Elf::IncreaseMoney()
+{
+	money = m_Money;
+	++money;
+	return money;
+}
+
+static Elf * Elf::getPlayer() {
+	return player;
 }
