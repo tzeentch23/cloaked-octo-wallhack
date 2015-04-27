@@ -20,13 +20,12 @@
 //---------------------------
 Skelethon::Skelethon()
 {
-	// nothing to create
-	// m_ActCirclePtr->AddContactListener(this);
+
 }
 
 Skelethon::~Skelethon()
 {
-	// nothing to destroSkelethon
+
 }
 
 //-------------------------------------------------------
@@ -49,7 +48,7 @@ Skelethon::~Skelethon()
 
 void Skelethon::Follow(DOUBLE2 posActor)
 {
-		double difX = posActor.x - m_ActSkelethonPtr->GetPosition().x;
+	/*	double difX = posActor.x - m_ActSkelethonPtr->GetPosition().x;
 		double difY = posActor.y - m_ActSkelethonPtr->GetPosition().y;
 	if ((difX<300) && (difY<300))
 	{
@@ -61,5 +60,5 @@ void Skelethon::Follow(DOUBLE2 posActor)
 			}
 		}
 	}
-
+*/
 }

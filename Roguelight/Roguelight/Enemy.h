@@ -11,17 +11,17 @@
 
 #include "ContactListener.h"
 //-----------------------------------------------------
-// Enemies Class									
+// Enemy Class									
 //-----------------------------------------------------
-class Enemies : public ContactListener
+class Enemy : public ContactListener
 {
 public:
-	Enemies( );
-	virtual ~Enemies( );
+	Enemy( );
+	virtual ~Enemy( );
 
-	// C++11 make the class non-copEnemiesable
-	Enemies( const Enemies& ) = delete;
-	Enemies& operator=( const Enemies& ) = delete;
+	// C++11 make the class non-copEnemyable
+	Enemy( const Enemy& ) = delete;
+	Enemy& operator=( const Enemy& ) = delete;
 	void Paint();
 	void Patrol();
 

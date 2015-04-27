@@ -20,10 +20,13 @@
 #include "Resource.h"	
 #include "AbstractGame.h"
 
+
 //-----------------------------------------------------------------
 // Roguelight Class																
 //-----------------------------------------------------------------
 class Elf;
+class Moss;
+class Spikes;
 class Roguelight : public AbstractGame
 {
 public:				
@@ -55,6 +58,11 @@ public:
 	// Public Member functions
 	// -------------------------
 	void Camera();
+	void LoadMoss();
+	void LoadSpikes();
+	void LoadCollectibles();
+	void LoadShadyguys();
+	void LoadSkelethons();
 
 private:
 	// -------------------------
@@ -67,6 +75,8 @@ private:
 	// -------------------------
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Elf * m_ElfPtr = nullptr;
+	std::vector<Moss *> m_MossArr;
+	std::vector<Spikes *> m_SpikesArr;
 	Bitmap * m_BmpLvlPtr = nullptr;
 
 	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 
@@ -82,7 +92,7 @@ private:
 
 	CameraDimension m_CameraDimension;
 	DOUBLE2 cameraSize;
-	
+	bool m_IsPhysicsDebudRendering = false;
 	double m_Width = W, m_Height = H;
 
 	static const int W = 400;

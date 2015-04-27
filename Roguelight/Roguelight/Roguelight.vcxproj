@@ -100,7 +100,7 @@
     <ClCompile Include="EngineFiles\PrecisionTimer.cpp" />
     <ClCompile Include="EngineFiles\Sound.cpp" />
     <ClCompile Include="Moss.cpp" />
-    <ClCompile Include="Spikes.cpp" />
+    <ClCompile Include="Spike.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -112,10 +112,10 @@
     <ClCompile Include="Roguelight.cpp" />
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Elf.cpp" />
-    <ClCompile Include="Enemies.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Shadyguy.cpp" />
     <ClCompile Include="Skelethon.cpp" />
-    <ClCompile Include="Collectibles.cpp" />
+    <ClCompile Include="Collectible.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractGame.h" />
@@ -185,7 +185,7 @@
     <ClInclude Include="Moss.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="EngineFiles\Sound.h" />
-    <ClInclude Include="Spikes.h" />
+    <ClInclude Include="Spike.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="EngineFiles\String.h" />
     <ClInclude Include="EngineFiles\Structs.h" />
@@ -194,10 +194,10 @@
     <ClInclude Include="Roguelight.h" />
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Elf.h" />
-    <ClInclude Include="Enemies.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Shadyguy.h" />
     <ClInclude Include="Skelethon.h" />
-    <ClInclude Include="Collectibles.h" />
+    <ClInclude Include="Collectible.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="big.ico" />

@@ -9,14 +9,14 @@
 // Include Files
 //-----------------------------------------------------
 
-#include "Enemies.h"
+#include "Enemy.h"
 //-----------------------------------------------------
 // Shadyguy Class									
 //-----------------------------------------------------
-class Shadyguy : public Enemies
+class Shadyguy : public Enemy
 {
 public:
-	Shadyguy( );
+	Shadyguy(DOUBLE2 pos);
 	virtual ~Shadyguy( );
 
 	// C++11 make the class non-copShadyguyable
@@ -26,16 +26,16 @@ public:
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	//virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
-	//virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
-	//virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
-
+	/*virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
+	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
+	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
+*/
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	Bitmap *m_BmpShadyPtr = nullptr;
+	static Bitmap *m_BmpShadyPtr;
 	PhysicsActor * m_ActShadyPtr = nullptr;
 };
 

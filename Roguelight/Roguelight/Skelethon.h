@@ -8,12 +8,12 @@
 //-----------------------------------------------------
 // Include Files
 //-----------------------------------------------------
-#include "Enemies.h"
+#include "Enemy.h"
 //#include "ContactListener.h"
 //-----------------------------------------------------
 // Skelethon Class									
 //-----------------------------------------------------
-class Skelethon : public Enemies
+class Skelethon : public Enemy
 {
 public:
 	Skelethon( );

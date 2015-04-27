@@ -9,7 +9,7 @@
 // Includes
 //---------------------------
 #include "Shadyguy.h"
-#include "Enemies.h"
+#include "Enemy.h"
 
 //---------------------------
 // Defines
@@ -19,8 +19,11 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Shadyguy::Shadyguy()
+Bitmap * Shadyguy::m_BmpShadyPtr = nullptr;
+Shadyguy::Shadyguy(DOUBLE2 pos)
 {
+	m_ActShadyPtr = new PhysicsActor(pos, 0, BodyType::DYNAMIC);
+
 }
 
 Shadyguy::~Shadyguy()

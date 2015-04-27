@@ -11,17 +11,17 @@
 
 #include "ContactListener.h"
 //-----------------------------------------------------
-// Collectibles Class									
+// Spike Class									
 //-----------------------------------------------------
-class Collectibles : public ContactListener
+class Spike : public ContactListener
 {
 public:
-	Collectibles( );
-	virtual ~Collectibles( );
+	Spike(DOUBLE2 pos);
+	virtual ~Spike( );
 
-	// C++11 make the class non-copCollectiblesable
-	Collectibles( const Collectibles& ) = delete;
-	Collectibles& operator=( const Collectibles& ) = delete;
+	// C++11 make the class non-copSpikesable
+	Spike( const Spike& ) = delete;
+	Spike& operator=( const Spike& ) = delete;
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -30,21 +30,15 @@ public:
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
-	void Tick();
-
+	
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	enum class Type
-	{
-		COINS,
-		HEARTS,
-		ARROWS,
-
-	};
-	Type m_Type;
+	PhysicsActor * m_ActSpikePtr = nullptr;
+	static Bitmap * m_BmpSpikePtr;
+	static int m_InstanceCounter;
 };
 
  

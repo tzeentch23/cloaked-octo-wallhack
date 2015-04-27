@@ -106,22 +106,22 @@
     <ClCompile Include="Elf.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="Enemies.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shadyguy.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Skelethon.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collectibles.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Moss.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="Spikes.cpp">
+    <ClCompile Include="Spike.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collectible.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -348,22 +348,22 @@
     <ClInclude Include="Elf.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shadyguy.h">
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Skelethon.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collectibles.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="Moss.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Spikes.h">
+    <ClInclude Include="Spike.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collectible.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>

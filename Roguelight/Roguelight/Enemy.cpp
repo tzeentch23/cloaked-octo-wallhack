@@ -1,48 +1,56 @@
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name: Kirkorova
+// First name:Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
 	
 //---------------------------
 // Includes
 //---------------------------
-#include "Spikes.h"
+#include "Enemy.h"
 
 //---------------------------
 // Defines
 //---------------------------
-//#define GAME_ENGINE (GameEngine::GetSingleton())
+#define GAME_ENGINE (GameEngine::GetSingleton())
 
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Spikes::Spikes()
+Enemy::Enemy()
 {
 	// nothing to create
 	// m_ActCirclePtr->AddContactListener(this);
 }
 
-Spikes::~Spikes()
+Enemy::~Enemy()
 {
-	// nothing to destroSpikes
+	// nothing to destroEnemy
 }
+
+void Enemy::Paint()
+{
+
+
+
+}
+
 
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
-void Spikes::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+void Enemy::BeginContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
+{
+	m_Health -= 25;
+}
+
+void Enemy::EndContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
 {
 
 }
 
-void Spikes::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
-{
-
-}
-
-void Spikes::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
+void Enemy::ContactImpulse(PhysicsActor *actthisptr, double impulse)
 {
 
 }

@@ -1,8 +1,8 @@
 #pragma once
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name:Kirkorova
+// First name:Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 
 //-----------------------------------------------------
@@ -11,17 +11,25 @@
 
 #include "ContactListener.h"
 //-----------------------------------------------------
-// Spikes Class									
+// Collectible Class									
 //-----------------------------------------------------
-class Spikes : public ContactListener
+class Collectible : public ContactListener
 {
 public:
-	Spikes( );
-	virtual ~Spikes( );
+	enum Type
+	{
+		COINS,
+		HEARTS,
+		ARROWS,
 
-	// C++11 make the class non-copSpikesable
-	Spikes( const Spikes& ) = delete;
-	Spikes& operator=( const Spikes& ) = delete;
+	};
+
+	Collectible(DOUBLE2 pos, Type type);
+	virtual ~Collectible( );
+	
+	// C++11 make the class non-copCollectibleable
+	Collectible( const Collectible& ) = delete;
+	Collectible& operator=( const Collectible& ) = delete;
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -30,15 +38,20 @@ public:
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
+	void Tick();
+
 	
 
-private: 
+public: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	PhysicsActor * m_ActSpikesPtr = nullptr;
-	Bitmap * m_BmpSpikesPtr = nullptr;
-
+	 Type m_Type;
+	 PhysicsActor *m_ActCollectPtr = nullptr;
+	 static Bitmap * m_BmpHeartPtr;
+	 static Bitmap * m_BmpArrowPtr;
+	 static Bitmap * m_BmpCoinPtr;
+	
 };
 
  

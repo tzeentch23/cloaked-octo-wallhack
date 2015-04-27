@@ -32,18 +32,16 @@ public:
 	void Paint();
 	void Tick(double deltaTime);
 	DOUBLE2 GetPosition();
-	void ResetPosition();
 	void IncreaseHealth();
 	void DecreaseHealth();
 	void IncreaseAmmo();
 	void DecreaseAmmo();
 	void IncreaseMoney();
-	void DecreaseMoney();
 	
-	//tozi variant ne e naj-dobria no shte ti svyrshi rabota na pyrvo vreme//
 	static Elf * player;
 	 
-public: 
+public:
+	void ResetPosition();
 	static Elf * getPlayer();
 	//-------------------------------------------------
 	// Datamembers								

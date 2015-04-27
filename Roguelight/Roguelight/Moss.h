@@ -16,7 +16,7 @@
 class Moss //: public ContactListener
 {
 public:
-	Moss( );
+	Moss(DOUBLE2 pos);
 	virtual ~Moss( );
 
 	// C++11 make the class non-copMossable
@@ -36,7 +36,10 @@ private:
 	// Datamembers								
 	//-------------------------------------------------
 	PhysicsActor * m_ActMossPtr = nullptr;
-	Bitmap * m_BmpMossPtr = nullptr;
+	static Bitmap * m_BmpMossPtr;
+	static int m_InstanceCounter;
+	double m_ActorWidth, m_ActorHeight;
+	
 };
 
  

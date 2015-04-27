@@ -10,8 +10,11 @@
 //-----------------------------------------------------------------
 // Include Files
 //-----------------------------------------------------------------
-#include "Roguelight.h"																				
-
+#include "Roguelight.h"					
+#include "Moss.h"
+#include "Spikes.h"
+#include <fstream>
+#include <string>
 //-----------------------------------------------------------------
 // Defines
 //-----------------------------------------------------------------
@@ -23,12 +26,10 @@
 
 Roguelight::Roguelight()
 {
-	// nothing to create
 }
 
 Roguelight::~Roguelight()																						
 {
-	// nothing to destroy
 }
 
 void Roguelight::GameInitialize(GameSettings &gameSettings)
@@ -42,6 +43,7 @@ void Roguelight::GameInitialize(GameSettings &gameSettings)
 
 void Roguelight::GameStart()
 {
+	m_MossArr.push_back(new Moss(DOUBLE2(2121.79, 615.72)));
 	
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 
@@ -56,7 +58,8 @@ void Roguelight::GameStart()
 	m_CameraDimension.bottomRight.x = m_BmpLvlPtr->GetWidth() - m_Width / 2;
 	m_CameraDimension.bottomRight.y = m_BmpLvlPtr->GetHeight() - m_Height / 2;
 	cameraSize = DOUBLE2(m_Width, m_Height);
-
+	LoadMoss();
+	LoadSpikes();
 }
 
 void Roguelight::GameEnd()
@@ -67,6 +70,8 @@ void Roguelight::GameEnd()
 	m_BmpLvlPtr = nullptr;
 	delete m_ElfPtr;
 	m_ElfPtr = nullptr;
+	m_MossArr.clear();
+	m_SpikesArr.clear();
 }
 
 void Roguelight::GameTick(double deltaTime)
@@ -74,7 +79,8 @@ void Roguelight::GameTick(double deltaTime)
 	m_ElfPtr->Tick(deltaTime);
 	if (GAME_ENGINE->IsKeyboardKeyDown('P'))
 	{
-		GAME_ENGINE->EnablePhysicsDebugRendering(true);
+		m_IsPhysicsDebudRendering = !m_IsPhysicsDebudRendering;
+		GAME_ENGINE->EnablePhysicsDebugRendering(m_IsPhysicsDebudRendering);
 	}
 
 	if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
@@ -154,6 +160,15 @@ void Roguelight::GamePaint(RECT rect)
 	GAME_ENGINE->DrawBitmap(m_BmpLvlPtr, 0, 0);
 	m_ElfPtr->Paint();
 	Camera();
+	for (size_t i = 0; i < m_MossArr.size(); i++)
+	{
+		m_MossArr[i]->Paint();
+	}
+	for (size_t i = 0; i < m_SpikesArr.size(); i++)
+	{
+		m_SpikesArr[i]->Paint();
+	}
+
 }
 
 void Roguelight::Camera() 
@@ -168,3 +183,46 @@ void Roguelight::Camera()
 	}
 
 
+void Roguelight::LoadMoss() 
+{
+	std::wifstream ifileMoss;
+	ifileMoss.open("./resources/Moss_Positions.txt");
+	std::wstring extractedLine;
+	while (ifileMoss.eof() == false)
+	{
+		std::getline(ifileMoss, extractedLine);
+		int splitPos = extractedLine.find(',');
+		if (splitPos == -1) 
+		{
+
+			OutputDebugString(String("Invalid coords:") + String(extractedLine.c_str()));
+			continue;
+		}
+		double x = stod(extractedLine.substr(0, splitPos)); 
+		double y = stod(extractedLine.substr(splitPos+1, extractedLine.length()));
+		m_MossArr.push_back(new Moss(DOUBLE2(x, y)));
+
+	}
+}
+
+void Roguelight::LoadSpikes()
+{
+	std::wifstream ifileSpikes;
+	ifileSpikes.open("./resources/Spikes_Positions.txt");
+	std::wstring extractedLine;
+	while (ifileSpikes.eof() == false)
+	{
+		std::getline(ifileSpikes, extractedLine);
+		int splitPos = extractedLine.find(',');
+		if (splitPos == -1)
+		{
+			OutputDebugString(String("Invalid coords:") + String(extractedLine.c_str()));
+			continue;
+		}
+		double x = stod(extractedLine.substr(0, splitPos));
+		double y = stod(extractedLine.substr(splitPos + 1, extractedLine.length()));
+		m_SpikesArr.push_back(new Spikes(DOUBLE2(x, y)));
+
+	}
+
+}
