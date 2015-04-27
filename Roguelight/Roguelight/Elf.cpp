@@ -15,12 +15,13 @@
 //---------------------------
 #define GAME_ENGINE (GameEngine::GetSingleton())
 
+Elf* Elf::player = nullptr;
 //---------------------------
 // Constructor & Destructor
 //---------------------------
 Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 {
-	player = this;
+	player = this; 
 	m_Ammo = 5;
 	m_Health = 5;
 	m_Money = 0;
@@ -92,13 +93,13 @@ void Elf::Paint()
 	int cropX = spriteWidth* col;
 	int cropY = spriteHeight* row;
 
-	RECT spriteElf;
+	RECT2 spriteElf;
 	spriteElf.top = cropY;
 	spriteElf.bottom = cropY + spriteHeight;
 	spriteElf.left = cropX;
 	spriteElf.right = cropX + spriteWidth;
 
-	GAME_ENGINE->DrawBitmap(m_BmpElfPtr, spritePos.x, spritePos.y, spriteElf);
+	GAME_ENGINE->DrawBitmap(m_BmpElfPtr,DOUBLE2(spritePos), spriteElf);
 
 	String pos = String(currentPos.x) + String("  ") + String(currentPos.y);
 	GAME_ENGINE->SetColor(COLOR(255, 255, 255));
@@ -160,40 +161,27 @@ void Elf::ResetPosition()
 	m_ActElfPtr->SetLinearVelocity(DOUBLE2(0, 0));
 }
 
-int Elf::IncreaseAmmo()
+void Elf::IncreaseAmmo()
 {
-	//tezi metodi ti triabva da sa void, increacse/decrease imam predvid.. ne ti tokriabva she gi opravq posle
-	
-
-	return ++m_Ammo; //posle samo mahni returna
+	++m_Ammo; 
 }
-int Elf::DecreaseAmmo()
+void Elf::DecreaseAmmo()
 {
-	
-	return --m_Ammo; //toje
-
+	--m_Ammo; 
 }
-int Elf::IncreaseHealth()
-{
-	health = m_Health;//dai posle she gi pisha
-	++health;
-	return health;
+void Elf::IncreaseHealth()
+{	
+	++ m_Health;
 }
-int Elf:: DecreaseHealth()
+void Elf::DecreaseHealth()
 {
-	health = m_Health;
-	--health;
-	return health;
-
-
+	--m_Health;
 }
-int Elf::IncreaseMoney()
+void Elf::IncreaseMoney()
 {
-	money = m_Money;
-	++money;
-	return money;
+	++m_Money;
 }
 
-static Elf * Elf::getPlayer() {
+Elf * Elf::getPlayer() {
 	return player;
 }
