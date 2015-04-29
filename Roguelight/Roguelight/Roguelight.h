@@ -26,7 +26,8 @@
 //-----------------------------------------------------------------
 class Elf;
 class Moss;
-class Spikes;
+class Spike;
+class Collectible;
 class Roguelight : public AbstractGame
 {
 public:				
@@ -59,8 +60,8 @@ public:
 	// -------------------------
 	void Camera();
 	void LoadMoss();
-	void LoadSpikes();
-	void LoadCollectibles();
+	void LoadSpike();
+	void LoadCollectible();
 	void LoadShadyguys();
 	void LoadSkelethons();
 
@@ -76,7 +77,10 @@ private:
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Elf * m_ElfPtr = nullptr;
 	std::vector<Moss *> m_MossArr;
-	std::vector<Spikes *> m_SpikesArr;
+	std::vector<Spike *> m_SpikeArr;
+	std::vector<Collectible *> m_ArrowArr;
+	std::vector<Collectible *> m_CoinArr;
+	std::vector<Collectible *> m_HeartArr;
 	Bitmap * m_BmpLvlPtr = nullptr;
 
 	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 

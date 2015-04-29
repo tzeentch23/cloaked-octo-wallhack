@@ -35,6 +35,9 @@ private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
+	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
+	double m_Scale = 1;
+	double m_Angle = 0;
 	PhysicsActor * m_ActMossPtr = nullptr;
 	static Bitmap * m_BmpMossPtr;
 	static int m_InstanceCounter;

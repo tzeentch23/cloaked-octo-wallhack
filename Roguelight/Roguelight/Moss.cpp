@@ -20,7 +20,7 @@
 // Constructor & Destructor
 //---------------------------
 Bitmap* Moss::m_BmpMossPtr = nullptr;
-int m_InstanceCounter = 0;
+int Moss::m_InstanceCounter = 0;
 Moss::Moss(DOUBLE2 pos)
 {
 	if (m_BmpMossPtr == nullptr)
@@ -33,7 +33,7 @@ Moss::Moss(DOUBLE2 pos)
 	m_ActorHeight = m_BmpMossPtr->GetHeight();
 
 	m_ActMossPtr = new PhysicsActor(pos, 0, BodyType::STATIC);
-	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight, 0.2, 0.9, 0.2);
+	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight/2, 0.2, 0.9, 0.2);
 }
 
 Moss::~Moss()
@@ -52,8 +52,15 @@ Moss::~Moss()
 void Moss::Paint()
 {
 	DOUBLE2 bitmapPos = DOUBLE2(m_ActMossPtr->GetPosition().x-m_BmpMossPtr->GetWidth()/2,
-		m_ActMossPtr->GetPosition().y - m_BmpMossPtr->GetHeight() / 2);
-	GAME_ENGINE->DrawBitmap(m_BmpMossPtr, bitmapPos);
+		m_ActMossPtr->GetPosition().y - m_BmpMossPtr->GetHeight());
+	
+	matTranslate.SetAsTranslate(bitmapPos);
+	matRotate.SetAsRotate(m_Angle);
+	matRotate.SetAsScale(m_Scale);
+	matWorldTransform = matRotate * matScale * matTranslate;
+	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+
+	GAME_ENGINE->DrawBitmap(m_BmpMossPtr);
 }
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions

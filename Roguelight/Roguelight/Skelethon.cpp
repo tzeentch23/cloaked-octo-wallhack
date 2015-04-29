@@ -25,6 +25,10 @@ Skelethon::Skelethon()
 
 Skelethon::~Skelethon()
 {
+	delete m_ActSkelethonPtr;
+	m_ActSkelethonPtr = nullptr;
+	delete m_BmpSkelethonPtr;
+	m_BmpSkelethonPtr = nullptr;
 
 }
 

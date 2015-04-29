@@ -41,6 +41,8 @@ Elf::~Elf()
 {
 	delete m_ActElfPtr;
 	m_ActElfPtr = nullptr;
+	delete m_BmpElfPtr;
+	m_BmpElfPtr = nullptr;
 }
 
 //-------------------------------------------------------
@@ -101,10 +103,12 @@ void Elf::Paint()
 
 	GAME_ENGINE->DrawBitmap(m_BmpElfPtr,DOUBLE2(spritePos), spriteElf);
 
-	String pos = String(currentPos.x) + String("  ") + String(currentPos.y);
+	String status = String(currentPos.x) + String(" ") + String(currentPos.y) + String("\n") +
+		String(m_Ammo) + String("  ") + String(m_Health) + String("  ") + String(m_Money);
 	GAME_ENGINE->SetColor(COLOR(255, 255, 255));
-	GAME_ENGINE->DrawString(pos, currentPos.x + 50, currentPos.y + 50);
+	GAME_ENGINE->DrawString(status, currentPos.x + 50, currentPos.y + 50);
 	
+
 }
 
 void Elf::Tick(double deltatime)
