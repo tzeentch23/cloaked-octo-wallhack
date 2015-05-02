@@ -11,6 +11,7 @@
 #include "Roguelight.h"					
 #include "Elf.h"
 #include "Enemy.h"
+#include "Shadyguy.h"
 #include "Moss.h"
 #include "Spike.h"
 #include "Collectible.h"
@@ -49,9 +50,11 @@ void Roguelight::GameStart()
 	m_ArrowArr.push_back(new Collectible(DOUBLE2(1777, 577), Collectible::Type::ARROWS));
 	m_CoinArr.push_back(new Collectible(DOUBLE2(1777, 450), Collectible::Type::COINS));
 	m_HeartArr.push_back(new Collectible(DOUBLE2(1777, 500), Collectible::Type::HEARTS));
-
+	//dai da parse-nem collectibelite shtotot tam zapecnah
+	//ne e li kato drugite? amiiii
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 
+	m_ShadyGuyBmpPtr = new Bitmap(String("./resources/spritesElf.png"));
 	DOUBLE2 elfSpawn(m_BmpLvlPtr->GetWidth()/2+200, 20);
 	m_ElfPtr = new Elf(elfSpawn);
 	
@@ -64,7 +67,15 @@ void Roguelight::GameStart()
 	m_CameraDimension.bottomRight.y = m_BmpLvlPtr->GetHeight() - m_Height / 2;
 	cameraSize = DOUBLE2(m_Width, m_Height);
 	LoadMoss();
-	LoadSpike(); 
+	LoadSpike();
+	LoadCollectible(Collectible::ARROWS, String("./resources/Arrows_Positions.txt"), m_ArrowArr);
+	LoadCollectible(Collectible::COINS, String("./resources/Coins_Positions.txt"), m_CoinArr);
+	LoadCollectible(Collectible::HEARTS, String("./resources/Hearts_Positions.txt"), m_HeartArr);
+
+	//LoadShadyguys();
+	//ne e li onzi trup tam vdiasno? da amam ne pomnish li che v nachaloto skoka zatva ne raboteshe ne
+	elfSpawn.x += 50;
+	m_Enemies.push_back(new Shadyguy(elfSpawn, m_ShadyGuyBmpPtr));
 }
 
 void Roguelight::GameEnd()
@@ -77,7 +88,6 @@ void Roguelight::GameEnd()
 	m_ElfPtr = nullptr;
 	delete m_ActLevelPtr;
 	m_ActLevelPtr = nullptr;
-	
 	m_MossArr.clear();
 	m_SpikeArr.clear();
 	m_ArrowArr.clear();
@@ -234,6 +244,10 @@ void Roguelight::GamePaint(RECT rect)
 		if (!m_HeartArr[i]->IsConsumed())
 			m_HeartArr[i]->Paint();
 	}
+	for (size_t i = 0; i < m_Enemies.size(); i++)
+	{
+		m_Enemies[i]->Paint();
+	}
 }
 
 void Roguelight::Camera() 
@@ -270,7 +284,6 @@ void Roguelight::LoadMoss()
 
 	}
 }
-
 void Roguelight::LoadSpike()
 {
 	std::wifstream ifileSpike;
@@ -294,41 +307,81 @@ void Roguelight::LoadSpike()
 	OutputDebugString(String(m_SpikeArr.size()) + String("Spikes\n"));
 
 }
-void Roguelight::LoadCollectible()
-{
+void Roguelight::LoadCollectible(Collectible::Type type, String & file, std::vector<Collectible *> & arrayPtr)
+{//ne bqh sigurna kak da go napravq po optimalen nachin
 	std::wifstream ifileCollectible;
 
 	std::wstring extractedLine;
 	double x, y;
 	
 
-	if (Collectible::ARROWS)
-	{
-		ifileCollectible.open("./resources/Arrows_Positions.txt");
-	//	m_ArrowArr.push_back(new Collectible(DOUBLE2(x, y), Collectible::Type::ARROWS));
-	}
-	if (Collectible::COINS)
-	{
-		ifileCollectible.open("./resources/Coins_Positions.txt");
-	//	m_ArrowArr.push_back(new Collectible(DOUBLE2(x, y), Collectible::Type::COINS));
-	}
-	if (Collectible::HEARTS)
-	{
-		ifileCollectible.open("./resources/Hearts_Positions.txt");
-	//	m_ArrowArr.push_back(new Collectible(DOUBLE2(x, y), Collectible::Type::HEARTS));
-	}
-	
+	ifileCollectible.open(file.C_str());
 	while (ifileCollectible.eof() == false)
 	{
 		std::getline(ifileCollectible, extractedLine);
 		int splitPos = extractedLine.find(',');
-		/*if (splitPos == -1)
+		if (splitPos == -1)
 		{
 			OutputDebugString(String("Invalid coords:") + String(extractedLine.c_str()));
 			continue;
-		}*/
+		}
+
 		x = stod(extractedLine.substr(0, splitPos));
 		y = stod(extractedLine.substr(splitPos + 1, extractedLine.length()));
+		arrayPtr.push_back(new Collectible(DOUBLE2(x, y), type));
+		
 	}
+	OutputDebugString(String(type) + String(" ") + String(arrayPtr.size()) + String("\n"));
+}
+
+
+bool readPos(std::wifstream & ifileCollectible, DOUBLE2 & res) 
+{
+
+	std::wstring extractedLine;
+	std::getline(ifileCollectible, extractedLine);
+	int splitPos = extractedLine.find(',');
+	if (splitPos == -1)
+	{
+		OutputDebugString(String("Invalid coords:") + String(extractedLine.c_str()));
+		return false;
+	}//shtto nqma namespace stava taka chakaj malko de :)
+
+	int x = stod(extractedLine.substr(0, splitPos));
+	int y = stod(extractedLine.substr(splitPos + 1, extractedLine.length()));
+	res.x = x;
+	res.y = y;
+	return true;
+}
+
+void Roguelight::LoadShadyguys() 
+
+//napravo shte gi loadnem o t txt imash li gi?da ok.. samo sekunda predi ttova
+{
+	//taka po-malko copy/paste
+	//niama namespace zashtoto .. moje i da mu slojish, no togava shte e ia obiavish i v header-a tazi funkcia
+	//i tia stava chast ot klasa.. a v mommennta e samo lokalna za cpp-to, nikoj drug ne ia vixda..
+	//ako te obyrkva - sloji i..baq (:
+	//prosto v ediniat sluchaj e obiavena v headera, i tozi metod si e chast ot klasa..za
+	//a/ /taka  e samo edna funkcia, hvyrchashta, vijda se samo tuk..qsmno ama shto samo s booleani satava
+	//a tova e podloto.. poneje nas ni interesuva dali e uspeshno e parsnala reda si pravim DOUBLE2-to predvaritelno
+	//i podavame & (reference)-a mu na funciata, tia ako parsne - popylva x-y na pos-a, ako ne - taka ili inache skipvame rounda--
+	//ako ne te kefi - kopi/pejstni kakto predi, prosto mi pishna.. a shto ne metod readpos prosto normalen
+	//shtoto ako ne e uspeshen kakvo shte vyrnem? ot
+//ia pak vyprosa ? :) normalen metod s namespace? obiashinh po-gore.. principno e izlisheno.. ako iskash - sloji go.. no go napravi static.. moje da se polzva i niakyde drugade..
+	//chakaj da vidim che raboti.. posle shte go promenim..
+	//risuvame li gi? ne,, ama aktiorite trqbvashe da sa tam
+	std::wifstream ifileCollectible;
+	ifileCollectible.open("./resources/Shadyguy_Positions.txt");
+	while (ifileCollectible.eof() == false)
+	{
+		DOUBLE2 pos;
+		if (readPos(ifileCollectible, pos))
+		{
+			m_Enemies.push_back(new Shadyguy(pos, m_ShadyGuyBmpPtr));
+		}
+	}
+//dai da probvame da gi risuvame, niama logika da e ot tova.. znam, ok, daj risunkata
+	
 
 }

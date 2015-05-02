@@ -23,15 +23,14 @@ Bitmap * Collectible::m_BmpArrowPtr = nullptr;
 Bitmap * Collectible::m_BmpHeartPtr = nullptr;
 Collectible::Collectible(DOUBLE2 pos, Type type)
 {
-	
+
 	m_ActCollectPtr = new PhysicsActor(pos, 0, BodyType::STATIC);
-	m_ActCollectPtr->AddBoxShape(10, 10);
+	m_ActCollectPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
 	m_ActCollectPtr->AddContactListener(this);
 	++m_InstanceCounter;
 	
 	m_Type = type;
 	
-
 	if ( type == Type::HEARTS)
 	{
 		m_BmpHeartPtr = new Bitmap(String("./resources/hearts.png"));
@@ -108,7 +107,6 @@ void Collectible::Paint()
 	bmpRect.bottom = cropY + spriteHeight;
 	bmpRect.left = cropX;
 	bmpRect.right = cropX + spriteWidth;
-	bmp = m_BmpArrowPtr;
 	DOUBLE2 bitmapPos(m_ActCollectPtr->GetPosition().x - (spriteWidth / 2),
 		m_ActCollectPtr->GetPosition().y - (spriteHeight / 2));
 

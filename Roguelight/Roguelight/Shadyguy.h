@@ -16,13 +16,15 @@
 class Shadyguy : public Enemy
 {
 public:
-	Shadyguy(DOUBLE2 pos);
+	Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr);
 	virtual ~Shadyguy( );
 
 	// C++11 make the class non-copShadyguyable
 	Shadyguy( const Shadyguy& ) = delete;
 	Shadyguy& operator=( const Shadyguy& ) = delete;
 	
+	void Tick(double deltaTime);
+	void Patrol();
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
@@ -31,12 +33,18 @@ public:
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 */
 
-private: 
+public: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	static Bitmap *m_BmpShadyPtr;
-	PhysicsActor * m_ActShadyPtr = nullptr;
+	
+	
+	 //ok kak shte gi podavame? zashto da gi podavame?
+	//enemy-to shte si gi pravi..
+
+private:
+	
+	DOUBLE2 m_InitialPosition;
 };
 
  

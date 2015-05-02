@@ -27,7 +27,7 @@ Elf::Elf(DOUBLE2 spawnPos) : m_SpawnPos(spawnPos)
 	m_Money = 0;
 	
 	m_ActElfPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
-	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0.2, 0.2);
+	m_ActElfPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.0, 0.2, 0.2);
 	m_ActElfPtr->SetFixedRotation(true);
 	//m_ActElfPtr->SetTrigger(false);
 	m_ActElfPtr->SetGravityScale(1);
@@ -50,6 +50,7 @@ Elf::~Elf()
 //-------------------------------------------------------
 void Elf::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
+	
 }
 
 void Elf::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
@@ -71,27 +72,26 @@ void Elf::Paint()
 	int spriteHeight = m_BmpElfPtr->GetHeight()/ NR_ROWS;
 	int col = m_FrameNr / NR_COLS;
 	int row;
-		if (m_State == State::STANDING)
+	if (m_State == State::STANDING)
 	{
-		row = 1;
+		row = 0;
 	}
 	if (m_State == State::WALKING)
 	{
-		row = 2;
+		row = 1;
 	}
 	if (m_State == State::WALKANDAIM)
 	{
-		row = 3;
+		row = 2;
 	}
 	if (m_State == State::JUMPANDAIM)
 	{
-		row = 4;
+		row = 3;
 	}
 	if (m_State == State::JUMPING)
 	{
-		row = 5;
+		row = 4;
 	}
-	
 	int cropX = spriteWidth* col;
 	int cropY = spriteHeight* row;
 
@@ -113,7 +113,10 @@ void Elf::Paint()
 
 void Elf::Tick(double deltatime)
 {
+	if (m_State != State::JUMPING || m_ActElfPtr->GetContactList().size() > 0)
+	{
 		m_State = State::STANDING;
+	}
 
 		DOUBLE2 velocityChange, newVelocity, impulse;
 		newVelocity.y = 200;
@@ -140,8 +143,8 @@ void Elf::Tick(double deltatime)
 		velocityChange.x = newVelocity.x - m_ActElfPtr->GetLinearVelocity().x;
 		impulse = mass * velocityChange / PhysicsActor::SCALE;
 		m_ActElfPtr->ApplyForce(impulse);
-
-		
+		//m_ActElfPtr->SetLinearVelocity(DOUBLE2(-100, 500));
+		//n/e/ tsi li se spi da, no zadryj taka 10 min oshte//pfu tova e elfa
 		m_Time += deltatime;
 		if (m_Time>1.0/FRAMERATE)
 		{
@@ -149,7 +152,9 @@ void Elf::Tick(double deltatime)
 			m_FrameNr %= NR_COLS* NR_ROWS;
 			m_Time = 0;
 		}
-	}
+
+}
+
 	
 DOUBLE2 Elf::GetPosition()
 {

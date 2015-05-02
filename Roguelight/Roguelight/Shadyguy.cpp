@@ -19,21 +19,18 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Bitmap * Shadyguy::m_BmpShadyPtr = nullptr;
-Shadyguy::Shadyguy(DOUBLE2 pos)
+Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, bmpPtr)
 {
-	m_ActShadyPtr = new PhysicsActor(pos, 0, BodyType::DYNAMIC);
-
+	m_InitialPosition = pos;
+	m_ActEnemyPtr->SetLinearVelocity(DOUBLE2(-100, 500)); //neka i toj si pada
+	m_ActEnemyPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
+	m_ActEnemyPtr->AddContactListener(this);
 }
-
+//vidq li gi :D:D:D:DD::) maj da.. ok, dvijenieto moje bi ne sy go ucelil
 Shadyguy::~Shadyguy()
 {
-	delete m_BmpShadyPtr;
-	m_BmpShadyPtr = nullptr;
-	delete m_ActShadyPtr;
-	m_ActShadyPtr = nullptr;
 }
-
+//actiora moje da e dinamichen
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
@@ -52,4 +49,25 @@ Shadyguy::~Shadyguy()
 //
 //}
 
+void Shadyguy::Tick(double deltaTime)
+{
+	//to shto ne se blyska? mi mai nqma contact
+		DOUBLE2 newPos = m_ActEnemyPtr->GetPosition();
+		DOUBLE2 current = m_ActEnemyPtr->GetLinearVelocity();
+		
+		if (newPos.x - m_InitialPosition.x >= 100)
+		{
+			current.x *= -1;
+		}
+		else if (m_InitialPosition.x - newPos.x >= 100) 
+		{
+			current.x *= -1;
+		}
+		
+		m_ActEnemyPtr->SetLinearVelocity(current); 
+ }
 
+void Shadyguy::Patrol()
+{
+	
+}

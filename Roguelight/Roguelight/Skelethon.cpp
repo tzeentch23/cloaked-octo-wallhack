@@ -9,7 +9,7 @@
 // Includes
 //---------------------------
 #include "Skelethon.h"
-
+#include "Enemy.h"
 //---------------------------
 // Defines
 //---------------------------
@@ -18,18 +18,13 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Skelethon::Skelethon()
+Skelethon::Skelethon() : Enemy(DOUBLE2(9,9), nullptr)
 {
 
 }
 
 Skelethon::~Skelethon()
 {
-	delete m_ActSkelethonPtr;
-	m_ActSkelethonPtr = nullptr;
-	delete m_BmpSkelethonPtr;
-	m_BmpSkelethonPtr = nullptr;
-
 }
 
 //-------------------------------------------------------
@@ -49,20 +44,24 @@ Skelethon::~Skelethon()
 //{
 //
 //}
-
-void Skelethon::Follow(DOUBLE2 posActor)
-{
-	/*	double difX = posActor.x - m_ActSkelethonPtr->GetPosition().x;
-		double difY = posActor.y - m_ActSkelethonPtr->GetPosition().y;
-	if ((difX<300) && (difY<300))
-	{
-		for (size_t i = 0; i < difX; i++)
-		{
-			for (size_t j = 0; j < difY; j++)
-			{
-				m_ActSkelethonPtr->SetLinearVelocity(DOUBLE2(5, 5));
-			}
-		}
-	}
-*/
-}
+//
+//void Shadyguy::Tick(double deltaTime)
+//{
+//
+//}
+//void Skelethon::Follow(DOUBLE2 posActor)
+//{
+//	/*	double difX = posActor.x - m_ActSkelethonPtr->GetPosition().x;
+//		double difY = posActor.y - m_ActSkelethonPtr->GetPosition().y;
+//	if ((difX<300) && (difY<300))
+//	{
+//		for (size_t i = 0; i < difX; i++)
+//		{
+//			for (size_t j = 0; j < difY; j++)
+//			{
+//				m_ActSkelethonPtr->SetLinearVelocity(DOUBLE2(5, 5));
+//			}
+//		}
+//	}
+//*/
+//}

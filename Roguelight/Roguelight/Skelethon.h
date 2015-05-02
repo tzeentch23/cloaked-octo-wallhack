@@ -16,13 +16,15 @@
 class Skelethon : public Enemy
 {
 public:
-	Skelethon( );
+	Skelethon();//mmi 
 	virtual ~Skelethon( );
 
 	// C++11 make the class non-copSkelethonable
 	Skelethon( const Skelethon& ) = delete;
 	Skelethon& operator=( const Skelethon& ) = delete;
 
+//	void Tick(double deltaTime);
+	void Fly();
 	void Follow(DOUBLE2 posActor);
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -32,10 +34,11 @@ public:
 	//virtual void ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse);
 
 
-private: 
+public: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
+	
 	PhysicsActor * m_ActSkelethonPtr = nullptr;
 	Bitmap * m_BmpSkelethonPtr = nullptr;
 	
