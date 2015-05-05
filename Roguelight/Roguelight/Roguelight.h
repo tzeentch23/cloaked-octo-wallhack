@@ -50,22 +50,35 @@ public:
 	//---------------------------
 	// General Methods
 	//---------------------------
-	//opravi gi tezi, koemntiraj gi primerno.. shte se vyrna sled malko
 	virtual void GameInitialize(GameSettings &gameSettings);
 	virtual void GameStart();				
 	virtual void GameEnd();
 	virtual void GameTick(double deltaTime);
 	virtual void GamePaint(RECT rect);
 
+
+
 	// -------------------------
 	// Public Member functions
 	// -------------------------
 	void Camera();
-	void LoadMoss();
-	void LoadSpike();
-	void LoadCollectible(Collectible::Type type, String & fileName, std::vector<Collectible *> & arrayPtr);
-	void LoadShadyguys();
-	void LoadSkelethons();
+	//static bool ReadPos(std::wifstream &ifileCollectible, DOUBLE2 &position);        
+	//void LoadMoss();
+	//void LoadSpike();
+	//void LoadCollectible(Collectible::Type type, String & file, std::vector<Collectible *> & arrayPtr);
+	//void LoadShadyguy();
+
+
+	void ParseMoss(std::wstring & item);
+	void ParseSpike(std::wstring & item);
+	void ParseArrow(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
+	void ParseCoin(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
+	void ParseHeart(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
+	void ParseShadyguy(std::wstring & item);
+	void ParseSkelethon(std::wstring & item);
+	void ParseItem(std::wstring & item);
+	void InitGame();
+	DOUBLE2 ParsePosition(std::wstring & item);
 
 private:
 	// -------------------------
@@ -83,32 +96,34 @@ private:
 	std::vector<Collectible *> m_ArrowArr;
 	std::vector<Collectible *> m_CoinArr;
 	std::vector<Collectible *> m_HeartArr;
-
-	std::vector<Enemy *> m_Enemies;
+	std::vector<Enemy *> m_ShadyguyArr;
+	std::vector<Enemy *> m_SkelethonArr;
 	Bitmap * m_BmpLvlPtr = nullptr;
 
 	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 
 		matCamScale, matPivot, matCamWorldTransform;
-	DOUBLE2 m_CameraPos, m_ElfPos;
+	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
+	double m_Angle = 0;
+	double m_Scale = 1;
+	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos;
 	double m_CameraAngle = 0;
-	double m_CameraScale = 1;
-	//ia pokaji txt-to
-	//ami ok sa, triabva da trygvam, no spored men e ok load-a.. ok 
-	//samo sekunda
+	double m_CameraScale = 0.6;
+	
 	struct CameraDimension {
 		DOUBLE2 topLeft;
 		DOUBLE2 bottomRight;
 	};
 
 	CameraDimension m_CameraDimension;
-	DOUBLE2 cameraSize;
+	DOUBLE2 m_CameraSize;
 	bool m_IsPhysicsDebudRendering = false;
 	double m_Width = W, m_Height = H;
 
-	Bitmap * m_ShadyGuyBmpPtr = nullptr;
+	Bitmap * m_BmpShadyGuyPtr = nullptr,
+		*m_BmpSkelethonPtr = nullptr;
 
-	static const int W = 400;
-	static const int H = 400;
+	static const int W = 800;
+	static const int H = 600;
 	static const int MIN_LEFT = W / 2;
 	static const int MAX_RIGHT = W / 2;
 };

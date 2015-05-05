@@ -18,13 +18,15 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Skelethon::Skelethon() : Enemy(DOUBLE2(9,9), nullptr)
+Skelethon::Skelethon(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 30, 50, bmpPtr)
 {
 
 }
 
 Skelethon::~Skelethon()
 {
+	delete m_ActActorPtr;
+	m_ActActorPtr = nullptr;
 }
 
 //-------------------------------------------------------
@@ -65,3 +67,8 @@ Skelethon::~Skelethon()
 //	}
 //*/
 //}
+
+void Skelethon::Tick(double deltaTime)
+{
+	Enemy::Tick(deltaTime);
+}

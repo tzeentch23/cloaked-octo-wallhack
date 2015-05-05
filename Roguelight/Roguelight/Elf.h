@@ -9,11 +9,11 @@
 // Include Files
 //-----------------------------------------------------
 
-#include "ContactListener.h"
+#include "Actor.h"
 //-----------------------------------------------------
 // Elf Class									
-//-----------------------------------------------------
-class Elf : public ContactListener
+//--------------	---------------------------------------
+class Elf : public Actor
 {
 public:
 	Elf(DOUBLE2 spawnPos);
@@ -23,39 +23,37 @@ public:
 	Elf( const Elf& ) = delete;
 	Elf& operator=( const Elf& ) = delete;
 
+	virtual void Paint() ;
+	virtual void Tick(double deltatime);
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
-	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
-	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
-	void Paint();
-	void Tick(double deltaTime);
-	DOUBLE2 GetPosition();
 	void IncreaseHealth();
 	void DecreaseHealth();
 	void IncreaseAmmo();
 	void DecreaseAmmo();
 	void IncreaseMoney();
 	
+	virtual int getSpriteRow();
 	static Elf * player;
 	 
 public:
-	void ResetPosition();
 	static Elf * getPlayer();
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	PhysicsActor * m_ActElfPtr = nullptr;
-	Bitmap * m_BmpElfPtr = nullptr;
-	double m_Time = 0.0;
-	int m_FrameNr = 0;	
-	int m_Ammo, m_Health, m_Money;
+	//PhysicsActor * m_ActElfPtr = nullptr;
+	//Bitmap * m_BmpElfPtr = nullptr;
+	//double m_Time = 0.0;
+	//int m_FrameNr = 0;	
+	int m_Ammo, m_Money;
+	/*
 	const static int FRAMERATE = 25;
 	const static int NR_COLS = 6;
 	const static int NR_ROWS = 5;
 	const static int ACTOR_HEIGHT = 35;
 	const static int ACTOR_WIDTH = 20;
+	*/
 	DOUBLE2 m_SpawnPos, m_Position;
 	
 	
@@ -66,6 +64,7 @@ public:
 		AIMING,
 		JUMPANDAIM,
 		WALKANDAIM,
+		DEAD,
 	};
 
 	State m_State;

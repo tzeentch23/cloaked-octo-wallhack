@@ -43,10 +43,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 		IDXGIDebug* pDXGIDebug;
 		DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDXGIDebug);
-		//_CrtSetBreakAlloc(334);
+		//_CrtSetBreakAlloc(9757);
 	#endif
 		
-
+		//
 
 	///////////////////////////////////////////////////////
 	//if (GAME_ENGINE == nullptr) return FALSE; // create the game engine and exit if it fails

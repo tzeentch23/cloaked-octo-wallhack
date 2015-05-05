@@ -23,17 +23,17 @@ Bitmap* Moss::m_BmpMossPtr = nullptr;
 int Moss::m_InstanceCounter = 0;
 Moss::Moss(DOUBLE2 pos)
 {
+	++m_InstanceCounter;
 	if (m_BmpMossPtr == nullptr)
 	{
 		m_BmpMossPtr = new Bitmap(String("./resources/moss.png"));
-		m_BmpMossPtr->SetTransparencyColor(COLOR(255, 0, 0));
 		++m_InstanceCounter;
 	}
 	m_ActorWidth = m_BmpMossPtr->GetWidth();
 	m_ActorHeight = m_BmpMossPtr->GetHeight();
 
 	m_ActMossPtr = new PhysicsActor(pos, 0, BodyType::STATIC);
-	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight/2, 0.2, 0.9, 0.2);
+	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight/2, 0.2, 0.5, 0.2);
 }
 
 Moss::~Moss()

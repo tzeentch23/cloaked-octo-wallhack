@@ -23,12 +23,13 @@ public:
 	Shadyguy( const Shadyguy& ) = delete;
 	Shadyguy& operator=( const Shadyguy& ) = delete;
 	
-	void Tick(double deltaTime);
+	virtual void Tick(double deltaTime);
 	void Patrol();
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	/*virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
+	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
+	/* 
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 */
@@ -38,13 +39,7 @@ public:
 	// Datamembers								
 	//-------------------------------------------------
 	
-	
-	 //ok kak shte gi podavame? zashto da gi podavame?
-	//enemy-to shte si gi pravi..
-
 private:
-	
-	DOUBLE2 m_InitialPosition;
-};
+	};
 
  

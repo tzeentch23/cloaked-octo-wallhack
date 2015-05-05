@@ -19,25 +19,30 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, bmpPtr)
+Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 20, 40, bmpPtr)
 {
-	m_InitialPosition = pos;
-	m_ActEnemyPtr->SetLinearVelocity(DOUBLE2(-100, 500)); //neka i toj si pada
-	m_ActEnemyPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
-	m_ActEnemyPtr->AddContactListener(this);
+	//m_InitialPosition = pos;
+	m_ActActorPtr->ApplyLinearImpulse(DOUBLE2(3000, 100));
+	//m_ActEnemyPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
+	//m_ActEnemyPtr->SetFixedhRotation(true);
+//	m_ActEnemyPtr->SetGravityScale(1);
+//	m_ActEnemyPtr->AddContactListener(this);
 }
-//vidq li gi :D:D:D:DD::) maj da.. ok, dvijenieto moje bi ne sy go ucelil
+
 Shadyguy::~Shadyguy()
 {
+	delete m_ActActorPtr;
+	m_ActActorPtr = nullptr;
+//	delete m_BmpActorPtr;
+//	m_BmpActorPtr = nullptr;
 }
-//actiora moje da e dinamichen
+
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
-//void Shadyguy::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
-//{
-//
-//}
+void Shadyguy::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+{
+}
 //
 //void Shadyguy::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 //{
@@ -51,21 +56,27 @@ Shadyguy::~Shadyguy()
 
 void Shadyguy::Tick(double deltaTime)
 {
-	//to shto ne se blyska? mi mai nqma contact
-		DOUBLE2 newPos = m_ActEnemyPtr->GetPosition();
-		DOUBLE2 current = m_ActEnemyPtr->GetLinearVelocity();
+		DOUBLE2 impulse;
+		DOUBLE2 newPos = m_ActActorPtr->GetPosition();
+		DOUBLE2 current = m_ActActorPtr->GetLinearVelocity();
+		double mass = m_ActActorPtr->GetMass();
 		
-		if (newPos.x - m_InitialPosition.x >= 100)
+		/*
+		if (newPos.x - m_SpawnPos.x >= 100)
 		{
 			current.x *= -1;
 		}
-		else if (m_InitialPosition.x - newPos.x >= 100) 
+		else if (m_SpawnPos.x - newPos.x >= 100) 
 		{
 			current.x *= -1;
 		}
-		
-		m_ActEnemyPtr->SetLinearVelocity(current); 
- }
+		*/
+		//current *= direction;
+		impulse = mass * current / PhysicsActor::SCALE;
+		//m_ActActorPtr->ApplyForce(impulse); 
+		m_ActActorPtr->SetLinearVelocity(impulse);
+		Enemy::Tick(deltaTime);
+}
 
 void Shadyguy::Patrol()
 {

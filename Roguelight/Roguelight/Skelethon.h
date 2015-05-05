@@ -16,14 +16,14 @@
 class Skelethon : public Enemy
 {
 public:
-	Skelethon();//mmi 
+	Skelethon(DOUBLE2 pos, Bitmap * bmpPtr); 
 	virtual ~Skelethon( );
 
 	// C++11 make the class non-copSkelethonable
 	Skelethon( const Skelethon& ) = delete;
 	Skelethon& operator=( const Skelethon& ) = delete;
 
-//	void Tick(double deltaTime);
+	virtual void Tick(double deltaTime);
 	void Fly();
 	void Follow(DOUBLE2 posActor);
 	//--------------------------------------------------------
@@ -38,10 +38,6 @@ public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	
-	PhysicsActor * m_ActSkelethonPtr = nullptr;
-	Bitmap * m_BmpSkelethonPtr = nullptr;
-	
 	
 };
 
