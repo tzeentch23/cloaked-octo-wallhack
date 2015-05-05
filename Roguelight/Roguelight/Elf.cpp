@@ -19,12 +19,12 @@ Elf* Elf::player = nullptr;
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 6, 5, 20, 40)
+Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 5, 20, 40)
 {
 	player = this; 
 	m_Ammo = 5;
 	m_Health = 5;
-	m_Money = 0;
+	m_Coins = 0;
 		
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
@@ -43,12 +43,12 @@ void Elf::Paint()
 	m_Position = m_ActActorPtr->GetPosition();
 	Actor::Paint();
 	String status = String(m_Position.x) + String(" ") + String(m_Position.y) + String("\n") +
-		String(m_Ammo) + String("  ") + String(m_Health) + String("  ") + String(m_Money);
+		String(m_Ammo) + String("  ") + String(m_Health) + String("  ") + String(m_Coins);
 	GAME_ENGINE->SetColor(COLOR(255, 255, 255));
 	//OutputDebugString(status);
 }
 
-int Elf::getSpriteRow()
+int Elf::GetSpriteRow()
 {
 	int row=0;
 	if (m_State == State::STANDING)
@@ -136,11 +136,25 @@ void Elf::DecreaseHealth()
 {
 	--m_Health;
 }
-void Elf::IncreaseMoney()
+void Elf::IncreaseCoins()
 {
-	++m_Money;
+	++m_Coins;
 }
 
-Elf * Elf::getPlayer() {
+Elf * Elf::GetPlayer() {
 	return player;
+}
+
+int Elf::GetAmmo()
+{
+	return m_Ammo;
+}
+
+int Elf::GetHealth()
+{
+	return m_Health;
+}
+int Elf::GetCoins()
+{
+	return m_Coins;
 }

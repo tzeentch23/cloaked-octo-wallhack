@@ -4,7 +4,7 @@
 // Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
-	
+		
 //---------------------------
 // Includes
 //---------------------------
@@ -129,11 +129,11 @@ void Collectible::Paint()
 //-------------------------------------------------------
 void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-	Elf * elf = Elf::getPlayer();
+	Elf * elf = Elf::GetPlayer();
 	
 		if (m_Type == Type::COINS)
 		{
-			elf->IncreaseMoney();
+			elf->IncreaseCoins();
 		}
 		if (m_Type == Type::ARROWS)
 		{

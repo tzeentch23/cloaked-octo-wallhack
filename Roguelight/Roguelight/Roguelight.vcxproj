@@ -117,6 +117,7 @@
     <ClCompile Include="Shadyguy.cpp" />
     <ClCompile Include="Skelethon.cpp" />
     <ClCompile Include="Collectible.cpp" />
+    <ClCompile Include="HUD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractGame.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Shadyguy.h" />
     <ClInclude Include="Skelethon.h" />
     <ClInclude Include="Collectible.h" />
+    <ClInclude Include="HUD.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="big.ico" />

@@ -9,3 +9,4 @@
 *.tlog
 *.suo
 *.opensdf
+**/Thumbs.db

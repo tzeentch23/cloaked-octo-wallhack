@@ -27,7 +27,6 @@ Moss::Moss(DOUBLE2 pos)
 	if (m_BmpMossPtr == nullptr)
 	{
 		m_BmpMossPtr = new Bitmap(String("./resources/moss.png"));
-		++m_InstanceCounter;
 	}
 	m_ActorWidth = m_BmpMossPtr->GetWidth();
 	m_ActorHeight = m_BmpMossPtr->GetHeight();

@@ -32,28 +32,22 @@ public:
 	void DecreaseHealth();
 	void IncreaseAmmo();
 	void DecreaseAmmo();
-	void IncreaseMoney();
-	
-	virtual int getSpriteRow();
+	void IncreaseCoins();
+		
+	virtual int GetSpriteRow();
 	static Elf * player;
 	 
 public:
-	static Elf * getPlayer();
+	static Elf * GetPlayer();
+	 int GetAmmo();
+	 int GetHealth();
+	 int GetCoins();
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	//PhysicsActor * m_ActElfPtr = nullptr;
-	//Bitmap * m_BmpElfPtr = nullptr;
-	//double m_Time = 0.0;
-	//int m_FrameNr = 0;	
-	int m_Ammo, m_Money;
-	/*
-	const static int FRAMERATE = 25;
-	const static int NR_COLS = 6;
-	const static int NR_ROWS = 5;
-	const static int ACTOR_HEIGHT = 35;
-	const static int ACTOR_WIDTH = 20;
-	*/
+
+	int m_Ammo, m_Coins;
+	
 	DOUBLE2 m_SpawnPos, m_Position;
 	
 	

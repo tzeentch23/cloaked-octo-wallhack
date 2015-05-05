@@ -17,6 +17,7 @@ using namespace std;
 #include "Moss.h"
 #include "Spike.h"
 #include "Collectible.h"
+#include "HUD.h"
 #include <fstream>
 #include <string>
 //-----------------------------------------------------------------
@@ -54,6 +55,14 @@ void Roguelight::GameStart()
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 
+	m_HealthPos = DOUBLE2(20, (GAME_ENGINE->GetHeight() / 4) * 3);
+	m_CoinsPos = DOUBLE2(GAME_ENGINE->GetWidth()/3, (GAME_ENGINE->GetHeight() / 4) * 3);
+	m_AmmoPos = DOUBLE2(2*(GAME_ENGINE->GetWidth() / 3), (GAME_ENGINE->GetHeight() / 4) * 3);
+
+
+	m_HudArr.push_back(new HUD(m_HealthPos, HUD::Type::HEALTH));
+	m_HudArr.push_back(new HUD(m_CoinsPos, HUD::Type::COINS));
+	m_HudArr.push_back(new HUD(m_AmmoPos, HUD::Type::AMMO));
 
 	DOUBLE2 elfSpawn(1925.57, 533.34);
 	m_ElfPtr = new Elf(elfSpawn);
@@ -66,13 +75,8 @@ void Roguelight::GameStart()
 	m_CameraDimension.bottomRight.x = m_BmpLvlPtr->GetWidth() - m_Width / 2;
 	m_CameraDimension.bottomRight.y = m_BmpLvlPtr->GetHeight() - m_Height / 2;
 	m_CameraSize = DOUBLE2(m_Width, m_Height);
-	//LoadMoss();
-	//LoadSpike();
-	//LoadCollectible(Collectible::ARROWS, String("./resources/Arrows_Positions.txt"), m_ArrowArr);
-	//LoadCollectible(Collectible::COINS, String("./resources/Coins_Positions.txt"), m_CoinArr);
-	//LoadCollectible(Collectible::HEARTS, String("./resources/Hearts_Positions.txt"), m_HeartArr);
-	//LoadShadyguy();
 	InitGame();
+
 	matTranslate.SetAsTranslate(m_Translate);
 	matRotate.SetAsRotate(m_Angle);
 	matScale.SetAsScale(m_Scale);
@@ -91,6 +95,8 @@ void Roguelight::GameEnd()
 	m_ActLevelPtr = nullptr;
 	delete m_BmpShadyGuyPtr;
 	m_BmpShadyGuyPtr;
+	delete m_BmpSkelethonPtr;
+	m_BmpSkelethonPtr = nullptr;
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -132,6 +138,13 @@ void Roguelight::GameEnd()
 		m_SkelethonArr[i] = nullptr;
 	}
 
+	for (size_t i = 0; i < m_HudArr.size(); i++)
+	{
+		delete m_HudArr[i];
+		m_HudArr[i] = nullptr;
+	}
+
+	m_HudArr.clear();
 	m_SkelethonArr.clear();
 	m_ShadyguyArr.clear();
 	m_MossArr.clear();
@@ -143,8 +156,7 @@ void Roguelight::GameEnd()
 
 
 void Roguelight::GameTick(double deltaTime)
-{
-
+{	
 	m_ElfPtr->Tick(deltaTime);
 	m_ElfPos = m_ElfPtr->GetPosition();
 
@@ -153,21 +165,22 @@ void Roguelight::GameTick(double deltaTime)
 		m_IsPhysicsDebudRendering = !m_IsPhysicsDebudRendering;
 		GAME_ENGINE->EnablePhysicsDebugRendering(m_IsPhysicsDebudRendering);
 	}
-
-
-	//ne vijdam kak pada i ne m ognae  da pskacahm..  ne ppada veche daj skok nagore 
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
+	if (m_CameraScale>=0.3)
 	{
-		m_CameraScale -= 0.02;
-		m_CameraSize = DOUBLE2(m_Width, m_Height) * m_CameraScale;
-		OutputDebugString(String("m_CameraSize : ") + String(m_CameraSize.x) + String(" ") + String(m_CameraSize.y) + String(" ") + String(m_CameraScale) + String('\n'));
+		if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
+		{
+			m_CameraScale -= 0.02;
+			m_CameraSize = DOUBLE2(m_Width, m_Height) * m_CameraScale;
+		}
 	}
-
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_NEXT))
+	if (m_CameraScale <= 0.8)
 	{
-		m_CameraScale += 0.02;
-		m_CameraSize = DOUBLE2(m_Width, m_Height) * m_CameraScale;
-		OutputDebugString(String("m_CameraSize : ") + String(m_CameraSize.x) + String(" ") + String(m_CameraSize.y) + String(" ") + String(m_CameraScale) + String('\n'));
+		if (GAME_ENGINE->IsKeyboardKeyDown(VK_NEXT))
+		{
+			m_CameraScale += 0.02;
+			m_CameraSize = DOUBLE2(m_Width, m_Height) * m_CameraScale;
+			OutputDebugString(String("m_CameraSize : ") + String(m_CameraScale) + String(" ") + String(m_CameraSize.y) + String(" ") + String(m_CameraScale) + String('\n'));
+		}
 	}
 	if (GAME_ENGINE->IsKeyboardKeyDown('R'))
 	{
@@ -185,8 +198,6 @@ void Roguelight::GameTick(double deltaTime)
 	}
 
 	m_CameraPos.y = m_ElfPos.y;
-
-	//OutputDebugString(String("m_CameraSize : ") + String(m_CameraSize.x) + String(" ") + String(m_CameraSize.y) + String('\n'));
 
 	if (0 && m_CameraSize.y / m_CameraScale < m_Height)
 	{
@@ -220,82 +231,6 @@ void Roguelight::GameTick(double deltaTime)
 
 
 
-	/*
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
-	{
-		m_CameraScale -= 0.05;
-	}
-
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_NEXT))
-	{
-		m_CameraScale += 0.05;
-	}
-
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_UP))
-	{
-		m_CameraPos.y -= 5;
-	}
-
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_DOWN))
-	{
-		m_CameraPos.y += 5;
-	}
-
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_LEFT))
-	{
-		m_CameraPos.x -= 5;
-	}
-
-	if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
-	{
-		m_CameraPos.x += 5;
-	}
-	if (GAME_ENGINE->IsKeyboardKeyDown('R'))
-	{
-		m_CameraAngle += 0.2;
-	}
-	if (GAME_ENGINE->IsKeyboardKeyDown('T'))
-	{
-		m_CameraAngle -= 0.2;
-	}
-
-
-	if (((m_ElfPos.x + MAX_RIGHT) < m_BmpLvlPtr->GetWidth()) && ((m_ElfPos.x - MIN_LEFT) >= 0))
-	{
-		m_CameraPos.x = m_ElfPos.x;
-	}
-
-	if (1 && (m_ElfPos.y < m_Height - cameraSize.y))
-	{
-		m_CameraPos.y = m_ElfPos.y;
-	}
-	//sekunda da kopna kakvoto sym promenil
-	cameraSize *= m_CameraScale;
-
-	if (0 && cameraSize.y / m_CameraScale < m_Height)
-	{
-		cameraSize.y = m_Height;
-		m_CameraScale = cameraSize.y / m_Height;
-	}
-
-	if (m_CameraPos.y < m_Height - cameraSize.y / 2)
-	{
-		m_CameraPos.y = cameraSize.y / 2;
-	}
-	if (m_CameraPos.y > cameraSize.y / 2)
-	{
-		m_CameraPos.y = cameraSize.y / 2;
-	}
-	if (m_CameraPos.x < cameraSize.x / 2)
-	{
-		m_CameraPos.x = cameraSize.x / 2;
-	}
-	if (m_CameraPos.x > m_BmpLvlPtr->GetWidth() - cameraSize.x / 2)
-	{
-		m_CameraPos.x = m_BmpLvlPtr->GetWidth() - cameraSize.x / 2;
-	}
-
-	*/
 	for (size_t i = 0; i < m_ArrowArr.size(); i++)
 	{
 
@@ -326,6 +261,11 @@ void Roguelight::GameTick(double deltaTime)
 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
 	{
 		m_SkelethonArr[i]->Tick(deltaTime);
+	}
+
+	for (size_t i = 0; i < m_HudArr.size(); i++)
+	{
+		m_HudArr[i]->Tick(deltaTime);
 	}
 
 }
@@ -376,6 +316,11 @@ void Roguelight::GamePaint(RECT rect)
 	{
 		m_SkelethonArr[i]->Paint();
 	}
+	for (size_t i = 0; i < m_HudArr.size(); i++)
+	{
+		m_HudArr[i]->Paint();
+	}
+
 	Camera();
 }
 

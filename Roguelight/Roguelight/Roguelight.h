@@ -30,6 +30,7 @@ class Moss;
 class Spike;
 class Collectible;
 class Enemy;
+class HUD;
 class Roguelight : public AbstractGame
 {
 public:				
@@ -98,16 +99,17 @@ private:
 	std::vector<Collectible *> m_HeartArr;
 	std::vector<Enemy *> m_ShadyguyArr;
 	std::vector<Enemy *> m_SkelethonArr;
-	Bitmap * m_BmpLvlPtr = nullptr;
-
+	std::vector<HUD *> m_HudArr;
+	Bitmap  * m_BmpLvlPtr = nullptr;
+	
 	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 
 		matCamScale, matPivot, matCamWorldTransform;
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Angle = 0;
 	double m_Scale = 1;
-	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos;
+	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
 	double m_CameraAngle = 0;
-	double m_CameraScale = 0.6;
+	double m_CameraScale = 0.5;
 	
 	struct CameraDimension {
 		DOUBLE2 topLeft;

@@ -23,6 +23,7 @@ Bitmap * Spike::m_BmpSpikePtr = nullptr;
 int Spike::m_InstanceCounter = 0;
 Spike::Spike(DOUBLE2 pos)
 {
+	++m_InstanceCounter;
 	m_ActSpikePtr = new PhysicsActor(pos, 0, BodyType::STATIC);
 	m_ActSpikePtr->AddBoxShape(40, 10, 0.2, 0.9, 0.2);
 	m_ActSpikePtr->AddContactListener(this);
@@ -64,7 +65,7 @@ void Spike::Paint()
 //-------------------------------------------------------
 void Spike::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-	Elf * elf = Elf::getPlayer();
+	Elf * elf = Elf::GetPlayer();
 	elf->DecreaseHealth();
 }
 

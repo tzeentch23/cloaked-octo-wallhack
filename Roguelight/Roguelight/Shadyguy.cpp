@@ -70,12 +70,14 @@ void Shadyguy::Tick(double deltaTime)
 		{
 			current.x *= -1;
 		}
+		desired velocity to impulse
 		*/
 		//current *= direction;
 		impulse = mass * current / PhysicsActor::SCALE;
 		//m_ActActorPtr->ApplyForce(impulse); 
 		m_ActActorPtr->SetLinearVelocity(impulse);
 		Enemy::Tick(deltaTime);
+
 }
 
 void Shadyguy::Patrol()

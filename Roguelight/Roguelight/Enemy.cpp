@@ -47,7 +47,7 @@ void Enemy::Tick(double deltatime)
 
 void Enemy::BeginContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
 {
-	Elf * elf = Elf::getPlayer();
+	Elf * elf = Elf::GetPlayer();
 	elf->DecreaseHealth();
 }
 //
