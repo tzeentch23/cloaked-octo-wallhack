@@ -17,29 +17,31 @@ class Shadyguy : public Enemy
 {
 public:
 	Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr);
-	virtual ~Shadyguy( );
+	virtual ~Shadyguy();
 
 	// C++11 make the class non-copShadyguyable
-	Shadyguy( const Shadyguy& ) = delete;
-	Shadyguy& operator=( const Shadyguy& ) = delete;
-	
+	Shadyguy(const Shadyguy&) = delete;
+	Shadyguy& operator=(const Shadyguy&) = delete;
+
 	virtual void Tick(double deltaTime);
-	void Patrol();
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
 	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
-	/* 
-	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
+	/*
+	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
-*/
+	*/
 
-public: 
+public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	
-private:
-	};
 
- 
+private:
+	int m_Direction = 1;
+	static const DOUBLE2 IMPULSE;
+};
+
+
+

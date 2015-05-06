@@ -9,6 +9,7 @@
 // Include Files
 //-----------------------------------------------------
 #include "Elf.h"
+class Roguelight;
 //#include "ContactListener.h"
 //-----------------------------------------------------
 // HUD Class									
@@ -23,12 +24,12 @@ public:
 		AMMO,
 	};
 
-	HUD(DOUBLE2 pos,Type type);
-	virtual ~HUD( );
+	HUD(Type type, Roguelight *game);
+	virtual ~HUD();
 
 	// C++11 make the class non-copHUDable
-	HUD( const HUD& ) = delete;
-	HUD& operator=( const HUD& ) = delete;
+	HUD(const HUD&) = delete;
+	HUD& operator=(const HUD&) = delete;
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -37,9 +38,8 @@ public:
 	//virtual void EndContact(PhHUDsicsActor *actThisPtr, PhHUDsicsActor *actOtherPtr);   
 	//virtual void ContactImpulse(PhHUDsicsActor *actThisPtr, double impulse);
 	void Paint();
-	void Tick(double deltaTime);
 
-private: 
+private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
@@ -47,10 +47,12 @@ private:
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Angle = 0;
 	double m_Scale = 1;
-	PhysicsActor * m_ActHUDPtr = nullptr;
+	DOUBLE2 m_Position,
+		m_HealthPos,
+		m_CoinsPos,
+		m_AmmoPos;
 	Bitmap * m_BmpHUDPtr = nullptr;
-	static const int HUD_WIDTH = 30;
-	static const int HUD_HEIGHT =70;
+	Roguelight * m_Game;
 };
 
- 
+

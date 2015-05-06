@@ -33,7 +33,7 @@ class Enemy;
 class HUD;
 class Roguelight : public AbstractGame
 {
-public:				
+public:
 	//---------------------------
 	// Constructor(s)
 	//---------------------------
@@ -52,24 +52,14 @@ public:
 	// General Methods
 	//---------------------------
 	virtual void GameInitialize(GameSettings &gameSettings);
-	virtual void GameStart();				
+	virtual void GameStart();
 	virtual void GameEnd();
 	virtual void GameTick(double deltaTime);
 	virtual void GamePaint(RECT rect);
-
-
-
 	// -------------------------
 	// Public Member functions
 	// -------------------------
 	void Camera();
-	//static bool ReadPos(std::wifstream &ifileCollectible, DOUBLE2 &position);        
-	//void LoadMoss();
-	//void LoadSpike();
-	//void LoadCollectible(Collectible::Type type, String & file, std::vector<Collectible *> & arrayPtr);
-	//void LoadShadyguy();
-
-
 	void ParseMoss(std::wstring & item);
 	void ParseSpike(std::wstring & item);
 	void ParseArrow(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
@@ -80,13 +70,21 @@ public:
 	void ParseItem(std::wstring & item);
 	void InitGame();
 	DOUBLE2 ParsePosition(std::wstring & item);
+	DOUBLE2 GetCameraOrigin();
+	DOUBLE2 GetCameraSize();
 
+	PhysicsActor * GetLevelActor();
+
+	MATRIX3X2 matCamera, matCamRotate, matCamTranslate,
+		matCamScale, matPivot, matCamWorldTransform;
+
+	static Roguelight * GAME;
 private:
 	// -------------------------
-	// Private Member functions
+	// Privaalte Member functions
 	// -------------------------
-	
-	
+
+
 	// -------------------------
 	// Private Datamembers
 	// -------------------------
@@ -101,16 +99,14 @@ private:
 	std::vector<Enemy *> m_SkelethonArr;
 	std::vector<HUD *> m_HudArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
-	
-	MATRIX3X2 matCamera, matCamRotate, matCamTranslate, 
-		matCamScale, matPivot, matCamWorldTransform;
+
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Angle = 0;
-	double m_Scale = 1;
+	double m_Scale = 0.5;
 	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
 	double m_CameraAngle = 0;
-	double m_CameraScale = 0.5;
-	
+	double m_CameraScale = 0.7;
+
 	struct CameraDimension {
 		DOUBLE2 topLeft;
 		DOUBLE2 bottomRight;
@@ -128,4 +124,5 @@ private:
 	static const int H = 600;
 	static const int MIN_LEFT = W / 2;
 	static const int MAX_RIGHT = W / 2;
+
 };

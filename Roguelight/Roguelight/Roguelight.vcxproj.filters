@@ -127,7 +127,9 @@
     <ClCompile Include="Actor.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="HUD.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">

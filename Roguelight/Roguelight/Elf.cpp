@@ -4,7 +4,7 @@
 // Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
-	
+
 //---------------------------
 // Includes
 //---------------------------
@@ -21,19 +21,17 @@ Elf* Elf::player = nullptr;
 //---------------------------
 Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 5, 20, 40)
 {
-	player = this; 
+	player = this;
 	m_Ammo = 5;
 	m_Health = 5;
 	m_Coins = 0;
-		
+
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
 }
 
 Elf::~Elf()
 {
-	delete m_ActActorPtr;
-	m_ActActorPtr = nullptr;
 	delete m_BmpActorPtr;
 	m_BmpActorPtr = nullptr;
 }
@@ -50,7 +48,7 @@ void Elf::Paint()
 
 int Elf::GetSpriteRow()
 {
-	int row=0;
+	int row = 0;
 	if (m_State == State::STANDING)
 	{
 		row = 0;
@@ -71,6 +69,7 @@ int Elf::GetSpriteRow()
 	{
 		row = 4;
 	}
+	//OutputDebugString(String(row));
 	return row;
 }
 
@@ -114,26 +113,25 @@ void Elf::Tick(double deltatime)
 	{
 		m_State = State::DEAD;
 	}
-		
-		Actor::Tick(deltatime);
+
+	Actor::Tick(deltatime);
 }
-
-
 
 void Elf::IncreaseAmmo()
 {
-	++m_Ammo; 
+	++m_Ammo;
 }
 void Elf::DecreaseAmmo()
 {
-	--m_Ammo; 
+	--m_Ammo;
 }
 void Elf::IncreaseHealth()
-{	
-	++ m_Health;
+{
+	++m_Health;
 }
 void Elf::DecreaseHealth()
 {
+	OutputDebugString(String("HEALTH: ") + String(m_Health) + String('\n'));
 	--m_Health;
 }
 void Elf::IncreaseCoins()

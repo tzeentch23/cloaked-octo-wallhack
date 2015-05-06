@@ -4,7 +4,7 @@
 // Copyright DAE Programming Team
 // http://www.digitalartsandentertainment.be/
 //-----------------------------------------------------------------
-#include "stdafx.h"		// this include must be the first include line of every cpp file (due to using precompiled header)
+#include "stdafx.h"	
 using namespace std;
 //-----------------------------------------------------------------
 // Include Files
@@ -28,10 +28,11 @@ using namespace std;
 //-----------------------------------------------------------------
 // Roguelight methods																				
 //-----------------------------------------------------------------
+Roguelight * Roguelight::GAME = nullptr;
 
 Roguelight::Roguelight()
 {
-
+	GAME = this;
 }
 
 Roguelight::~Roguelight()
@@ -55,14 +56,9 @@ void Roguelight::GameStart()
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 
-	m_HealthPos = DOUBLE2(20, (GAME_ENGINE->GetHeight() / 4) * 3);
-	m_CoinsPos = DOUBLE2(GAME_ENGINE->GetWidth()/3, (GAME_ENGINE->GetHeight() / 4) * 3);
-	m_AmmoPos = DOUBLE2(2*(GAME_ENGINE->GetWidth() / 3), (GAME_ENGINE->GetHeight() / 4) * 3);
-
-
-	m_HudArr.push_back(new HUD(m_HealthPos, HUD::Type::HEALTH));
-	m_HudArr.push_back(new HUD(m_CoinsPos, HUD::Type::COINS));
-	m_HudArr.push_back(new HUD(m_AmmoPos, HUD::Type::AMMO));
+	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
+	m_HudArr.push_back(new HUD(HUD::Type::COINS, this));
+	m_HudArr.push_back(new HUD(HUD::Type::AMMO, this));
 
 	DOUBLE2 elfSpawn(1925.57, 533.34);
 	m_ElfPtr = new Elf(elfSpawn);
@@ -91,12 +87,11 @@ void Roguelight::GameEnd()
 	m_BmpLvlPtr = nullptr;
 	delete m_ElfPtr;
 	m_ElfPtr = nullptr;
-	delete m_ActLevelPtr;
-	m_ActLevelPtr = nullptr;
 	delete m_BmpShadyGuyPtr;
 	m_BmpShadyGuyPtr;
 	delete m_BmpSkelethonPtr;
 	m_BmpSkelethonPtr = nullptr;
+
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -156,7 +151,7 @@ void Roguelight::GameEnd()
 
 
 void Roguelight::GameTick(double deltaTime)
-{	
+{
 	m_ElfPtr->Tick(deltaTime);
 	m_ElfPos = m_ElfPtr->GetPosition();
 
@@ -165,7 +160,7 @@ void Roguelight::GameTick(double deltaTime)
 		m_IsPhysicsDebudRendering = !m_IsPhysicsDebudRendering;
 		GAME_ENGINE->EnablePhysicsDebugRendering(m_IsPhysicsDebudRendering);
 	}
-	if (m_CameraScale>=0.3)
+	if (m_CameraScale >= 0.3)
 	{
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_PRIOR))
 		{
@@ -263,11 +258,6 @@ void Roguelight::GameTick(double deltaTime)
 		m_SkelethonArr[i]->Tick(deltaTime);
 	}
 
-	for (size_t i = 0; i < m_HudArr.size(); i++)
-	{
-		m_HudArr[i]->Tick(deltaTime);
-	}
-
 }
 
 void Roguelight::GamePaint(RECT rect)
@@ -334,6 +324,10 @@ void Roguelight::Camera()
 	matCamWorldTransform = matCamera.Inverse();
 	GAME_ENGINE->SetViewMatrix(matCamWorldTransform);
 }
+DOUBLE2 Roguelight::GetCameraOrigin()
+{
+	return m_CameraPos;
+}
 
 void Roguelight::InitGame()
 {
@@ -342,7 +336,7 @@ void Roguelight::InitGame()
 	wstring last;
 
 	txt.open("./resources/GameInit.txt");
-	if (!txt.is_open()) 
+	if (!txt.is_open())
 	{
 		cout << "propblem opening file" << endl;
 		return;
@@ -350,20 +344,20 @@ void Roguelight::InitGame()
 
 	while (!txt.eof()) {
 		getline(txt, extractedLine);
-		
+
 		if (extractedLine.find(L"//") == 0) {
 			continue;
 		}
 		int start = extractedLine.find(L'<');
-		if (start == 0) 
+		if (start == 0)
 		{
-			last = L""; 
+			last = L"";
 			last += extractedLine;
-			continue; 
+			continue;
 		}
 
 		int end = extractedLine.rfind(L"/>");
-		if (end == 0) 
+		if (end == 0)
 		{
 			last += extractedLine;
 			ParseItem(last);
@@ -388,13 +382,13 @@ DOUBLE2 Roguelight::ParsePosition(std::wstring & item)
 	return pos;
 }
 
-void Roguelight::ParseItem(wstring & item) 
+void Roguelight::ParseItem(wstring & item)
 {
-	if (item.find(L"Shadyguy") == 1) 
+	if (item.find(L"Shadyguy") == 1)
 	{
 		ParseShadyguy(item);
 	}
-	else if (item.find(L"Moss") == 1) 
+	else if (item.find(L"Moss") == 1)
 	{
 		ParseMoss(item);
 	}
@@ -431,6 +425,7 @@ void Roguelight::ParseMoss(std::wstring & item)
 void Roguelight::ParseSpike(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
+	pos.y += 15;
 	m_SpikeArr.push_back(new Spike(pos));
 }
 
@@ -465,4 +460,14 @@ void Roguelight::ParseSkelethon(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
 	m_SkelethonArr.push_back(new Skelethon(pos, m_BmpSkelethonPtr));
+}
+
+PhysicsActor * Roguelight::GetLevelActor()
+{
+	return m_ActLevelPtr;
+}
+
+DOUBLE2 Roguelight::GetCameraSize()
+{
+	return m_CameraSize;
 }

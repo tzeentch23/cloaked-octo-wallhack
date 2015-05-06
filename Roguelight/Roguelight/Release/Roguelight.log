@@ -1,0 +1,132 @@
+﻿Build started 5/5/2015 8:02:07 PM.
+     1>Project "C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Roguelight\Roguelight.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./Box2DInclude /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Release\Roguelight.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I./Box2DInclude /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\Roguelight.pch" /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt AbstractGame.cpp Actor.cpp EngineFiles\AudioDecoder.cpp EngineFiles\AudioSystem.cpp EngineFiles\Bitmap.cpp EngineFiles\Box2DDebugRenderer.cpp EngineFiles\Button.cpp EngineFiles\Font.cpp EngineFiles\GameEngine.cpp EngineFiles\GameSettings.cpp GameWinMain.cpp EngineFiles\GUIBase.cpp EngineFiles\InputManager.cpp EngineFiles\PhysicsActor.cpp EngineFiles\PhysicsDistanceJoint.cpp EngineFiles\PhysicsPrismaticJoint.cpp EngineFiles\PhysicsRevoluteJoint.cpp EngineFiles\PrecisionTimer.cpp EngineFiles\Sound.cpp Moss.cpp Spike.cpp EngineFiles\String.cpp EngineFiles\Structs.cpp EngineFiles\SVGParser.cpp EngineFiles\TextBox.cpp Roguelight.cpp ContactListener.cpp Elf.cpp Enemy.cpp Shadyguy.cpp Skelethon.cpp Collectible.cpp HUD.cpp
+         AbstractGame.cpp
+         Actor.cpp
+         AudioDecoder.cpp
+         AudioSystem.cpp
+         Bitmap.cpp
+         Box2DDebugRenderer.cpp
+         Button.cpp
+         Font.cpp
+         GameEngine.cpp
+         GameSettings.cpp
+         GameWinMain.cpp
+         GUIBase.cpp
+         InputManager.cpp
+         PhysicsActor.cpp
+         PhysicsDistanceJoint.cpp
+         PhysicsPrismaticJoint.cpp
+         PhysicsRevoluteJoint.cpp
+         PrecisionTimer.cpp
+         Sound.cpp
+         Moss.cpp
+         Compiling...
+         Spike.cpp
+         String.cpp
+         Structs.cpp
+         SVGParser.cpp
+         TextBox.cpp
+         Roguelight.cpp
+         ContactListener.cpp
+         Elf.cpp
+         Enemy.cpp
+         Shadyguy.cpp
+         Skelethon.cpp
+         Collectible.cpp
+         HUD.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\Roguelight.res" Roguelight.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\Roguelight.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\Roguelight.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\Roguelight.lib" /MACHINE:X86 /SAFESEH Release\Roguelight.res
+         Release\AbstractGame.obj
+         Release\Actor.obj
+         Release\AudioDecoder.obj
+         Release\AudioSystem.obj
+         Release\Bitmap.obj
+         Release\Box2DDebugRenderer.obj
+         Release\Button.obj
+         Release\Font.obj
+         Release\GameEngine.obj
+         Release\GameSettings.obj
+         Release\GameWinMain.obj
+         Release\GUIBase.obj
+         Release\InputManager.obj
+         Release\PhysicsActor.obj
+         Release\PhysicsDistanceJoint.obj
+         Release\PhysicsPrismaticJoint.obj
+         Release\PhysicsRevoluteJoint.obj
+         Release\PrecisionTimer.obj
+         Release\Sound.obj
+         Release\Moss.obj
+         Release\Spike.obj
+         Release\stdafx.obj
+         Release\String.obj
+         Release\Structs.obj
+         Release\SVGParser.obj
+         Release\TextBox.obj
+         Release\Roguelight.obj
+         Release\ContactListener.obj
+         Release\Elf.obj
+         Release\Enemy.obj
+         Release\Shadyguy.obj
+         Release\Skelethon.obj
+         Release\Collectible.obj
+         Release\HUD.obj
+         Box2DInclude\Box2DRelease.lib
+         Generating code
+         Finished generating code
+     1>Box2DRelease.lib(b2BroadPhase.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2BroadPhase.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2CollideCircle.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2CollideCircle.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2CollideEdge.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2CollideEdge.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2CollidePolygon.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2CollidePolygon.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Collision.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Collision.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Distance.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Distance.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2DynamicTree.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2DynamicTree.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2TimeOfImpact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2TimeOfImpact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2ChainShape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2ChainShape.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2CircleShape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2CircleShape.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2EdgeShape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2EdgeShape.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2PolygonShape.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2PolygonShape.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2BlockAllocator.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2BlockAllocator.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Draw.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Draw.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Math.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Math.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Settings.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Settings.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2StackAllocator.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2StackAllocator.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Timer.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Timer.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Body.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Body.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2ContactManager.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2ContactManager.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Fixture.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Fixture.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Island.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Island.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2World.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2World.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2WorldCallbacks.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2WorldCallbacks.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2ChainAndCircleContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2ChainAndCircleContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2ChainAndPolygonContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2ChainAndPolygonContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2CircleContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2CircleContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Contact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Contact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2ContactSolver.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2ContactSolver.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2EdgeAndCircleContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2EdgeAndCircleContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2EdgeAndPolygonContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2EdgeAndPolygonContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2PolygonAndCircleContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2PolygonAndCircleContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2PolygonContact.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2PolygonContact.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2DistanceJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2DistanceJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2FrictionJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2FrictionJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2GearJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2GearJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2Joint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2Joint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2MotorJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2MotorJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2MouseJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2MouseJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2PrismaticJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2PrismaticJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2PulleyJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2PulleyJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2RevoluteJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2RevoluteJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2RopeJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2RopeJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2WeldJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2WeldJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+     1>Box2DRelease.lib(b2WheelJoint.obj) : warning LNK4099: PDB 'box2d.pdb' was not found with 'Box2DRelease.lib(b2WheelJoint.obj)' or at 'C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\box2d.pdb'; linking object as if no debug info
+         Roguelight.vcxproj -> C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Release\Roguelight.exe
+     1>Done Building Project "C:\Users\Angelika\Desktop\2DAE\Game_Project\solutions\cloaked-octo-wallhack\Roguelight\Roguelight\Roguelight.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:19.80

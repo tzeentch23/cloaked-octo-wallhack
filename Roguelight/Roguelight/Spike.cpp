@@ -1,11 +1,11 @@
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name:Angelika
+// First name:Kirkorova
+// Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"	
 #include "Elf.h"
-	
+
 //---------------------------
 // Includes
 //---------------------------
@@ -32,7 +32,7 @@ Spike::Spike(DOUBLE2 pos)
 		m_BmpSpikePtr = new Bitmap(String("./resources/Spike.png"));
 		m_BmpSpikePtr->SetTransparencyColor(COLOR(255, 0, 0));
 	}
-		}
+}
 
 Spike::~Spike()
 {
@@ -57,7 +57,7 @@ void Spike::Paint()
 	matRotate.SetAsScale(m_Scale);
 	matWorldTransform = matRotate * matScale * matTranslate;
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
-	
+
 	GAME_ENGINE->DrawBitmap(m_BmpSpikePtr);
 }
 //-------------------------------------------------------
@@ -66,7 +66,10 @@ void Spike::Paint()
 void Spike::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
 	Elf * elf = Elf::GetPlayer();
-	elf->DecreaseHealth();
+	if (actOtherPtr == elf->GetPhysicsActor())
+	{
+		elf->DecreaseHealth();
+	}
 }
 
 void Spike::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)

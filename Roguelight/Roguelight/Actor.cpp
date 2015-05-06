@@ -1,10 +1,11 @@
 //-----------------------------------------------------
+
 // Name:Angelika
 // First name:Kirkorova
 // Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
-	
+
 //---------------------------
 // Includes
 //---------------------------
@@ -14,7 +15,6 @@
 // Defines
 //---------------------------
 #define GAME_ENGINE (GameEngine::GetSingleton())
-
 //---------------------------
 // Constructor & Destructor
 //---------------------------
@@ -27,7 +27,7 @@ ACTOR_WIDTH(width)
 {
 	m_Health = 5;
 	m_ActActorPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
-	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.0, 0.2, 0.2);
+	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.2, 0.2, 1);
 	m_ActActorPtr->SetFixedRotation(true);
 	//m_ActActorPtr->SetTrigger(false);
 	m_ActActorPtr->SetGravityScale(1);
@@ -38,8 +38,8 @@ Actor::~Actor()
 {
 	delete m_ActActorPtr;
 	m_ActActorPtr = nullptr;
-//	delete m_BmpActorPtr;
-//	m_BmpActorPtr = nullptr;
+	//	delete m_BmpActorPtr;
+	//	m_BmpActorPtr = nullptr;
 }
 
 //-------------------------------------------------------
@@ -47,7 +47,7 @@ Actor::~Actor()
 //-------------------------------------------------------
 void Actor::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-	
+
 }
 
 void Actor::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
@@ -64,7 +64,7 @@ void Actor::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
 void Actor::Tick(double deltatime)
 {
 	m_Time += deltatime;
-	if (m_Time>(1.0/FRAMERATE))
+	if (m_Time > (1.0 / FRAMERATE))
 	{
 		++m_FrameNr;
 		m_FrameNr %= NR_COLS* NR_ROWS;
@@ -73,14 +73,14 @@ void Actor::Tick(double deltatime)
 	}
 }
 
-int Actor::getSpriteRow()
+int Actor::GetSpriteRow()
 {
 	return m_FrameNr / NR_COLS;
 }
 
-int Actor::getSpriteCol()
+int Actor::GetSpriteCol()
 {
-	return m_FrameNr % NR_COLS; 
+	return m_FrameNr % NR_COLS;
 }
 
 DOUBLE2 Actor::GetPosition()
@@ -97,11 +97,11 @@ void Actor::ResetPosition()
 	m_ActActorPtr->SetLinearVelocity(DOUBLE2(0, 0));
 }
 
-void Actor::Paint() 
+void Actor::Paint()
 {
 	int spriteWidth = m_BmpActorPtr->GetWidth() / NR_COLS;
 	int spriteHeight = m_BmpActorPtr->GetHeight() / NR_ROWS;
-	
+
 	DOUBLE2 bitmapPos(m_ActActorPtr->GetPosition().x - (spriteWidth / 2),
 		m_ActActorPtr->GetPosition().y - (spriteHeight / 2));
 
@@ -115,8 +115,8 @@ void Actor::Paint()
 	DOUBLE2 currentPos = m_ActActorPtr->GetPosition();
 	DOUBLE2 spritePos(currentPos.x - (m_BmpActorPtr->GetWidth() / 12),
 		currentPos.y - (m_BmpActorPtr->GetHeight() / 10));
-	int col = getSpriteCol();
-	int row = getSpriteRow(); 
+	int col = GetSpriteCol();
+	int row = GetSpriteRow();
 	int cropX = spriteWidth* col;
 	int cropY = spriteHeight* row;
 
@@ -125,7 +125,12 @@ void Actor::Paint()
 	spriteElf.bottom = cropY + spriteHeight;
 	spriteElf.left = cropX;
 	spriteElf.right = cropX + spriteWidth;
-	
-	GAME_ENGINE->DrawBitmap(m_BmpActorPtr,  spriteElf);
 
+	GAME_ENGINE->DrawBitmap(m_BmpActorPtr, spriteElf);
+
+}
+
+PhysicsActor * Actor::GetPhysicsActor()
+{
+	return m_ActActorPtr;
 }

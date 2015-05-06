@@ -24,8 +24,7 @@ public:
 	Enemy& operator=( const Enemy& ) = delete;
 	virtual void Paint();
 	virtual void Tick(double deltaTime);
-	//virtual void Tick(double deltaTime) = 0; //no implementataion here..
-
+	
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
@@ -37,16 +36,6 @@ protected:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	//int m_Health;
-	//int m_FrameNr;
-	//DOUBLE2 m_Position;
-	//PhysicsActor * m_ActEnemyPtr = nullptr;
-	//Bitmap * m_BmpEnemyPtr = nullptr;
-	//double m_Time;
-	//static const int ENEMY_WIDTH; 
-	//static const int ENEMY_HEIGHT;
-	//static const int FRAMERATE = 10;
-	//static const int NR_COLS = 3;
-	//static const int NR_ROWS = 1;	
+	
 };
  
