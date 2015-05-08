@@ -31,6 +31,7 @@ class Spike;
 class Collectible;
 class Enemy;
 class HUD;
+class Bullet;
 class Roguelight : public AbstractGame
 {
 public:
@@ -98,6 +99,7 @@ private:
 	std::vector<Enemy *> m_ShadyguyArr;
 	std::vector<Enemy *> m_SkelethonArr;
 	std::vector<HUD *> m_HudArr;
+	std::vector<Bullet *> m_BulletsArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
 
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
@@ -105,7 +107,9 @@ private:
 	double m_Scale = 0.5;
 	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
 	double m_CameraAngle = 0;
-	double m_CameraScale = 0.7;
+	double m_CameraScale = 0.6;
+
+	double m_ShootTime = 0;
 
 	struct CameraDimension {
 		DOUBLE2 topLeft;

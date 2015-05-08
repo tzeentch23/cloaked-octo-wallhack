@@ -9,6 +9,7 @@
 // Includes
 //---------------------------
 #include "Skelethon.h"
+#include "Elf.h"
 #include "Enemy.h"
 //---------------------------
 // Defines
@@ -18,9 +19,11 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
+const DOUBLE2 Skelethon::IMPULSE = DOUBLE2(100, 100);
 Skelethon::Skelethon(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 30, 50, bmpPtr)
 {
-
+	
+	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
 }
 
 Skelethon::~Skelethon()
@@ -32,11 +35,15 @@ Skelethon::~Skelethon()
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
-//void Skelethon::BeginContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr)
-//{
-//
-//}
-//
+void Skelethon::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+{
+	if (actThisPtr->GetContactList().size() > 1)
+	{
+		m_Direction *= -1;
+	}
+	Enemy::BeginContact(actThisPtr, actOtherPtr);
+}
+
 //void Skelethon::EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr)
 //{
 //
@@ -51,24 +58,30 @@ Skelethon::~Skelethon()
 //{
 //
 //}
-//void Skelethon::Follow(DOUBLE2 posActor)
-//{
-//	/*	double difX = posActor.x - m_ActSkelethonPtr->GetPosition().x;
-//		double difY = posActor.y - m_ActSkelethonPtr->GetPosition().y;
-//	if ((difX<300) && (difY<300))
-//	{
-//		for (size_t i = 0; i < difX; i++)
-//		{
-//			for (size_t j = 0; j < difY; j++)
-//			{
-//				m_ActSkelethonPtr->SetLinearVelocity(DOUBLE2(5, 5));
-//			}
-//		}
-//	}
-//*/
-//}
 
 void Skelethon::Tick(double deltaTime)
 {
+	Elf * elf = Elf::GetPlayer();
+	DOUBLE2 elfPos = elf->GetPosition();
+	DOUBLE2 impulse;
+	DOUBLE2 newPos = m_ActActorPtr->GetPosition();
+	DOUBLE2 targetVelocity = DOUBLE2(1000, 1000);
+	double mass = m_ActActorPtr->GetMass();
+
+	impulse.x = IMPULSE.x * m_Direction;
+	impulse.y = IMPULSE.y * m_Direction;
+	m_ActActorPtr->SetLinearVelocity(impulse);
 	Enemy::Tick(deltaTime);
+
+	DOUBLE2 velocity = m_ActActorPtr->GetLinearVelocity();
+	DOUBLE2 enemyPos = m_ActActorPtr->GetPosition();
+	double distance = DOUBLE2(enemyPos - elfPos).Length();
+	double maxdistance = 300;
+
+	if (distance < maxdistance)
+	{
+		DOUBLE2 dir = enemyPos - elfPos;
+		m_ActActorPtr->ApplyLinearImpulse(dir);
+	}
 }
+

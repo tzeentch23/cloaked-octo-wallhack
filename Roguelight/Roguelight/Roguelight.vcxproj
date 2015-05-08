@@ -83,6 +83,8 @@
   <ItemGroup>
     <ClCompile Include="AbstractGame.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EngineFiles\AudioDecoder.cpp" />
     <ClCompile Include="EngineFiles\AudioSystem.cpp" />
     <ClCompile Include="EngineFiles\Bitmap.cpp" />
@@ -122,6 +124,8 @@
   <ItemGroup>
     <ClInclude Include="AbstractGame.h" />
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Arrow.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="EngineFiles\AudioDecoder.h" />
     <ClInclude Include="EngineFiles\AudioSystem.h" />
     <ClInclude Include="EngineFiles\Bitmap.h" />

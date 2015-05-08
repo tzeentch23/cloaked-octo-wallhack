@@ -36,7 +36,7 @@ public:
 		
 	virtual int GetSpriteRow();
 	static Elf * player;
-	 
+	int GetDirection();
 public:
 	static Elf * GetPlayer();
 	 int GetAmmo();
@@ -62,6 +62,9 @@ public:
 	};
 
 	State m_State;
+
+	int m_Direction = 1;
+
 };
 
  

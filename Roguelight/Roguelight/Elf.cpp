@@ -90,11 +90,13 @@ void Elf::Tick(double deltatime)
 		{
 			m_State = State::WALKING;
 			newVelocity.x = -500;
+			m_Direction = -1;
 		}
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
 		{
 			m_State = State::WALKING;
 			newVelocity.x = 500;
+			m_Direction = 1;
 		}
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
@@ -155,4 +157,9 @@ int Elf::GetHealth()
 int Elf::GetCoins()
 {
 	return m_Coins;
+}
+
+int Elf::GetDirection()
+{
+	return m_Direction;
 }

@@ -9,6 +9,7 @@
 // Include Files
 //-----------------------------------------------------
 #include "Enemy.h"
+#include "Elf.h"
 //#include "ContactListener.h"
 //-----------------------------------------------------
 // Skelethon Class									
@@ -24,12 +25,12 @@ public:
 	Skelethon& operator=( const Skelethon& ) = delete;
 
 	virtual void Tick(double deltaTime);
-	void Fly();
-	void Follow(DOUBLE2 posActor);
+	/*void Fly();
+*/
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	//virtual void BeginContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr); 
+	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
 	//virtual void EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr);   
 	//virtual void ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse);
 
@@ -38,7 +39,9 @@ public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	
+	static const DOUBLE2 IMPULSE;
+	int m_Direction = 1;
+
 };
 
  

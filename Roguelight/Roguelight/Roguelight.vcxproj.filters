@@ -130,6 +130,10 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -378,6 +382,10 @@
     <ClInclude Include="HUD.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">

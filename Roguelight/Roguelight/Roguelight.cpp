@@ -18,6 +18,7 @@ using namespace std;
 #include "Spike.h"
 #include "Collectible.h"
 #include "HUD.h"
+#include "Bullet.h"
 #include <fstream>
 #include <string>
 //-----------------------------------------------------------------
@@ -63,7 +64,7 @@ void Roguelight::GameStart()
 	DOUBLE2 elfSpawn(1925.57, 533.34);
 	m_ElfPtr = new Elf(elfSpawn);
 
-	m_ActLevelPtr = new PhysicsActor(DOUBLE2(0, 0), 0, BodyType::STATIC);
+	m_ActLevelPtr = new PhysicsActor(DOUBLE2(5, 7), 0, BodyType::STATIC);
 	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0, 0.2, 0);
 
 	m_CameraDimension.topLeft.x = m_Width / 2;
@@ -155,6 +156,8 @@ void Roguelight::GameTick(double deltaTime)
 	m_ElfPtr->Tick(deltaTime);
 	m_ElfPos = m_ElfPtr->GetPosition();
 
+	m_ShootTime += deltaTime;
+
 	if (GAME_ENGINE->IsKeyboardKeyPressed('P'))
 	{
 		m_IsPhysicsDebudRendering = !m_IsPhysicsDebudRendering;
@@ -186,6 +189,38 @@ void Roguelight::GameTick(double deltaTime)
 		m_CameraAngle -= 0.2;
 	}
 
+	if (GAME_ENGINE->IsKeyboardKeyPressed('X'))
+	{
+		m_ShootTime = 0;
+	}
+
+	if (GAME_ENGINE->IsKeyboardKeyReleased('X'))
+	{
+		OutputDebugString(String(m_ShootTime) + String('\n'));
+		DOUBLE2 bulletSpeed = DOUBLE2(350, 0);
+		if (m_ShootTime > 0.2)
+		{
+			bulletSpeed.y = m_ShootTime * -1000;
+		}
+		int direction = m_ElfPtr->GetDirection();
+		bulletSpeed.x *= direction;
+		DOUBLE2 bulletPos = m_ElfPos;
+		bulletPos.x += 10 * direction; //paddding
+		Bullet * bullet = new Bullet(bulletPos, bulletSpeed);
+
+		for (size_t i = 0; i < m_BulletsArr.size(); i++)
+		{
+			if (m_BulletsArr[i] == nullptr)
+			{
+				m_BulletsArr[i] = bullet;
+				bullet = nullptr;
+			}
+		}
+		if (bullet != nullptr) //not added above
+		{
+			m_BulletsArr.push_back(bullet);
+		}
+	}
 
 	if (((m_ElfPos.x + MAX_RIGHT) < m_BmpLvlPtr->GetWidth()) && ((m_ElfPos.x - MIN_LEFT) >= 0))
 	{
@@ -258,6 +293,18 @@ void Roguelight::GameTick(double deltaTime)
 		m_SkelethonArr[i]->Tick(deltaTime);
 	}
 
+	for (size_t i = 0; i < m_BulletsArr.size(); i++)
+	{
+		if (m_BulletsArr[i] != nullptr)
+		{
+			m_BulletsArr[i]->Tick(deltaTime);
+			if (!m_BulletsArr[i]->IsFlying())
+			{
+				delete m_BulletsArr[i];
+				m_BulletsArr[i] = nullptr;
+			}
+		}
+	}
 }
 
 void Roguelight::GamePaint(RECT rect)
@@ -311,6 +358,14 @@ void Roguelight::GamePaint(RECT rect)
 		m_HudArr[i]->Paint();
 	}
 
+	for (size_t i = 0; i < m_BulletsArr.size(); i++)
+	{
+		if (m_BulletsArr[i] != nullptr && m_BulletsArr[i]->IsFlying())
+		{
+			m_BulletsArr[i]->Paint();
+		}
+	}
+
 	Camera();
 }
 
@@ -331,7 +386,7 @@ DOUBLE2 Roguelight::GetCameraOrigin()
 
 void Roguelight::InitGame()
 {
-	wstring extractedLine;
+	wstring extractedLine; 
 	wifstream txt;
 	wstring last;
 
@@ -418,14 +473,16 @@ void Roguelight::ParseItem(wstring & item)
 void Roguelight::ParseMoss(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
-	pos.y += 30;
+	pos.x += 5;
+	pos.y += 35;
 	m_MossArr.push_back(new Moss(pos));
 }
 
 void Roguelight::ParseSpike(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
-	pos.y += 15;
+	pos.x += 5;
+	pos.y += 20;
 	m_SpikeArr.push_back(new Spike(pos));
 }
 

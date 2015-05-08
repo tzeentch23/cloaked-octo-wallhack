@@ -74,10 +74,6 @@ void HUD::Paint()
 	int ammo = elf->GetAmmo();
 	int coins = elf->GetCoins();
 
-	//DOUBLE2 bitmapPos = m_Position;
-	/*DOUBLE2 originChange(elfPos.x - 400,
-		elfPos.y - 300);
-		*/
 
 	DOUBLE2 finalPos;
 	switch (m_Type)
@@ -96,7 +92,7 @@ void HUD::Paint()
 
 	Bitmap * bmp = m_BmpHUDPtr;
 	DOUBLE2 originTranslate = DOUBLE2(m_Game->GetCameraOrigin().x - GAME_ENGINE->GetWidth() / 2,
-		m_Game->GetCameraOrigin().y - GAME_ENGINE->GetHeight() / 2);
+										m_Game->GetCameraOrigin().y - GAME_ENGINE->GetHeight() / 2);
 	matTranslate.SetAsTranslate(originTranslate);
 	matRotate.SetAsRotate(m_Angle);
 	matScale.SetAsScale(m_Scale);
