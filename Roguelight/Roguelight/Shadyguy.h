@@ -33,6 +33,8 @@ public:
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	*/
 
+	virtual int GetInitialHealth();
+
 public:
 	//-------------------------------------------------
 	// Datamembers								

@@ -23,7 +23,8 @@ const DOUBLE2 Shadyguy::IMPULSE = DOUBLE2(60, 0);
 //---------------------------
 Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 20, 40, bmpPtr)
 {
-		m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
+	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
+	m_Health = GetInitialHealth();
 }
 
 Shadyguy::~Shadyguy()
@@ -67,4 +68,9 @@ void Shadyguy::Tick(double deltaTime)
 	m_ActActorPtr->SetLinearVelocity(impulse);
 	Enemy::Tick(deltaTime);
 
+}
+
+int Shadyguy::GetInitialHealth()
+{
+	return 3;
 }

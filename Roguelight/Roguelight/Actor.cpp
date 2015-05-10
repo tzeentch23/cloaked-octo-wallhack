@@ -25,7 +25,6 @@ NR_ROWS(nrRows),
 ACTOR_HEIGHT(height),
 ACTOR_WIDTH(width)
 {
-	m_Health = 5;
 	m_ActActorPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
 	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.2, 0.2, 1);
 	m_ActActorPtr->SetFixedRotation(true);
@@ -38,8 +37,6 @@ Actor::~Actor()
 {
 	delete m_ActActorPtr;
 	m_ActActorPtr = nullptr;
-	//	delete m_BmpActorPtr;
-	//	m_BmpActorPtr = nullptr;
 }
 
 //-------------------------------------------------------
@@ -68,7 +65,6 @@ void Actor::Tick(double deltatime)
 	{
 		++m_FrameNr;
 		m_FrameNr %= NR_COLS* NR_ROWS;
-		//m_FrameNr = 0;
 		m_Time = 0;
 	}
 }
@@ -133,4 +129,34 @@ void Actor::Paint()
 PhysicsActor * Actor::GetPhysicsActor()
 {
 	return m_ActActorPtr;
+}
+
+void Actor::IncreaseHealth()
+{
+	++m_Health;
+}
+
+void Actor::DecreaseHealth()
+{
+	if (--m_Health <= 0) 
+	{
+		m_ActActorPtr->SetGhost(true);
+	}
+}
+
+int Actor::GetHealth()
+{
+	return m_Health;
+}
+
+bool Actor::IsAlive()
+{
+	return m_Health > 0;
+}
+
+void Actor::Reset()
+{
+	m_ActActorPtr->SetPosition(m_SpawnPos);
+	m_ActActorPtr->SetGhost(false);
+	m_Health = GetInitialHealth();
 }

@@ -23,8 +23,8 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 5, 20, 40)
 {
 	player = this;
 	m_Ammo = 5;
-	m_Health = 5;
 	m_Coins = 0;
+	m_Health = GetInitialHealth(); //tova
 
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
@@ -127,15 +127,7 @@ void Elf::DecreaseAmmo()
 {
 	--m_Ammo;
 }
-void Elf::IncreaseHealth()
-{
-	++m_Health;
-}
-void Elf::DecreaseHealth()
-{
-	OutputDebugString(String("HEALTH: ") + String(m_Health) + String('\n'));
-	--m_Health;
-}
+
 void Elf::IncreaseCoins()
 {
 	++m_Coins;
@@ -150,10 +142,6 @@ int Elf::GetAmmo()
 	return m_Ammo;
 }
 
-int Elf::GetHealth()
-{
-	return m_Health;
-}
 int Elf::GetCoins()
 {
 	return m_Coins;
@@ -162,4 +150,9 @@ int Elf::GetCoins()
 int Elf::GetDirection()
 {
 	return m_Direction;
+}
+
+int Elf::GetInitialHealth()
+{
+	return 5;
 }

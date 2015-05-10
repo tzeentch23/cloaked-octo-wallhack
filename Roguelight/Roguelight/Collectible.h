@@ -20,7 +20,7 @@ public:
 	{
 		COINS,
 		HEARTS,
-		ARROWS,
+		AMMO,
 
 	};
 
@@ -55,13 +55,13 @@ public:
 	Type m_Type;
 	PhysicsActor *m_ActCollectPtr = nullptr;
 	static Bitmap * m_BmpHeartPtr;
-	static Bitmap * m_BmpArrowPtr;
+	static Bitmap * m_BmpAmmoPtr;
 	static Bitmap * m_BmpCoinPtr;
 
 	bool m_IsConsumed = false;
 
-	static const int NR_ARROW_COLS = 3;
-	static const int NR_ARROW_ROWS = 1;
+	static const int NR_AMMO_COLS = 3;
+	static const int NR_AMMO_ROWS = 1;
 	static const int NR_COINS_COLS = 3;
 	static const int NR_COINS_ROWS = 1;
 	static const int NR_HEARTS_COLS = 4;

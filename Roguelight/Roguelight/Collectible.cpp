@@ -19,7 +19,7 @@
 // Constructor & Destructor
 //---------------------------
 Bitmap * Collectible::m_BmpCoinPtr = nullptr;
-Bitmap * Collectible::m_BmpArrowPtr = nullptr;
+Bitmap * Collectible::m_BmpAmmoPtr = nullptr;
 Bitmap * Collectible::m_BmpHeartPtr = nullptr;
 Collectible::Collectible(DOUBLE2 pos, Type type)
 {
@@ -35,9 +35,9 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	{
 		m_BmpHeartPtr = new Bitmap(String("./resources/hearts.png"));
 	}
-	if (type == Type::ARROWS)
+	if (type == Type::AMMO)
 	{
-		m_BmpArrowPtr = new Bitmap(String("./resources/arrows.png"));
+		m_BmpAmmoPtr = new Bitmap(String("./resources/arrows.png"));
 	}
 	if (type == Type::COINS)
 	{
@@ -50,15 +50,14 @@ Collectible::~Collectible()
 	delete m_ActCollectPtr;
 	m_ActCollectPtr = nullptr;
 	--m_InstanceCounter;
-
 	if (m_InstanceCounter == 0)
 	{
 		delete m_BmpCoinPtr;
 		m_BmpCoinPtr = nullptr;
 		delete m_BmpHeartPtr;
 		m_BmpHeartPtr = nullptr;
-		delete m_BmpArrowPtr;
-		m_BmpArrowPtr = nullptr;
+		delete m_BmpAmmoPtr;
+		m_BmpAmmoPtr = nullptr;
 	}
 }
 
@@ -68,21 +67,21 @@ void Collectible::Tick(double deltaTime)
 	if (m_Time>1.0 / FRAMERATE)
 	{
 		++m_FrameNr;
-		m_FrameNr %= NR_ARROW_COLS* NR_ARROW_ROWS;
+		m_FrameNr %= NR_AMMO_COLS* NR_AMMO_ROWS;
 		m_Time = 0;
 	}
 }
 
 void Collectible::Paint()
 {
-	Bitmap *bmp = nullptr; 
+	Bitmap *bmp = nullptr;
 	int nrCols, nrRows;
 
-	if (m_Type == Type::ARROWS)
+	if (m_Type == Type::AMMO)
 	{
-		nrCols = NR_ARROW_COLS;
-		nrRows = NR_ARROW_ROWS;
-		bmp = m_BmpArrowPtr;
+		nrCols = NR_AMMO_COLS;
+		nrRows = NR_AMMO_ROWS;
+		bmp = m_BmpAmmoPtr;
 	}
 	if (m_Type==Type::COINS)
 	{
@@ -121,6 +120,8 @@ void Collectible::Paint()
 
 		GAME_ENGINE->DrawBitmap(bmp, bmpRect);
 	}
+	//tuk primerno, sledvashtata instancia koiato iskash da narisuvash shte grymne kofti zashtoto ti realno shte iztriesh m_BmpSpikePtr primernno.. t.e. ti triesh bmp *, no to sochi tova koeto sochi m_neshtoto, i sledvashtia pyt shte ti e kofti.. pak da kaja - triesh samo tova koeto e s new, nishti drugo.. tova e zakon
+	////ok de, sega shte gi ogledam.. .....ok
 }
 
 
@@ -135,7 +136,7 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 		{
 			elf->IncreaseCoins();
 		}
-		if (m_Type == Type::ARROWS)
+		if (m_Type == Type::AMMO)
 		{
 			elf->IncreaseAmmo();
 		}

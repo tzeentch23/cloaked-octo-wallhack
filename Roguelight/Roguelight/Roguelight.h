@@ -63,13 +63,14 @@ public:
 	void Camera();
 	void ParseMoss(std::wstring & item);
 	void ParseSpike(std::wstring & item);
-	void ParseArrow(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
+	void ParseAmmo(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseCoin(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseHeart(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseShadyguy(std::wstring & item);
 	void ParseSkelethon(std::wstring & item);
 	void ParseItem(std::wstring & item);
 	void InitGame();
+	void CheckHitEnemy(PhysicsActor * actor);
 	DOUBLE2 ParsePosition(std::wstring & item);
 	DOUBLE2 GetCameraOrigin();
 	DOUBLE2 GetCameraSize();
@@ -93,13 +94,13 @@ private:
 	Elf * m_ElfPtr = nullptr;
 	std::vector<Moss *> m_MossArr;
 	std::vector<Spike *> m_SpikeArr;
-	std::vector<Collectible *> m_ArrowArr;
+	std::vector<Collectible *> m_AmmoArr;
 	std::vector<Collectible *> m_CoinArr;
 	std::vector<Collectible *> m_HeartArr;
 	std::vector<Enemy *> m_ShadyguyArr;
 	std::vector<Enemy *> m_SkelethonArr;
 	std::vector<HUD *> m_HudArr;
-	std::vector<Bullet *> m_BulletsArr;
+	std::vector<Bullet *> m_BulletArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
 
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
@@ -107,7 +108,7 @@ private:
 	double m_Scale = 0.5;
 	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
 	double m_CameraAngle = 0;
-	double m_CameraScale = 0.6;
+	double m_CameraScale = 0.7;
 
 	double m_ShootTime = 0;
 

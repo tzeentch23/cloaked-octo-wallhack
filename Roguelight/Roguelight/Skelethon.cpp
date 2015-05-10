@@ -22,8 +22,8 @@
 const DOUBLE2 Skelethon::IMPULSE = DOUBLE2(100, 100);
 Skelethon::Skelethon(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 30, 50, bmpPtr)
 {
-	
 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
+	m_Health = GetInitialHealth();
 }
 
 Skelethon::~Skelethon()
@@ -85,3 +85,7 @@ void Skelethon::Tick(double deltaTime)
 	}
 }
 
+int Skelethon::GetInitialHealth()
+{
+	return 2;
+}

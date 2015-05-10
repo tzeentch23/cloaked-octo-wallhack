@@ -1,0 +1,391 @@
+diff --git a/Roguelight/Roguelight/Actor.cpp b/Roguelight/Roguelight/Actor.cpp
+index 89ac293..4f8dd67 100644
+--- a/Roguelight/Roguelight/Actor.cpp
++++ b/Roguelight/Roguelight/Actor.cpp
+@@ -25,7 +25,6 @@ NR_ROWS(nrRows),
+ ACTOR_HEIGHT(height),
+ ACTOR_WIDTH(width)
+ {
+-	m_Health = 5;
+ 	m_ActActorPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
+ 	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.2, 0.2, 1);
+ 	m_ActActorPtr->SetFixedRotation(true);
+@@ -133,4 +132,34 @@ void Actor::Paint()
+ PhysicsActor * Actor::GetPhysicsActor()
+ {
+ 	return m_ActActorPtr;
++}
++
++void Actor::IncreaseHealth()
++{
++	++m_Health;
++}
++
++void Actor::DecreaseHealth()
++{
++	if (--m_Health <= 0) 
++	{
++		m_ActActorPtr->SetGhost(true);
++	}
++}
++
++int Actor::GetHealth()
++{
++	return m_Health;
++}
++
++bool Actor::IsAlive()
++{
++	return m_Health > 0;
++}
++
++void Actor::Reset()
++{
++	m_ActActorPtr->SetPosition(m_SpawnPos);
++	m_ActActorPtr->SetGhost(false);
++	m_Health = GetInitialHealth();
+ }
+\ No newline at end of file
+diff --git a/Roguelight/Roguelight/Actor.h b/Roguelight/Roguelight/Actor.h
+index 5ba0a61..edf151a 100644
+--- a/Roguelight/Roguelight/Actor.h
++++ b/Roguelight/Roguelight/Actor.h
+@@ -35,7 +35,13 @@ public:
+ 	virtual int GetSpriteRow();
+ 	virtual int GetSpriteCol();
+ 	virtual PhysicsActor * GetPhysicsActor();
+-
++	
++	virtual void IncreaseHealth();
++	virtual void DecreaseHealth();
++	virtual int GetHealth();
++	virtual bool IsAlive();
++	virtual void Reset();
++	virtual int GetInitialHealth() = 0;
+ public:
+ 	void ResetPosition();
+ 	//-------------------------------------------------
+diff --git a/Roguelight/Roguelight/Bullet.cpp b/Roguelight/Roguelight/Bullet.cpp
+index 3ec2f89..bf71a8b 100644
+--- a/Roguelight/Roguelight/Bullet.cpp
++++ b/Roguelight/Roguelight/Bullet.cpp
+@@ -10,6 +10,7 @@
+ //---------------------------
+ #include "Bullet.h"
+ #include "Elf.h"
++#include "Roguelight.h"
+ //---------------------------
+ // Defines
+ //---------------------------
+@@ -22,7 +23,7 @@ Bullet::Bullet(DOUBLE2 pos, DOUBLE2 velocity) : m_IsFlying(true)
+ {
+ 	m_ActortPtr = new PhysicsActor(pos, 0, BodyType::DYNAMIC);
+ 	if (velocity.y == 0)
+-		m_ActortPtr->SetGravityScale(0.001);
++		m_ActortPtr->SetGravityScale(0.1);
+ 	m_ActortPtr->SetBullet(true);
+ 	m_ActortPtr->AddBoxShape(10, 10, 1.0, 100.0, 100);
+ 	m_ActortPtr->AddContactListener(this);
+@@ -76,7 +77,8 @@ void Bullet::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+ 		m_IsFlying = false;
+ 		m_ActortPtr->SetActive(false);
+ 	}
+-	//TODO
++
++	Roguelight::GAME->CheckHitEnemy(actOtherPtr);
+ }
+ 
+ void Bullet::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+diff --git a/Roguelight/Roguelight/Elf.cpp b/Roguelight/Roguelight/Elf.cpp
+index cd2a051..1f2cce6 100644
+--- a/Roguelight/Roguelight/Elf.cpp
++++ b/Roguelight/Roguelight/Elf.cpp
+@@ -23,8 +23,8 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 5, 20, 40)
+ {
+ 	player = this;
+ 	m_Ammo = 5;
+-	m_Health = 5;
+ 	m_Coins = 0;
++	m_Health = GetInitialHealth();
+ 
+ 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
+ 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
+@@ -127,15 +127,7 @@ void Elf::DecreaseAmmo()
+ {
+ 	--m_Ammo;
+ }
+-void Elf::IncreaseHealth()
+-{
+-	++m_Health;
+-}
+-void Elf::DecreaseHealth()
+-{
+-	OutputDebugString(String("HEALTH: ") + String(m_Health) + String('\n'));
+-	--m_Health;
+-}
++
+ void Elf::IncreaseCoins()
+ {
+ 	++m_Coins;
+@@ -150,10 +142,6 @@ int Elf::GetAmmo()
+ 	return m_Ammo;
+ }
+ 
+-int Elf::GetHealth()
+-{
+-	return m_Health;
+-}
+ int Elf::GetCoins()
+ {
+ 	return m_Coins;
+@@ -162,4 +150,9 @@ int Elf::GetCoins()
+ int Elf::GetDirection()
+ {
+ 	return m_Direction;
++}
++
++int Elf::GetInitialHealth()
++{
++	return 5;
+ }
+\ No newline at end of file
+diff --git a/Roguelight/Roguelight/Elf.h b/Roguelight/Roguelight/Elf.h
+index 4de79b4..a95e191 100644
+--- a/Roguelight/Roguelight/Elf.h
++++ b/Roguelight/Roguelight/Elf.h
+@@ -28,8 +28,6 @@ public:
+ 	//--------------------------------------------------------
+ 	// ContactListener overloaded member function declarations
+ 	//--------------------------------------------------------
+-	void IncreaseHealth();
+-	void DecreaseHealth();
+ 	void IncreaseAmmo();
+ 	void DecreaseAmmo();
+ 	void IncreaseCoins();
+@@ -37,11 +35,12 @@ public:
+ 	virtual int GetSpriteRow();
+ 	static Elf * player;
+ 	int GetDirection();
++
+ public:
+ 	static Elf * GetPlayer();
+ 	 int GetAmmo();
+-	 int GetHealth();
+ 	 int GetCoins();
++	 virtual int GetInitialHealth();
+ 	//-------------------------------------------------
+ 	// Datamembers								
+ 	//-------------------------------------------------
+diff --git a/Roguelight/Roguelight/Enemy.h b/Roguelight/Roguelight/Enemy.h
+index b49490e..54528b6 100644
+--- a/Roguelight/Roguelight/Enemy.h
++++ b/Roguelight/Roguelight/Enemy.h
+@@ -24,7 +24,6 @@ public:
+ 	Enemy& operator=( const Enemy& ) = delete;
+ 	virtual void Paint();
+ 	virtual void Tick(double deltaTime);
+-	
+ 	//--------------------------------------------------------
+ 	// ContactListener overloaded member function declarations
+ 	//--------------------------------------------------------
+diff --git a/Roguelight/Roguelight/Roguelight.cpp b/Roguelight/Roguelight/Roguelight.cpp
+index 67d1274..e30c006 100644
+--- a/Roguelight/Roguelight/Roguelight.cpp
++++ b/Roguelight/Roguelight/Roguelight.cpp
+@@ -200,7 +200,7 @@ void Roguelight::GameTick(double deltaTime)
+ 		DOUBLE2 bulletSpeed = DOUBLE2(350, 0);
+ 		if (m_ShootTime > 0.2)
+ 		{
+-			bulletSpeed.y = m_ShootTime * -1000;
++			bulletSpeed.y = m_ShootTime * -1500;
+ 		}
+ 		int direction = m_ElfPtr->GetDirection();
+ 		bulletSpeed.x *= direction;
+@@ -239,9 +239,9 @@ void Roguelight::GameTick(double deltaTime)
+ 	{
+ 		m_CameraPos.y = m_CameraSize.y / 2;
+ 	}
+-	if (1 && m_CameraPos.y + m_CameraSize.y / 2 > m_BmpLvlPtr->GetHeight())
++	if (1 && (m_CameraPos.y + m_CameraSize.y / 2) > m_BmpLvlPtr->GetHeight())
+ 	{
+-		m_CameraPos.y = m_CameraSize.y / 2;
++		m_CameraPos.y = m_BmpLvlPtr->GetHeight() - m_CameraSize.y / 2;
+ 	}
+ 
+ 	if (m_CameraPos.x < m_CameraSize.x / 2)
+@@ -286,11 +286,16 @@ void Roguelight::GameTick(double deltaTime)
+ 	}
+ 	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
+ 	{
+-		m_ShadyguyArr[i]->Tick(deltaTime);
++		Enemy * enemy = m_ShadyguyArr[i];
++		if (enemy->IsAlive())
++			enemy->Tick(deltaTime);
+ 	}
++
+ 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
+ 	{
+-		m_SkelethonArr[i]->Tick(deltaTime);
++		Enemy * enemy = m_SkelethonArr[i];
++		if (enemy->IsAlive())
++			enemy->Tick(deltaTime);
+ 	}
+ 
+ 	for (size_t i = 0; i < m_BulletsArr.size(); i++)
+@@ -347,11 +352,15 @@ void Roguelight::GamePaint(RECT rect)
+ 	}
+ 	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
+ 	{
+-		m_ShadyguyArr[i]->Paint();
++		Enemy * enemy = m_ShadyguyArr[i];
++		if (enemy->IsAlive())
++			enemy->Paint();
+ 	}
+ 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
+ 	{
+-		m_SkelethonArr[i]->Paint();
++		Enemy * enemy = m_SkelethonArr[i];
++		if (enemy->IsAlive())
++			enemy->Paint();
+ 	}
+ 	for (size_t i = 0; i < m_HudArr.size(); i++)
+ 	{
+@@ -527,4 +536,25 @@ PhysicsActor * Roguelight::GetLevelActor()
+ DOUBLE2 Roguelight::GetCameraSize()
+ {
+ 	return m_CameraSize;
++}
++
++void Roguelight::CheckHitEnemy(PhysicsActor * actor)
++{
++	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
++	{
++		if (m_SkelethonArr[i]->GetPhysicsActor() == actor)
++		{
++			m_SkelethonArr[i]->DecreaseHealth();
++			return;
++		}
++	}
++
++	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
++	{
++		if (m_ShadyguyArr[i]->GetPhysicsActor() == actor)
++		{
++			m_ShadyguyArr[i]->DecreaseHealth();
++			return;
++		}
++	}
+ }
+\ No newline at end of file
+diff --git a/Roguelight/Roguelight/Roguelight.h b/Roguelight/Roguelight/Roguelight.h
+index bc96600..3f62c8f 100644
+--- a/Roguelight/Roguelight/Roguelight.h
++++ b/Roguelight/Roguelight/Roguelight.h
+@@ -70,6 +70,7 @@ public:
+ 	void ParseSkelethon(std::wstring & item);
+ 	void ParseItem(std::wstring & item);
+ 	void InitGame();
++	void CheckHitEnemy(PhysicsActor * actor);
+ 	DOUBLE2 ParsePosition(std::wstring & item);
+ 	DOUBLE2 GetCameraOrigin();
+ 	DOUBLE2 GetCameraSize();
+diff --git a/Roguelight/Roguelight/Roguelight.vcxproj.filters b/Roguelight/Roguelight/Roguelight.vcxproj.filters
+index aaf823e..97a50f2 100644
+--- a/Roguelight/Roguelight/Roguelight.vcxproj.filters
++++ b/Roguelight/Roguelight/Roguelight.vcxproj.filters
+@@ -133,7 +133,9 @@
+     <ClCompile Include="Arrow.cpp">
+       <Filter>Game Files</Filter>
+     </ClCompile>
+-    <ClCompile Include="Bullet.cpp" />
++    <ClCompile Include="Bullet.cpp">
++      <Filter>Game Files</Filter>
++    </ClCompile>
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="resource.h">
+@@ -385,7 +387,9 @@
+     <ClInclude Include="Arrow.h">
+       <Filter>Game Files</Filter>
+     </ClInclude>
+-    <ClInclude Include="Bullet.h" />
++    <ClInclude Include="Bullet.h">
++      <Filter>Game Files</Filter>
++    </ClInclude>
+   </ItemGroup>
+   <ItemGroup>
+     <Image Include="small.ico">
+diff --git a/Roguelight/Roguelight/Shadyguy.cpp b/Roguelight/Roguelight/Shadyguy.cpp
+index d52fd74..dcf559e 100644
+--- a/Roguelight/Roguelight/Shadyguy.cpp
++++ b/Roguelight/Roguelight/Shadyguy.cpp
+@@ -23,7 +23,8 @@ const DOUBLE2 Shadyguy::IMPULSE = DOUBLE2(60, 0);
+ //---------------------------
+ Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 20, 40, bmpPtr)
+ {
+-		m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
++	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
++	m_Health = GetInitialHealth();
+ }
+ 
+ Shadyguy::~Shadyguy()
+@@ -67,4 +68,9 @@ void Shadyguy::Tick(double deltaTime)
+ 	m_ActActorPtr->SetLinearVelocity(impulse);
+ 	Enemy::Tick(deltaTime);
+ 
++}
++
++int Shadyguy::GetInitialHealth()
++{
++	return 3;
+ }
+\ No newline at end of file
+diff --git a/Roguelight/Roguelight/Shadyguy.h b/Roguelight/Roguelight/Shadyguy.h
+index 975502a..b3189b4 100644
+--- a/Roguelight/Roguelight/Shadyguy.h
++++ b/Roguelight/Roguelight/Shadyguy.h
+@@ -33,6 +33,8 @@ public:
+ 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
+ 	*/
+ 
++	virtual int GetInitialHealth();
++
+ public:
+ 	//-------------------------------------------------
+ 	// Datamembers								
+diff --git a/Roguelight/Roguelight/Skelethon.cpp b/Roguelight/Roguelight/Skelethon.cpp
+index 5c4de89..b18ce2d 100644
+--- a/Roguelight/Roguelight/Skelethon.cpp
++++ b/Roguelight/Roguelight/Skelethon.cpp
+@@ -22,8 +22,8 @@
+ const DOUBLE2 Skelethon::IMPULSE = DOUBLE2(100, 100);
+ Skelethon::Skelethon(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 30, 50, bmpPtr)
+ {
+-	
+ 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
++	m_Health = GetInitialHealth();
+ }
+ 
+ Skelethon::~Skelethon()
+@@ -85,3 +85,7 @@ void Skelethon::Tick(double deltaTime)
+ 	}
+ }
+ 
++int Skelethon::GetInitialHealth()
++{
++	return 2;
++}
+\ No newline at end of file
+diff --git a/Roguelight/Roguelight/Skelethon.h b/Roguelight/Roguelight/Skelethon.h
+index 8a177f6..625e3af 100644
+--- a/Roguelight/Roguelight/Skelethon.h
++++ b/Roguelight/Roguelight/Skelethon.h
+@@ -34,7 +34,7 @@ public:
+ 	//virtual void EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr);   
+ 	//virtual void ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse);
+ 
+-
++	virtual int GetInitialHealth();
+ public: 
+ 	//-------------------------------------------------
+ 	// Datamembers								

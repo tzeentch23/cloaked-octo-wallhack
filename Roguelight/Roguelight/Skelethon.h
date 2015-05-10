@@ -34,7 +34,7 @@ public:
 	//virtual void EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr);   
 	//virtual void ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse);
 
-
+	virtual int GetInitialHealth();
 public: 
 	//-------------------------------------------------
 	// Datamembers								

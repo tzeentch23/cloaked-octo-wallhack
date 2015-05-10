@@ -28,8 +28,6 @@ public:
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	void IncreaseHealth();
-	void DecreaseHealth();
 	void IncreaseAmmo();
 	void DecreaseAmmo();
 	void IncreaseCoins();
@@ -37,11 +35,12 @@ public:
 	virtual int GetSpriteRow();
 	static Elf * player;
 	int GetDirection();
+
 public:
 	static Elf * GetPlayer();
 	 int GetAmmo();
-	 int GetHealth();
 	 int GetCoins();
+	 virtual int GetInitialHealth();
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------

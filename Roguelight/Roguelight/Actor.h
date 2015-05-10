@@ -35,7 +35,14 @@ public:
 	virtual int GetSpriteRow();
 	virtual int GetSpriteCol();
 	virtual PhysicsActor * GetPhysicsActor();
-
+	
+	//pyrvo premestih niakoi metodi ot elfa tuk, zashtoto sa si obshti za vsichki gadini
+	virtual void IncreaseHealth();
+	virtual void DecreaseHealth();
+	virtual int GetHealth();
+	virtual bool IsAlive();
+	virtual void Reset();
+	virtual int GetInitialHealth() = 0; //tozi e abstrakten, polzvam go v reset-a.. i osven tova vseki lkas si go vika v konstukrora za da si initne health-a, nishto interesno do tuk, nali?mhm
 public:
 	void ResetPosition();
 	//-------------------------------------------------

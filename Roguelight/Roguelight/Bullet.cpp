@@ -10,6 +10,7 @@
 //---------------------------
 #include "Bullet.h"
 #include "Elf.h"
+#include "Roguelight.h"
 //---------------------------
 // Defines
 //---------------------------
@@ -22,7 +23,7 @@ Bullet::Bullet(DOUBLE2 pos, DOUBLE2 velocity) : m_IsFlying(true)
 {
 	m_ActortPtr = new PhysicsActor(pos, 0, BodyType::DYNAMIC);
 	if (velocity.y == 0)
-		m_ActortPtr->SetGravityScale(0.001);
+		m_ActortPtr->SetGravityScale(0.1);
 	m_ActortPtr->SetBullet(true);
 	m_ActortPtr->AddBoxShape(10, 10, 1.0, 100.0, 100);
 	m_ActortPtr->AddContactListener(this);
@@ -76,7 +77,7 @@ void Bullet::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 		m_IsFlying = false;
 		m_ActortPtr->SetActive(false);
 	}
-	//TODO
+	Roguelight::GAME->CheckHitEnemy(actOtherPtr); 
 }
 
 void Bullet::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)

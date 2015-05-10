@@ -111,10 +111,10 @@ void Roguelight::GameEnd()
 		m_HeartArr[i] = nullptr;
 	}
 
-	for (size_t i = 0; i < m_ArrowArr.size(); i++)
+	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
-		delete m_ArrowArr[i];
-		m_ArrowArr[i] = nullptr;
+		delete m_AmmoArr[i];
+		m_AmmoArr[i] = nullptr;
 	}
 
 	for (size_t i = 0; i < m_CoinArr.size(); i++)
@@ -140,12 +140,18 @@ void Roguelight::GameEnd()
 		m_HudArr[i] = nullptr;
 	}
 
+	for (size_t i = 0; i < m_BulletArr.size(); i++)
+	{
+		delete m_BulletArr[i];
+		m_BulletArr[i] = nullptr;
+	}
+
 	m_HudArr.clear();
 	m_SkelethonArr.clear();
 	m_ShadyguyArr.clear();
 	m_MossArr.clear();
 	m_SpikeArr.clear();
-	m_ArrowArr.clear();
+	m_AmmoArr.clear();
 	m_CoinArr.clear();
 	m_HeartArr.clear();
 }
@@ -200,7 +206,7 @@ void Roguelight::GameTick(double deltaTime)
 		DOUBLE2 bulletSpeed = DOUBLE2(350, 0);
 		if (m_ShootTime > 0.2)
 		{
-			bulletSpeed.y = m_ShootTime * -1000;
+			bulletSpeed.y = m_ShootTime * -1500;
 		}
 		int direction = m_ElfPtr->GetDirection();
 		bulletSpeed.x *= direction;
@@ -208,17 +214,17 @@ void Roguelight::GameTick(double deltaTime)
 		bulletPos.x += 10 * direction; //paddding
 		Bullet * bullet = new Bullet(bulletPos, bulletSpeed);
 
-		for (size_t i = 0; i < m_BulletsArr.size(); i++)
+		for (size_t i = 0; i < m_BulletArr.size(); i++)
 		{
-			if (m_BulletsArr[i] == nullptr)
+			if (m_BulletArr[i] == nullptr)
 			{
-				m_BulletsArr[i] = bullet;
+				m_BulletArr[i] = bullet;
 				bullet = nullptr;
 			}
 		}
 		if (bullet != nullptr) //not added above
 		{
-			m_BulletsArr.push_back(bullet);
+			m_BulletArr.push_back(bullet);
 		}
 	}
 
@@ -239,9 +245,9 @@ void Roguelight::GameTick(double deltaTime)
 	{
 		m_CameraPos.y = m_CameraSize.y / 2;
 	}
-	if (1 && m_CameraPos.y + m_CameraSize.y / 2 > m_BmpLvlPtr->GetHeight())
+	if (1 && (m_CameraPos.y + m_CameraSize.y / 2) > m_BmpLvlPtr->GetHeight())
 	{
-		m_CameraPos.y = m_CameraSize.y / 2;
+	m_CameraPos.y = m_BmpLvlPtr->GetHeight() - m_CameraSize.y / 2;
 	}
 
 	if (m_CameraPos.x < m_CameraSize.x / 2)
@@ -261,12 +267,12 @@ void Roguelight::GameTick(double deltaTime)
 
 
 
-	for (size_t i = 0; i < m_ArrowArr.size(); i++)
+	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
 
-		if (!m_ArrowArr[i]->IsConsumed())
+		if (!m_AmmoArr[i]->IsConsumed())
 		{
-			m_ArrowArr[i]->Tick(deltaTime);
+			m_AmmoArr[i]->Tick(deltaTime);
 		}
 	}
 	for (size_t i = 0; i < m_CoinArr.size(); i++)
@@ -286,22 +292,27 @@ void Roguelight::GameTick(double deltaTime)
 	}
 	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
 	{
-		m_ShadyguyArr[i]->Tick(deltaTime);
-	}
-	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
-	{
-		m_SkelethonArr[i]->Tick(deltaTime);
+		Enemy * enemy = m_ShadyguyArr[i];
+		if (enemy->IsAlive())
+			enemy->Tick(deltaTime);
 	}
 
-	for (size_t i = 0; i < m_BulletsArr.size(); i++)
+	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
 	{
-		if (m_BulletsArr[i] != nullptr)
+		Enemy * enemy = m_SkelethonArr[i];
+		if (enemy->IsAlive())
+			enemy->Tick(deltaTime);
+	}
+
+	for (size_t i = 0; i < m_BulletArr.size(); i++)
+	{
+		if (m_BulletArr[i] != nullptr)
 		{
-			m_BulletsArr[i]->Tick(deltaTime);
-			if (!m_BulletsArr[i]->IsFlying())
+			m_BulletArr[i]->Tick(deltaTime);
+			if (!m_BulletArr[i]->IsFlying())
 			{
-				delete m_BulletsArr[i];
-				m_BulletsArr[i] = nullptr;
+				delete m_BulletArr[i];
+				m_BulletArr[i] = nullptr;
 			}
 		}
 	}
@@ -328,10 +339,10 @@ void Roguelight::GamePaint(RECT rect)
 		m_SpikeArr[i]->Paint();
 	}
 
-	for (size_t i = 0; i < m_ArrowArr.size(); i++)
+	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
-		if (!m_ArrowArr[i]->IsConsumed())
-			m_ArrowArr[i]->Paint();
+		if (!m_AmmoArr[i]->IsConsumed())
+			m_AmmoArr[i]->Paint();
 	}
 
 	for (size_t i = 0; i < m_CoinArr.size(); i++)
@@ -347,22 +358,26 @@ void Roguelight::GamePaint(RECT rect)
 	}
 	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
 	{
-		m_ShadyguyArr[i]->Paint();
+		Enemy * enemy = m_ShadyguyArr[i];
+		if (enemy->IsAlive())
+			enemy->Paint();
 	}
 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
 	{
-		m_SkelethonArr[i]->Paint();
+		Enemy * enemy = m_SkelethonArr[i];
+		if (enemy->IsAlive())
+			enemy->Paint();
 	}
 	for (size_t i = 0; i < m_HudArr.size(); i++)
 	{
 		m_HudArr[i]->Paint();
 	}
 
-	for (size_t i = 0; i < m_BulletsArr.size(); i++)
+	for (size_t i = 0; i < m_BulletArr.size(); i++)
 	{
-		if (m_BulletsArr[i] != nullptr && m_BulletsArr[i]->IsFlying())
+		if (m_BulletArr[i] != nullptr && m_BulletArr[i]->IsFlying())
 		{
-			m_BulletsArr[i]->Paint();
+			m_BulletArr[i]->Paint();
 		}
 	}
 
@@ -459,9 +474,9 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseCoin(Collectible::COINS, item, m_CoinArr);
 	}
-	else if (item.find(L"Arrow") == 1)
+	else if (item.find(L"Ammo") == 1)
 	{
-		ParseArrow(Collectible::ARROWS, item, m_ArrowArr);
+		ParseAmmo(Collectible::AMMO, item, m_AmmoArr);
 	}
 	else if (item.find(L"Skelethon") == 1)
 	{
@@ -493,7 +508,7 @@ void Roguelight::ParseHeart(Collectible::Type type, std::wstring & item, std::ve
 
 }
 
-void Roguelight::ParseArrow(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr)
+void Roguelight::ParseAmmo(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr)
 {
 	DOUBLE2 pos = ParsePosition(item);
 	arrayPtr.push_back(new Collectible(pos, type));
@@ -527,4 +542,26 @@ PhysicsActor * Roguelight::GetLevelActor()
 DOUBLE2 Roguelight::GetCameraSize()
 {
 	return m_CameraSize;
+}
+
+void Roguelight::CheckHitEnemy(PhysicsActor * actor)
+{
+	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
+	{
+	
+		if (m_SkelethonArr[i]->GetPhysicsActor() == actor)
+		{
+			m_SkelethonArr[i]->DecreaseHealth();
+			return;
+		}
+	}
+
+	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
+	{
+		if (m_ShadyguyArr[i]->GetPhysicsActor() == actor)
+		{
+			m_ShadyguyArr[i]->DecreaseHealth();
+			return;
+		}
+	}
 }

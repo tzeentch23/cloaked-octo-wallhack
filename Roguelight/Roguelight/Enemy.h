@@ -24,7 +24,6 @@ public:
 	Enemy& operator=( const Enemy& ) = delete;
 	virtual void Paint();
 	virtual void Tick(double deltaTime);
-	
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
