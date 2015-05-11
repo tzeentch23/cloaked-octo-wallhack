@@ -21,9 +21,9 @@
 Bitmap * Collectible::m_BmpCoinPtr = nullptr;
 Bitmap * Collectible::m_BmpAmmoPtr = nullptr;
 Bitmap * Collectible::m_BmpHeartPtr = nullptr;
+int Collectible::m_InstanceCounter = 0;
 Collectible::Collectible(DOUBLE2 pos, Type type)
 {
-
 	m_ActCollectPtr = new PhysicsActor(pos, 0, BodyType::STATIC);
 	m_ActCollectPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
 	m_ActCollectPtr->AddContactListener(this);
@@ -33,15 +33,24 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	
 	if ( type == Type::HEARTS)
 	{
-		m_BmpHeartPtr = new Bitmap(String("./resources/hearts.png"));
+		if (m_BmpHeartPtr == nullptr)
+		{
+			m_BmpHeartPtr = new Bitmap(String("./resources/hearts.png"));
+		}
 	}
 	if (type == Type::AMMO)
 	{
-		m_BmpAmmoPtr = new Bitmap(String("./resources/arrows.png"));
+		if (m_BmpAmmoPtr == nullptr)
+		{
+			m_BmpAmmoPtr = new Bitmap(String("./resources/arrows.png"));
+		}
 	}
 	if (type == Type::COINS)
 	{
-		m_BmpCoinPtr = new Bitmap(String("./resources/coins.png"));
+		if (m_BmpCoinPtr == nullptr)
+		{
+			m_BmpCoinPtr = new Bitmap(String("./resources/coins.png"));
+		}
 	}
 }
 
@@ -120,9 +129,7 @@ void Collectible::Paint()
 
 		GAME_ENGINE->DrawBitmap(bmp, bmpRect);
 	}
-	//tuk primerno, sledvashtata instancia koiato iskash da narisuvash shte grymne kofti zashtoto ti realno shte iztriesh m_BmpSpikePtr primernno.. t.e. ti triesh bmp *, no to sochi tova koeto sochi m_neshtoto, i sledvashtia pyt shte ti e kofti.. pak da kaja - triesh samo tova koeto e s new, nishti drugo.. tova e zakon
-	////ok de, sega shte gi ogledam.. .....ok
-}
+	}
 
 
 //-------------------------------------------------------

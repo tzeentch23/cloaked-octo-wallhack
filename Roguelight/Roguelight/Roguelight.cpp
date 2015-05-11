@@ -19,6 +19,7 @@ using namespace std;
 #include "Collectible.h"
 #include "HUD.h"
 #include "Bullet.h"
+#include "Lamp.h"
 #include <fstream>
 #include <string>
 //-----------------------------------------------------------------
@@ -52,6 +53,10 @@ void Roguelight::GameInitialize(GameSettings &gameSettings)
 
 void Roguelight::GameStart()
 {
+	DOUBLE2 elfSpawn(1925.57, 533.34);
+	m_ElfPtr = new Elf(elfSpawn);
+
+	m_LampArr.push_back(new Lamp(elfSpawn));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
@@ -61,9 +66,7 @@ void Roguelight::GameStart()
 	m_HudArr.push_back(new HUD(HUD::Type::COINS, this));
 	m_HudArr.push_back(new HUD(HUD::Type::AMMO, this));
 
-	DOUBLE2 elfSpawn(1925.57, 533.34);
-	m_ElfPtr = new Elf(elfSpawn);
-
+	
 	m_ActLevelPtr = new PhysicsActor(DOUBLE2(5, 7), 0, BodyType::STATIC);
 	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0, 0.2, 0);
 
@@ -146,6 +149,12 @@ void Roguelight::GameEnd()
 		m_BulletArr[i] = nullptr;
 	}
 
+	for (size_t i = 0; i < m_LampArr.size(); i++)
+	{
+		delete m_LampArr[i];
+		m_LampArr[i] = nullptr;
+	}
+	m_LampArr.clear();
 	m_HudArr.clear();
 	m_SkelethonArr.clear();
 	m_ShadyguyArr.clear();
@@ -265,7 +274,10 @@ void Roguelight::GameTick(double deltaTime)
 		m_CameraPos.y = m_BmpLvlPtr->GetHeight() - m_CameraSize.y / 2;
 	}
 
-
+	for (size_t i = 0; i < m_LampArr.size(); i++)
+	{
+		m_LampArr[i]->Tick(deltaTime);
+	}
 
 	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
@@ -458,6 +470,7 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseShadyguy(item);
 	}
+	
 	else if (item.find(L"Moss") == 1)
 	{
 		ParseMoss(item);
@@ -470,6 +483,7 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseHeart(Collectible::HEARTS, item, m_HeartArr);
 	}
+	
 	else if (item.find(L"Coin") == 1)
 	{
 		ParseCoin(Collectible::COINS, item, m_CoinArr);

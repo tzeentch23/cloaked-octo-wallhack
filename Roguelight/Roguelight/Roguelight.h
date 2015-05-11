@@ -32,6 +32,7 @@ class Collectible;
 class Enemy;
 class HUD;
 class Bullet;
+class Lamp;
 class Roguelight : public AbstractGame
 {
 public:
@@ -101,6 +102,7 @@ private:
 	std::vector<Enemy *> m_SkelethonArr;
 	std::vector<HUD *> m_HudArr;
 	std::vector<Bullet *> m_BulletArr;
+	std::vector<Lamp*> m_LampArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
 
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
@@ -111,7 +113,6 @@ private:
 	double m_CameraScale = 0.7;
 
 	double m_ShootTime = 0;
-
 	struct CameraDimension {
 		DOUBLE2 topLeft;
 		DOUBLE2 bottomRight;

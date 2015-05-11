@@ -51,7 +51,8 @@ public:
 	double m_Angle = 0;
 	double m_Time;
 	int m_FrameNr;
-	int m_InstanceCounter;
+	//tova triabva da e static, znaesh zashto, nali? ami da ama, niama ama :)
+	static int m_InstanceCounter;
 	Type m_Type;
 	PhysicsActor *m_ActCollectPtr = nullptr;
 	static Bitmap * m_BmpHeartPtr;

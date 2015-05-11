@@ -101,6 +101,7 @@
     <ClCompile Include="EngineFiles\PhysicsRevoluteJoint.cpp" />
     <ClCompile Include="EngineFiles\PrecisionTimer.cpp" />
     <ClCompile Include="EngineFiles\Sound.cpp" />
+    <ClCompile Include="Lamp.cpp" />
     <ClCompile Include="Moss.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -187,6 +188,7 @@
     <ClInclude Include="EngineFiles\PhysicsPrismaticJoint.h" />
     <ClInclude Include="EngineFiles\PhysicsRevoluteJoint.h" />
     <ClInclude Include="EngineFiles\PrecisionTimer.h" />
+    <ClInclude Include="Lamp.h" />
     <ClInclude Include="Moss.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="EngineFiles\Sound.h" />
