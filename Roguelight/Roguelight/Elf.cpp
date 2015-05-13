@@ -91,13 +91,15 @@ void Elf::Tick(double deltatime)
 			m_State = State::WALKING;
 			newVelocity.x = -500;
 			m_Direction = -1;
+			m_Scale = -1;
 		}
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
 		{
 			m_State = State::WALKING;
 			newVelocity.x = 500;
 			m_Direction = 1;
-		}
+			m_Scale = 1;
+		}//YES! no ne znam zashto shtyka.. bmspisprite-a e kofti da.. oki.. taka i za drugite gadini triabva da im smeniash mScale-a spored directiona
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
 		{

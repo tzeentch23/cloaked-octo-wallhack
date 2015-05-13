@@ -71,12 +71,14 @@ void Bullet::Paint()
 //-------------------------------------------------------
 void Bullet::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
+	//pyrviat e bulleta, vtoriat e tozi v kojto se blyska
 
 	if (Elf::GetPlayer()->GetPhysicsActor() != actOtherPtr)
 	{
 		m_IsFlying = false;
 		m_ActortPtr->SetActive(false);
 	}
+	//ta tuk podavame vtoriat,  i nashata zadacha e da vlidim dali ni e interesent
 	Roguelight::GAME->CheckHitEnemy(actOtherPtr); 
 }
 

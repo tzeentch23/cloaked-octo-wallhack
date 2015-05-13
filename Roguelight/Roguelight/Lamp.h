@@ -13,6 +13,8 @@
 //-----------------------------------------------------
 // Lamp Class									
 //-----------------------------------------------------
+
+class PhysicsActor;
 class Lamp : public ContactListener
 {
 public:
@@ -31,6 +33,8 @@ public:
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
 	void Tick(double deltaTime);
+	//PhysicsActor * GetPhysicsActor();
+	bool CheckHit(PhysicsActor * actPtr);
 
 private:
 	//-------------------------------------------------
@@ -43,8 +47,9 @@ private:
 	PhysicsDistanceJoint *m_DistanceJointPtr = nullptr;
 	static Bitmap * m_BmpLampAPtr, * m_BmpLampBPtr;
 	static int m_InstanceCounter;
-	double m_ActorAWidth, m_ActorAHeight, m_ActorBWidth, m_ActorBHeight;
-	DOUBLE2 m_InitPosition, m_BulbPosition;
+	static double m_ActorAWidth, m_ActorAHeight, m_ActorBWidth, m_ActorBHeight;
+	DOUBLE2 m_InitPosition, m_BulbPosition;//tva e za bitmapovete
+	//jointa triabva da e mejdu dva obekta..da nnapisala sym
 
 };
 

@@ -42,19 +42,10 @@ void Shadyguy::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 	if (actThisPtr->GetContactList().size() > 2)
 	{
 		m_Direction *= -1;
+		m_Scale = m_Direction * -1;
 	}
 	Enemy::BeginContact(actThisPtr, actOtherPtr);
 }
-//
-//void Shadyguy::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void Shadyguy::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
-//{
-//
-//}
 
 void Shadyguy::Tick(double deltaTime)
 {

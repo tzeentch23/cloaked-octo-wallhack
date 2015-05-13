@@ -55,6 +55,7 @@ public:
 	int m_FrameNr = 0;
 	int m_Health, FRAMERATE, NR_COLS, NR_ROWS, ACTOR_HEIGHT, ACTOR_WIDTH;
 	DOUBLE2 m_SpawnPos, m_Position;
+	int m_Scale = 1;
 
 };
 

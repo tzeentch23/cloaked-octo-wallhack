@@ -44,21 +44,6 @@ void Skelethon::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr
 	Enemy::BeginContact(actThisPtr, actOtherPtr);
 }
 
-//void Skelethon::EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void Skelethon::ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse)
-//{
-//
-//}
-//
-//void Shadyguy::Tick(double deltaTime)
-//{
-//
-//}
-
 void Skelethon::Tick(double deltaTime)
 {
 	Elf * elf = Elf::GetPlayer();
@@ -81,6 +66,7 @@ void Skelethon::Tick(double deltaTime)
 	if (distance < maxdistance)
 	{
 		DOUBLE2 dir = enemyPos - elfPos;
+		m_Scale = (dir.x > 0) ? 1 : -1;
 		m_ActActorPtr->ApplyLinearImpulse(dir);
 	}
 }

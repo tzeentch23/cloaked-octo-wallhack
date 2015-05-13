@@ -57,7 +57,6 @@ void Actor::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
 
 }
 
-
 void Actor::Tick(double deltatime)
 {
 	m_Time += deltatime;
@@ -87,7 +86,7 @@ DOUBLE2 Actor::GetPosition()
 
 void Actor::ResetPosition()
 {
-	m_ActActorPtr->SetPosition(DOUBLE2(GAME_ENGINE->GetWidth() / 2, GAME_ENGINE->GetHeight() / 2));
+	m_ActActorPtr->SetPosition(m_SpawnPos);
 	m_ActActorPtr->SetAngle(0.0);
 	m_ActActorPtr->SetAngularVelocity(0.0);
 	m_ActActorPtr->SetLinearVelocity(DOUBLE2(0, 0));
@@ -103,8 +102,8 @@ void Actor::Paint()
 
 	matTranslate.SetAsTranslate(bitmapPos);
 	matRotate.SetAsRotate(0);
-	matRotate.SetAsScale(1);
-	matWorldTransform = matRotate * matScale * matTranslate;
+	matRotate.SetAsScale(m_Scale, 1);
+	matWorldTransform = matScale * matRotate* matTranslate;
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 	GAME_ENGINE->SetBitmapInterpolationModeNearestNeighbor();
 

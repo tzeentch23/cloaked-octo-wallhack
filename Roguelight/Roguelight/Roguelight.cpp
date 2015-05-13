@@ -31,7 +31,6 @@ using namespace std;
 // Roguelight methods																				
 //-----------------------------------------------------------------
 Roguelight * Roguelight::GAME = nullptr;
-
 Roguelight::Roguelight()
 {
 	GAME = this;
@@ -56,7 +55,7 @@ void Roguelight::GameStart()
 	DOUBLE2 elfSpawn(1925.57, 533.34);
 	m_ElfPtr = new Elf(elfSpawn);
 
-	m_LampArr.push_back(new Lamp(elfSpawn));
+	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
@@ -562,7 +561,6 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 {
 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
 	{
-	
 		if (m_SkelethonArr[i]->GetPhysicsActor() == actor)
 		{
 			m_SkelethonArr[i]->DecreaseHealth();
@@ -578,4 +576,11 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 			return;
 		}
 	}
+
+	for (size_t i = 0; i < m_LampArr.size(); i++) 
+	{
+		if (m_LampArr[i]->CheckHit(actor))
+			return;
+	}
+
 }
