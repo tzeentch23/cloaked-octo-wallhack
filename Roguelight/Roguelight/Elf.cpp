@@ -19,7 +19,7 @@ Elf* Elf::player = nullptr;
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 5, 20, 40)
+Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 7, 20, 40)
 {
 	player = this;
 	m_Ammo = 5;
@@ -66,13 +66,21 @@ int Elf::GetSpriteRow()
 	if (m_State == State::JUMPING)
 	{
 		row = 4;
-	} 
+	}
+	if (m_State == State::AIMING)
+	{
+		row = 5;
+	}
+	if (m_State == State::DEAD)
+	{
+		row = 6;
+	}
 	return row;
 }
 
 void Elf::Tick(double deltatime)
 {
-	if (m_Health > 0 || 1)
+	if (m_Health > 0)
 	{
 		if (m_ActActorPtr->GetContactList().size() > 0)
 		{
@@ -125,14 +133,17 @@ void Elf::Tick(double deltatime)
 				m_State = State::AIMING;
 			}
 		}
-
+		Actor::Tick(deltatime);
 	}
 	else
 	{
 		m_State = State::DEAD;
+		if (m_FrameNr < NR_COLS)
+		{
+			Actor::Tick(deltatime);
+		}
 	}
 
-	Actor::Tick(deltatime);
 }
 
 void Elf::IncreaseAmmo()
