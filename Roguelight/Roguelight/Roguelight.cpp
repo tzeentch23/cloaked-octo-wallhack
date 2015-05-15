@@ -205,13 +205,13 @@ void Roguelight::GameTick(double deltaTime)
 
 	if (GAME_ENGINE->IsKeyboardKeyPressed('X'))
 	{
-		m_ShootTime = 0;
+		m_ShootTime = 0;	
 	}
 
 	if (GAME_ENGINE->IsKeyboardKeyReleased('X'))
 	{
 		OutputDebugString(String(m_ShootTime) + String('\n'));
-		DOUBLE2 bulletSpeed = DOUBLE2(350, 0);
+		DOUBLE2 bulletSpeed = DOUBLE2(350, 100);
 		if (m_ShootTime > 0.2)
 		{
 			bulletSpeed.y = m_ShootTime * -1500;
@@ -271,11 +271,6 @@ void Roguelight::GameTick(double deltaTime)
 	if (0 && m_CameraPos.y > m_BmpLvlPtr->GetHeight() - m_CameraSize.y / 2)
 	{
 		m_CameraPos.y = m_BmpLvlPtr->GetHeight() - m_CameraSize.y / 2;
-	}
-
-	for (size_t i = 0; i < m_LampArr.size(); i++)
-	{
-		m_LampArr[i]->Tick(deltaTime);
 	}
 
 	for (size_t i = 0; i < m_AmmoArr.size(); i++)
@@ -382,6 +377,11 @@ void Roguelight::GamePaint(RECT rect)
 	for (size_t i = 0; i < m_HudArr.size(); i++)
 	{
 		m_HudArr[i]->Paint();
+	}
+
+	for (size_t i = 0; i < m_LampArr.size(); i++)
+	{
+		m_LampArr[i]->Paint();
 	}
 
 	for (size_t i = 0; i < m_BulletArr.size(); i++)
@@ -579,8 +579,13 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 
 	for (size_t i = 0; i < m_LampArr.size(); i++) 
 	{
-		if (m_LampArr[i]->CheckHit(actor))
+		if (m_LampArr[i]->CheckHit(actor)) 
+		{
+			DOUBLE2 pos = m_LampArr[i]->GetPosition();
+			Collectible * coin = new Collectible(pos, Collectible::Type::COINS);
+			m_CoinArr.push_back(coin);
 			return;
+		}
 	}
 
 }

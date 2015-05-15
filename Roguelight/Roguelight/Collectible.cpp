@@ -24,7 +24,13 @@ Bitmap * Collectible::m_BmpHeartPtr = nullptr;
 int Collectible::m_InstanceCounter = 0;
 Collectible::Collectible(DOUBLE2 pos, Type type)
 {
-	m_ActCollectPtr = new PhysicsActor(pos, 0, BodyType::STATIC);
+
+	BodyType bodyType = BodyType::STATIC;
+	if (type == Type::COINS)
+	{
+		bodyType == BodyType::DYNAMIC;
+	}
+	m_ActCollectPtr = new PhysicsActor(pos, 0, bodyType);
 	m_ActCollectPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
 	m_ActCollectPtr->AddContactListener(this);
 	++m_InstanceCounter;
@@ -129,7 +135,7 @@ void Collectible::Paint()
 
 		GAME_ENGINE->DrawBitmap(bmp, bmpRect);
 	}
-	}
+}
 
 
 //-------------------------------------------------------
@@ -139,20 +145,25 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 {
 	Elf * elf = Elf::GetPlayer();
 	
-		if (m_Type == Type::COINS)
-		{
-			elf->IncreaseCoins();
-		}
-		if (m_Type == Type::AMMO)
-		{
-			elf->IncreaseAmmo();
-		}
-		if (m_Type == Type::HEARTS)
-		{
-			elf->IncreaseHealth();
-		}	
-		m_IsConsumed = true;
-		m_ActCollectPtr->SetGhost(true); 
+	if (actOtherPtr != elf->GetPhysicsActor())
+	{
+		return;
+	}
+	//shtoto v momenta se udria v lampata i stava consumd
+	if (m_Type == Type::COINS)
+	{
+		elf->IncreaseCoins();
+	}
+	if (m_Type == Type::AMMO)
+	{
+		elf->IncreaseAmmo();
+	}
+	if (m_Type == Type::HEARTS)
+	{
+		elf->IncreaseHealth();
+	}	
+	m_IsConsumed = true;
+	m_ActCollectPtr->SetGhost(true); 
 }
 
 void Collectible::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)

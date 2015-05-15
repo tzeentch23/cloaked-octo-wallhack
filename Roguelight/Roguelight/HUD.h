@@ -44,7 +44,7 @@ private:
 	// Datamembers								
 	//-------------------------------------------------
 	Type m_Type;
-	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
+	MATRIX3X2 matTranslate, matRotate, matScale, matStartPos, matWorldTransform;
 	double m_Angle = 0;
 	double m_Scale = 1;
 	DOUBLE2 m_Position,
@@ -52,6 +52,7 @@ private:
 		m_CoinsPos,
 		m_AmmoPos;
 	Bitmap * m_BmpHUDPtr = nullptr;
+	static Bitmap *m_Bmp1UpPtr; 
 	Roguelight * m_Game;
 };
 

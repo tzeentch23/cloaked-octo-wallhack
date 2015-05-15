@@ -18,6 +18,7 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
+Bitmap * HUD::m_Bmp1UpPtr = nullptr;
 HUD::HUD(Type type, Roguelight * game)
 {
 	m_Game = game;
@@ -35,6 +36,8 @@ HUD::HUD(Type type, Roguelight * game)
 		m_BmpHUDPtr = new Bitmap(String("./resources/HUDCoins.png"));
 	}
 
+	m_Bmp1UpPtr = new Bitmap(String("./resources/1up.png"));
+
 	m_HealthPos = DOUBLE2(200, (GAME_ENGINE->GetHeight() / 4) * 3);
 	m_CoinsPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpHUDPtr->GetWidth() / 2,
 						(GAME_ENGINE->GetHeight() / 4) * 3);
@@ -46,6 +49,8 @@ HUD::~HUD()
 {
 	delete m_BmpHUDPtr;
 	m_BmpHUDPtr = nullptr;
+	delete m_Bmp1UpPtr;
+	m_Bmp1UpPtr = nullptr;
 }
 
 //-------------------------------------------------------
@@ -100,6 +105,37 @@ void HUD::Paint()
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 	GAME_ENGINE->SetBitmapInterpolationModeNearestNeighbor();
 	GAME_ENGINE->DrawBitmap(bmp, finalPos);
+	
+	int w = m_Bmp1UpPtr->GetWidth();
+	DOUBLE2 startPos;
+
+	switch (m_Type) 
+	{
+	case Type::HEALTH:
+		startPos = DOUBLE2(m_HealthPos.x + 45, m_HealthPos.y+10);
+		for (int i = 0; i < elf->GetHealth(); i++)
+		{
+			matStartPos.SetAsTranslate(startPos);
+			matWorldTransform = matStartPos* matRotate*matScale*matTranslate;
+			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+			GAME_ENGINE->DrawBitmap(m_Bmp1UpPtr);
+			startPos.x += w + 2;
+		}
+		break;
+	case Type::AMMO:
+		startPos = DOUBLE2(m_AmmoPos.x + 45, m_AmmoPos.y + 10);
+	
+		for (int i = 0; i < elf->GetAmmo(); i++)
+		{
+			matStartPos.SetAsTranslate(startPos);
+			matWorldTransform = matStartPos* matRotate*matScale*matTranslate;
+			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+			GAME_ENGINE->DrawBitmap(m_Bmp1UpPtr);
+			startPos.x += w + 2;
+		}
+		break;
+	}
+	
 
 	if (m_Type == Type::HEALTH)
 	{

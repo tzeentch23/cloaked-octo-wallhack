@@ -15,6 +15,7 @@
 //-----------------------------------------------------
 
 class PhysicsActor;
+class Roguelight;
 class Lamp : public ContactListener
 {
 public:
@@ -32,10 +33,11 @@ public:
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
-	void Tick(double deltaTime);
+	//void Tick(double deltaTime);
 	//PhysicsActor * GetPhysicsActor();
 	bool CheckHit(PhysicsActor * actPtr);
-
+	DOUBLE2 GetPosition();
+	
 private:
 	//-------------------------------------------------
 	// Datamembers								
@@ -43,14 +45,14 @@ private:
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;
+	int m_JointLenght = 50;
 	PhysicsActor * m_ActLampAPtr = nullptr, *m_ActLampBPtr = nullptr;
 	PhysicsDistanceJoint *m_DistanceJointPtr = nullptr;
-	static Bitmap * m_BmpLampAPtr, * m_BmpLampBPtr;
+	static Bitmap * m_BmpChainPtr, *m_BmpBulbOnPtr, *m_BmpBulbOffPtr;
 	static int m_InstanceCounter;
-	static double m_ActorAWidth, m_ActorAHeight, m_ActorBWidth, m_ActorBHeight;
-	DOUBLE2 m_InitPosition, m_BulbPosition;//tva e za bitmapovete
-	//jointa triabva da e mejdu dva obekta..da nnapisala sym
-
-};
-
+	static double m_ActorWidth, m_ActorHeight;
+	DOUBLE2 m_InitPosition, m_BulbPosition;
+	Roguelight * m_Game;
+	bool m_IsOn = false;
+};//kato udarim lapmata da padat moneti i da gi attractvame kym geroq az posle shte go napravq i za enemytata.. 
 

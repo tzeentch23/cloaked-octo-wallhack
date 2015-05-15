@@ -24,8 +24,7 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 5, 20, 40)
 	player = this;
 	m_Ammo = 5;
 	m_Coins = 0;
-	m_Health = GetInitialHealth(); //tova
-
+	m_Health = GetInitialHealth();
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
 }
@@ -43,7 +42,6 @@ void Elf::Paint()
 	String status = String(m_Position.x) + String(" ") + String(m_Position.y) + String("\n") +
 		String(m_Ammo) + String("  ") + String(m_Health) + String("  ") + String(m_Coins);
 	GAME_ENGINE->SetColor(COLOR(255, 255, 255));
-	//OutputDebugString(status);
 }
 
 int Elf::GetSpriteRow()
@@ -68,8 +66,7 @@ int Elf::GetSpriteRow()
 	if (m_State == State::JUMPING)
 	{
 		row = 4;
-	}
-	//OutputDebugString(String(row));
+	} 
 	return row;
 }
 
@@ -77,7 +74,7 @@ void Elf::Tick(double deltatime)
 {
 	if (m_Health > 0 || 1)
 	{
-		if ((m_State != State::JUMPING) || (m_ActActorPtr->GetContactList().size() > 0))
+		if (m_ActActorPtr->GetContactList().size() > 0)
 		{
 			m_State = State::STANDING;
 		}
@@ -85,7 +82,6 @@ void Elf::Tick(double deltatime)
 		DOUBLE2 velocityChange, newVelocity, impulse;
 		newVelocity.y = 200;
 		double mass = m_ActActorPtr->GetMass();
-
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_LEFT))
 		{
 			m_State = State::WALKING;
@@ -99,7 +95,8 @@ void Elf::Tick(double deltatime)
 			newVelocity.x = 500;
 			m_Direction = 1;
 			m_Scale = 1;
-		}//YES! no ne znam zashto shtyka.. bmspisprite-a e kofti da.. oki.. taka i za drugite gadini triabva da im smeniash mScale-a spored directiona
+		}
+
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
 		{
@@ -111,6 +108,23 @@ void Elf::Tick(double deltatime)
 		velocityChange.x = newVelocity.x - m_ActActorPtr->GetLinearVelocity().x;
 		impulse = mass * velocityChange / PhysicsActor::SCALE;
 		m_ActActorPtr->ApplyForce(impulse);
+
+
+		if (GAME_ENGINE->IsKeyboardKeyDown('X'))
+		{
+			if (m_State == State::JUMPING)
+			{
+				m_State = State::JUMPANDAIM;
+			}
+			else if (m_ActActorPtr->GetLinearVelocity().x != 0)
+			{
+				m_State = State::WALKANDAIM;
+			}
+			else 
+			{
+				m_State = State::AIMING;
+			}
+		}
 
 	}
 	else
