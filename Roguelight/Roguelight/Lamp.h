@@ -54,5 +54,5 @@ private:
 	DOUBLE2 m_InitPosition, m_BulbPosition;
 	Roguelight * m_Game;
 	bool m_IsOn = false;
-};//kato udarim lapmata da padat moneti i da gi attractvame kym geroq az posle shte go napravq i za enemytata.. 
+};
 

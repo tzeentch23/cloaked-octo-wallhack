@@ -148,11 +148,18 @@ void Roguelight::GameEnd()
 		m_BulletArr[i] = nullptr;
 	}
 
+	for (size_t i = 0; i < m_LootArr.size(); i++)
+	{
+		delete m_LootArr[i];
+		m_LootArr[i] = nullptr;
+	}
 	for (size_t i = 0; i < m_LampArr.size(); i++)
 	{
 		delete m_LampArr[i];
 		m_LampArr[i] = nullptr;
 	}
+
+	m_LootArr.clear();
 	m_LampArr.clear();
 	m_HudArr.clear();
 	m_SkelethonArr.clear();
@@ -310,6 +317,13 @@ void Roguelight::GameTick(double deltaTime)
 			enemy->Tick(deltaTime);
 	}
 
+	for (size_t i = 0; i < m_LootArr.size(); i++)
+	{
+		if (!m_LootArr[i]->IsConsumed())
+		{
+			m_LootArr[i]->Tick(deltaTime);
+		};
+	}
 	for (size_t i = 0; i < m_BulletArr.size(); i++)
 	{
 		if (m_BulletArr[i] != nullptr)
@@ -348,19 +362,32 @@ void Roguelight::GamePaint(RECT rect)
 	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
 		if (!m_AmmoArr[i]->IsConsumed())
+		{
 			m_AmmoArr[i]->Paint();
+		}
 	}
 
 	for (size_t i = 0; i < m_CoinArr.size(); i++)
 	{
 		if (!m_CoinArr[i]->IsConsumed())
+		{
 			m_CoinArr[i]->Paint();
+		}
 	}
 
 	for (size_t i = 0; i < m_HeartArr.size(); i++)
 	{
 		if (!m_HeartArr[i]->IsConsumed())
+		{
 			m_HeartArr[i]->Paint();
+		}
+	}
+	for (size_t i = 0; i < m_LootArr.size(); i++)
+	{
+		if (!m_LootArr[i]->IsConsumed())
+		{
+			m_LootArr[i]->Paint();
+		};
 	}
 	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
 	{
@@ -582,8 +609,9 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 		if (m_LampArr[i]->CheckHit(actor)) 
 		{
 			DOUBLE2 pos = m_LampArr[i]->GetPosition();
-			Collectible * coin = new Collectible(pos, Collectible::Type::COINS);
-			m_CoinArr.push_back(coin);
+			pos.y += 30;
+			Collectible * coin = new Collectible(pos, Collectible::COINS);
+			m_LootArr.push_back(coin);
 			return;
 		}
 	}

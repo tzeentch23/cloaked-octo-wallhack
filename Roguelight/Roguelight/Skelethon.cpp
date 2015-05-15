@@ -65,8 +65,8 @@ void Skelethon::Tick(double deltaTime)
 
 	if (distance < maxdistance)
 	{
-		DOUBLE2 dir = enemyPos - elfPos;
-		m_Scale = (dir.x > 0) ? 1 : -1;
+		double angle = enemyPos.AngleWith(elfPos);
+		DOUBLE2 dir = DOUBLE2(cos(angle), sin(angle));
 		m_ActActorPtr->ApplyLinearImpulse(dir);
 	}
 }

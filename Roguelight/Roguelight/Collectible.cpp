@@ -10,6 +10,7 @@
 //---------------------------
 #include "Collectible.h"
 #include "Elf.h"
+#include "Roguelight.h"
 //---------------------------
 // Defines
 //---------------------------
@@ -24,18 +25,24 @@ Bitmap * Collectible::m_BmpHeartPtr = nullptr;
 int Collectible::m_InstanceCounter = 0;
 Collectible::Collectible(DOUBLE2 pos, Type type)
 {
-
-	BodyType bodyType = BodyType::STATIC;
-	if (type == Type::COINS)
+	m_Type = type;
+	BodyType bodyType;
+	if (m_Type == Type::COINS)
 	{
-		bodyType == BodyType::DYNAMIC;
+		bodyType = BodyType::DYNAMIC;
 	}
+	else
+	{
+		bodyType = BodyType::STATIC;
+	}
+	m_InitialPosition = pos;
 	m_ActCollectPtr = new PhysicsActor(pos, 0, bodyType);
-	m_ActCollectPtr->AddBoxShape(10, 10, 0.0, 0.2, 0.2);
+	m_ActCollectPtr->AddBoxShape(10, 10, 0.5, 0.5, 1);
+	m_ActCollectPtr->SetGravityScale(0.1);
 	m_ActCollectPtr->AddContactListener(this);
+	//ne znam shto pak spria da shava tova..
 	++m_InstanceCounter;
 	
-	m_Type = type;
 	
 	if ( type == Type::HEARTS)
 	{
@@ -57,6 +64,7 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 		{
 			m_BmpCoinPtr = new Bitmap(String("./resources/coins.png"));
 		}
+		m_ActCollectPtr->SetLinearVelocity(m_CoinVelocity);
 	}
 }
 
@@ -85,6 +93,33 @@ void Collectible::Tick(double deltaTime)
 		m_FrameNr %= NR_AMMO_COLS* NR_AMMO_ROWS;
 		m_Time = 0;
 	}
+
+	if (m_Type == Type::COINS)
+	{	
+		
+
+		Elf * elf = Elf::GetPlayer();
+		DOUBLE2 elfPos = elf->GetPosition();
+		DOUBLE2 coinPos = m_ActCollectPtr->GetPosition();
+		double distance = DOUBLE2(coinPos - elfPos).Length();
+
+		if (distance < MAX_DISTANCE)
+		{
+			double angle = coinPos.AngleWith(elfPos);
+			DOUBLE2 dir = DOUBLE2(cos(angle) * -100, sin(angle) * 100);
+			m_ActCollectPtr->ApplyForce(dir);
+		}
+		else 
+		{
+			if (m_ActCollectPtr->GetPosition().y <= m_InitialPosition.y)
+			{
+				m_CoinVelocity.y *= -1;
+			}
+			m_ActCollectPtr->SetLinearVelocity(m_CoinVelocity);
+		}
+
+	}
+
 }
 
 void Collectible::Paint()
@@ -110,7 +145,7 @@ void Collectible::Paint()
 		nrRows = NR_HEARTS_ROWS;
 		bmp = m_BmpHeartPtr;
 	}
-	
+
 	int spriteWidth = bmp->GetWidth() / nrCols;
 	int spriteHeight = bmp->GetHeight() / nrRows;
 	int col = m_FrameNr % nrCols;
@@ -143,14 +178,22 @@ void Collectible::Paint()
 //-------------------------------------------------------
 void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
+	if (m_Type == Type::COINS)
+	{
+		if (actOtherPtr == Roguelight::GAME->GetLevelActor())
+		{
+			m_CoinVelocity.y *= -1;
+			m_ActCollectPtr->SetLinearVelocity(m_CoinVelocity);
+		}
+	}
+
 	Elf * elf = Elf::GetPlayer();
 	
 	if (actOtherPtr != elf->GetPhysicsActor())
 	{
 		return;
 	}
-	//shtoto v momenta se udria v lampata i stava consumd
-	if (m_Type == Type::COINS)
+		if (m_Type == Type::COINS)
 	{
 		elf->IncreaseCoins();
 	}
@@ -165,6 +208,7 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 	m_IsConsumed = true;
 	m_ActCollectPtr->SetGhost(true); 
 }
+
 
 void Collectible::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {

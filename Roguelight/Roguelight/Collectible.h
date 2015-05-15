@@ -10,6 +10,7 @@
 //-----------------------------------------------------
 
 #include "ContactListener.h"
+#include "Elf.h"
 //-----------------------------------------------------
 // Collectible Class									
 //-----------------------------------------------------
@@ -42,10 +43,12 @@ public:
 	bool IsConsumed();
 
 
+
 public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
+	DOUBLE2 m_InitialPosition;
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;
@@ -67,6 +70,9 @@ public:
 	static const int NR_HEARTS_COLS = 4;
 	static const int NR_HEARTS_ROWS = 1;
 	static const int FRAMERATE = 3;
+	static const int MAX_DISTANCE = 300;
+
+	DOUBLE2 m_CoinVelocity = DOUBLE2(0, 50);
 };
 
 

@@ -55,10 +55,7 @@ Lamp::Lamp(DOUBLE2 pos)
 
 	m_DistanceJointPtr = new PhysicsDistanceJoint(m_ActLampAPtr, DOUBLE2(0, 0), m_ActLampBPtr, DOUBLE2(0, 0), m_JointLenght, -1, 0.1);
 }
-//iskash li da napravim pisaneto na game results vyv file- ili nakraq?
-//to shte e dosta, daj nakraia
-//mojem edno da naprawim, ako iskash..ostanalite shte sa identichni ami az nqmam idew ksak shte izglejda.. i iskah da popitam, kakvo shte reche aditional documntation
-//predpolagam che imat predvid da documentirash publichnite metodi
+
 Lamp::~Lamp()
 {
 	delete m_DistanceJointPtr;
@@ -101,12 +98,11 @@ void Lamp::Paint()
 	{
 		bmp = m_BmpBulbOffPtr;
 	}
-	GAME_ENGINE->DrawLine(DOUBLE2(0, 0), DOUBLE2(m_ActLampAPtr->GetPosition().x - m_ActLampBPtr->GetPosition().x, m_ActLampAPtr->GetPosition().y - m_ActLampBPtr->GetPosition().y));
 	GAME_ENGINE->DrawBitmap(bmp);
-	//DOUBLE2 chainPos = m_ActLampBPtr->GetPosition();
-	//matTranslate.SetAsTranslate(pos);//tuk shte trqbva angle
-	//matRotate.SetAsRotate(m_Angle);
-
+	//RECT Chain(0, 0, m_ActLampAPtr->GetPosition().x - m_ActLampBPtr->GetPosition().x, m_ActLampAPtr->GetPosition().y - m_ActLampBPtr->GetPosition().y);
+	//matRotate.SetAsRotate(m_ActLampBPtr->GetAngle());
+	//GAME_ENGINE->DrawBitmap(m_BmpChainPtr);
+	//DOUBLE2 chainPos = m_ActLampAPtr->GetPosition();
 }
 //------------------------------------
 //Checks that bullet has hit this lamp

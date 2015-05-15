@@ -98,6 +98,7 @@ private:
 	std::vector<Collectible *> m_AmmoArr;
 	std::vector<Collectible *> m_CoinArr;
 	std::vector<Collectible *> m_HeartArr;
+	std::vector<Collectible *> m_LootArr;
 	std::vector<Enemy *> m_ShadyguyArr;
 	std::vector<Enemy *> m_SkelethonArr;
 	std::vector<HUD *> m_HudArr;
