@@ -105,6 +105,8 @@ private:
 	std::vector<Bullet *> m_BulletArr;
 	std::vector<Lamp*> m_LampArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
+	bool IsEnemiyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor);
+	void NewCoin(DOUBLE2 pos);
 
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Angle = 0;

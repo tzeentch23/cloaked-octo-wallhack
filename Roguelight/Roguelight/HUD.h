@@ -38,6 +38,8 @@ public:
 	//virtual void EndContact(PhHUDsicsActor *actThisPtr, PhHUDsicsActor *actOtherPtr);   
 	//virtual void ContactImpulse(PhHUDsicsActor *actThisPtr, double impulse);
 	void Paint();
+	static Bitmap *m_Bmp1UpPtr;
+
 
 private:
 	//-------------------------------------------------
@@ -52,8 +54,8 @@ private:
 		m_CoinsPos,
 		m_AmmoPos;
 	Bitmap * m_BmpHUDPtr = nullptr;
-	static Bitmap *m_Bmp1UpPtr; 
 	Roguelight * m_Game;
+	static int m_InstanceCount;
 };
 
 

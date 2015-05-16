@@ -95,9 +95,7 @@ void Collectible::Tick(double deltaTime)
 	}
 
 	if (m_Type == Type::COINS)
-	{	
-		
-
+	{
 		Elf * elf = Elf::GetPlayer();
 		DOUBLE2 elfPos = elf->GetPosition();
 		DOUBLE2 coinPos = m_ActCollectPtr->GetPosition();
@@ -105,8 +103,9 @@ void Collectible::Tick(double deltaTime)
 
 		if (distance < MAX_DISTANCE)
 		{
-			double angle = coinPos.AngleWith(elfPos);
-			DOUBLE2 dir = DOUBLE2(cos(angle) * -100, sin(angle) * 100);
+			//double angle = coinPos.AngleWith(elfPos);
+			//DOUBLE2 dir = DOUBLE2(cos(angle) * -100, sin(angle) * 100);
+			DOUBLE2 dir = DOUBLE2(elfPos.x - coinPos.x, elfPos.y - coinPos.y); //moje bi i tvoeto e v pravilna posoka, no ne razbiram matematikata zad nego za da go opravia kk moje li da ti pokaja neshto pak>k
 			m_ActCollectPtr->ApplyForce(dir);
 		}
 		else 

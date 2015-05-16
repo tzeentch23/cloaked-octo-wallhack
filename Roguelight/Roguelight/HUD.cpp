@@ -18,9 +18,11 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
+int HUD::m_InstanceCount = 0;
 Bitmap * HUD::m_Bmp1UpPtr = nullptr;
 HUD::HUD(Type type, Roguelight * game)
 {
+	m_InstanceCount++;
 	m_Game = game;
 	m_Type = type;
 	if (m_Type == Type::HEALTH)
@@ -36,7 +38,10 @@ HUD::HUD(Type type, Roguelight * game)
 		m_BmpHUDPtr = new Bitmap(String("./resources/HUDCoins.png"));
 	}
 
-	m_Bmp1UpPtr = new Bitmap(String("./resources/1up.png"));
+	if (m_Bmp1UpPtr == nullptr)
+	{
+		m_Bmp1UpPtr = new Bitmap(String("./resources/1up.png"));//tova si go triq kato pich uj
+	}
 
 	m_HealthPos = DOUBLE2(200, (GAME_ENGINE->GetHeight() / 4) * 3);
 	m_CoinsPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpHUDPtr->GetWidth() / 2,
@@ -49,8 +54,14 @@ HUD::~HUD()
 {
 	delete m_BmpHUDPtr;
 	m_BmpHUDPtr = nullptr;
-	delete m_Bmp1UpPtr;
-	m_Bmp1UpPtr = nullptr;
+	//kapish? nda iskam i az da sym pich.. ebatpicih si, no ti triabva oshte.. vajnoto e da go razberesh.. taka che pitaj
+	if (--m_InstanceCount == 0)//sghto? a ne otdelno -- ;== te nali sa okolo 10, ne ima 3.. za vseki HUD imash m_InstanceCount++, t.e. 3
+		//kogato gi iztriesh nakraia - shte se iztrie i bmp-to.. a kolko pyti go risuvash po ekrana niama znachenie.. to e samo risuvane, v pametta e 1 py..t
+	{
+		delete m_Bmp1UpPtr;
+		m_Bmp1UpPtr = nullptr;
+	}
+	
 }
 
 //-------------------------------------------------------

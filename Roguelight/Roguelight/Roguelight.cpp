@@ -319,10 +319,16 @@ void Roguelight::GameTick(double deltaTime)
 
 	for (size_t i = 0; i < m_LootArr.size(); i++)
 	{
-		if (!m_LootArr[i]->IsConsumed())
+
+		if (m_LootArr[i] != nullptr)
 		{
 			m_LootArr[i]->Tick(deltaTime);
-		};
+			if (m_LootArr[i]->IsConsumed())
+			{
+				delete m_LootArr[i];
+				m_LootArr[i] = nullptr;
+			}
+		}
 	}
 	for (size_t i = 0; i < m_BulletArr.size(); i++)
 	{
@@ -586,34 +592,67 @@ DOUBLE2 Roguelight::GetCameraSize()
 
 void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 {
-	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
-	{
-		if (m_SkelethonArr[i]->GetPhysicsActor() == actor)
-		{
-			m_SkelethonArr[i]->DecreaseHealth();
-			return;
-		}
+	if (IsEnemiyHit(m_SkelethonArr, actor))
+	{//t.e. shte vlezem tuk i shte izlezem 
+		return;
 	}
-
-	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
+	//bez da prodyljavame nadolu.. zashtoto tova shte sa izlishni cikli hitro
+	if (IsEnemiyHit(m_ShadyguyArr, actor))
 	{
-		if (m_ShadyguyArr[i]->GetPhysicsActor() == actor)
-		{
-			m_ShadyguyArr[i]->DecreaseHealth();
-			return;
-		}
+		return;
 	}
-
+	//abe vse taia.. no vse pak ako hitnem - da ne prodyljavame.. tova e ideiata
 	for (size_t i = 0; i < m_LampArr.size(); i++) 
 	{
 		if (m_LampArr[i]->CheckHit(actor)) 
 		{
 			DOUBLE2 pos = m_LampArr[i]->GetPosition();
 			pos.y += 30;
-			Collectible * coin = new Collectible(pos, Collectible::COINS);
-			m_LootArr.push_back(coin);
-			return;
+			NewCoin(pos);
+			return; //tuk sushto, pri pyrvia uspeshen - spirame.. da ne hodim po vsichki lampi 4atnah(: :) oki hajde utre pak.. leki4ka i na teb
 		}
+	}
+
+}
+//ok,
+//a tuk vryshtame bool zashtoto??pomisli malko amiiiii -__- hajde de, kaji kakvoto mislish ami to ne e osobeno mnogo, ako hitnem enemy shte izlezem s?true..
+bool Roguelight::IsEnemiyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor)
+{
+	for (size_t i = 0; i < enemies.size(); i++)
+	{
+		if (enemies[i]->GetPhysicsActor() == actor)
+		{
+			Enemy * enemy = enemies[i];
+			enemies[i]->DecreaseHealth();
+			if (!enemy->IsAlive())
+			{
+				DOUBLE2 pos = enemies[i]->GetPosition();
+				NewCoin(pos);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+void Roguelight::NewCoin(DOUBLE2 pos)
+{
+
+	Collectible * coin = new Collectible(pos, Collectible::COINS);
+
+	for (size_t i = 0; i < m_LootArr.size(); i++)
+	{
+		if (m_LootArr[i] == nullptr)
+		{
+			m_LootArr[i] = coin;
+			coin = nullptr;
+		}
+	}
+	if (coin != nullptr) //not added above
+	{
+		m_LootArr.push_back(coin);
 	}
 
 }

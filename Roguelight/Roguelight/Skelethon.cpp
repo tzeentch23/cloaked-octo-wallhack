@@ -74,4 +74,4 @@ void Skelethon::Tick(double deltaTime)
 int Skelethon::GetInitialHealth()
 {
 	return 2;
-}
+}//kyde gi pravehme ghost

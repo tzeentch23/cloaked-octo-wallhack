@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 		IDXGIDebug* pDXGIDebug;
 		DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDXGIDebug);
-		//_CrtSetBreakAlloc(10519);
+		//_CrtSetBreakAlloc(264);//ne tova chakai
 	#endif
 		
 		//
