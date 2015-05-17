@@ -20,6 +20,8 @@ using namespace std;
 #include "HUD.h"
 #include "Bullet.h"
 #include "Lamp.h"
+#include "StartScreen.h"
+#include "PauseScreen.h"
 #include <fstream>
 #include <string>
 //-----------------------------------------------------------------
@@ -52,6 +54,9 @@ void Roguelight::GameInitialize(GameSettings &gameSettings)
 
 void Roguelight::GameStart()
 {
+	m_StartScrPtr = new StartScreen();
+	m_PauseScrPtr = new PauseScreen();
+
 	DOUBLE2 elfSpawn(1925.57, 533.34);
 	m_ElfPtr = new Elf(elfSpawn);
 
@@ -94,6 +99,10 @@ void Roguelight::GameEnd()
 	m_BmpShadyGuyPtr;
 	delete m_BmpSkelethonPtr;
 	m_BmpSkelethonPtr = nullptr;
+	delete m_PauseScrPtr;
+	m_PauseScrPtr = nullptr;
+	delete m_StartScrPtr;
+	m_StartScrPtr = nullptr;
 
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
@@ -174,11 +183,27 @@ void Roguelight::GameEnd()
 
 void Roguelight::GameTick(double deltaTime)
 {
+	if (m_StartScrPtr != nullptr)
+	{
+		m_StartScrPtr->Tick(deltaTime);
+		return;
+	}
+	if (m_PauseScrPtr->IsActive())
+	{
+		m_PauseScrPtr->Tick(deltaTime);
+		return;
+	}
+
 	m_ElfPtr->Tick(deltaTime);
 	m_ElfPos = m_ElfPtr->GetPosition();
 
 	m_ShootTime += deltaTime;
 
+	if (GAME_ENGINE->IsKeyboardKeyPressed(VK_ESCAPE))
+	{
+		m_PauseScrPtr->SetActive(true);
+		return;
+	}
 	if (GAME_ENGINE->IsKeyboardKeyPressed('P'))
 	{
 		m_IsPhysicsDebudRendering = !m_IsPhysicsDebudRendering;
@@ -346,6 +371,18 @@ void Roguelight::GameTick(double deltaTime)
 
 void Roguelight::GamePaint(RECT rect)
 {
+	if (m_StartScrPtr != nullptr)
+	{
+		m_StartScrPtr->Paint();
+		return;
+	}
+	
+	if (m_PauseScrPtr->IsActive())
+	{
+		m_PauseScrPtr->Paint();	
+		return;
+	} 
+	
 	matTranslate.SetAsTranslate(m_Translate);
 	matRotate.SetAsRotate(0);
 	matRotate.SetAsScale(1);
@@ -424,7 +461,6 @@ void Roguelight::GamePaint(RECT rect)
 			m_BulletArr[i]->Paint();
 		}
 	}
-
 	Camera();
 }
 
@@ -593,15 +629,14 @@ DOUBLE2 Roguelight::GetCameraSize()
 void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 {
 	if (IsEnemiyHit(m_SkelethonArr, actor))
-	{//t.e. shte vlezem tuk i shte izlezem 
+	{
 		return;
 	}
-	//bez da prodyljavame nadolu.. zashtoto tova shte sa izlishni cikli hitro
 	if (IsEnemiyHit(m_ShadyguyArr, actor))
 	{
 		return;
 	}
-	//abe vse taia.. no vse pak ako hitnem - da ne prodyljavame.. tova e ideiata
+
 	for (size_t i = 0; i < m_LampArr.size(); i++) 
 	{
 		if (m_LampArr[i]->CheckHit(actor)) 
@@ -609,13 +644,12 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 			DOUBLE2 pos = m_LampArr[i]->GetPosition();
 			pos.y += 30;
 			NewCoin(pos);
-			return; //tuk sushto, pri pyrvia uspeshen - spirame.. da ne hodim po vsichki lampi 4atnah(: :) oki hajde utre pak.. leki4ka i na teb
+			return; 
 		}
 	}
 
 }
-//ok,
-//a tuk vryshtame bool zashtoto??pomisli malko amiiiii -__- hajde de, kaji kakvoto mislish ami to ne e osobeno mnogo, ako hitnem enemy shte izlezem s?true..
+
 bool Roguelight::IsEnemiyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor)
 {
 	for (size_t i = 0; i < enemies.size(); i++)
@@ -655,4 +689,11 @@ void Roguelight::NewCoin(DOUBLE2 pos)
 		m_LootArr.push_back(coin);
 	}
 
+}
+
+
+void Roguelight::Start()
+{
+	delete m_StartScrPtr;
+	m_StartScrPtr = nullptr;
 }

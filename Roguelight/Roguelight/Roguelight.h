@@ -33,6 +33,8 @@ class Enemy;
 class HUD;
 class Bullet;
 class Lamp;
+class StartScreen;
+class PauseScreen;
 class Roguelight : public AbstractGame
 {
 public:
@@ -75,6 +77,7 @@ public:
 	DOUBLE2 ParsePosition(std::wstring & item);
 	DOUBLE2 GetCameraOrigin();
 	DOUBLE2 GetCameraSize();
+	void Start();
 
 	PhysicsActor * GetLevelActor();
 
@@ -91,6 +94,9 @@ private:
 	// -------------------------
 	// Private Datamembers
 	// -------------------------
+	StartScreen * m_StartScrPtr = nullptr;
+	PauseScreen * m_PauseScrPtr = nullptr;
+
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Elf * m_ElfPtr = nullptr;
 	std::vector<Moss *> m_MossArr;

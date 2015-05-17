@@ -54,9 +54,8 @@ HUD::~HUD()
 {
 	delete m_BmpHUDPtr;
 	m_BmpHUDPtr = nullptr;
-	//kapish? nda iskam i az da sym pich.. ebatpicih si, no ti triabva oshte.. vajnoto e da go razberesh.. taka che pitaj
-	if (--m_InstanceCount == 0)//sghto? a ne otdelno -- ;== te nali sa okolo 10, ne ima 3.. za vseki HUD imash m_InstanceCount++, t.e. 3
-		//kogato gi iztriesh nakraia - shte se iztrie i bmp-to.. a kolko pyti go risuvash po ekrana niama znachenie.. to e samo risuvane, v pametta e 1 py..t
+
+	if (--m_InstanceCount == 0)
 	{
 		delete m_Bmp1UpPtr;
 		m_Bmp1UpPtr = nullptr;

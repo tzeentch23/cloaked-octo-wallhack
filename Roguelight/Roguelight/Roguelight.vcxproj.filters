@@ -136,6 +136,12 @@
     <ClCompile Include="Lamp.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseScreen.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -388,6 +394,12 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Lamp.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseScreen.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
