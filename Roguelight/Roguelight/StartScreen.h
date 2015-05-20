@@ -1,8 +1,8 @@
 #pragma once
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name: Kirkorova
+// First name: Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 
 //-----------------------------------------------------
@@ -23,12 +23,6 @@ public:
 	StartScreen( const StartScreen& ) = delete;
 	StartScreen& operator=( const StartScreen& ) = delete;
 
-	//--------------------------------------------------------
-	// ContactListener overloaded member function declarations
-	//--------------------------------------------------------
-	//virtual void BeginContact(PhStartScreensicsActor *actThisPtr, PhStartScreensicsActor *actOtherPtr); 
-	//virtual void EndContact(PhStartScreensicsActor *actThisPtr, PhStartScreensicsActor *actOtherPtr);   
-	//virtual void ContactImpulse(PhStartScreensicsActor *actThisPtr, double impulse);
 	void Paint();
 	void Tick(double deltaTime);
 
@@ -36,10 +30,12 @@ private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	Bitmap * m_BmpBannerPtr = nullptr;
+	Bitmap * m_BmpBannerPtr = nullptr, * m_BmpTextPtr = nullptr;
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;
+	double m_Time = 0;
+	bool m_PrintText = false;
 
 };
 

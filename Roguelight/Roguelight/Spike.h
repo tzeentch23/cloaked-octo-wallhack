@@ -43,5 +43,3 @@ private:
 	static Bitmap * m_BmpSpikePtr;
 	static int m_InstanceCounter;
 };
-
- 

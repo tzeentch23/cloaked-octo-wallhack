@@ -20,6 +20,7 @@
 // Constructor & Destructor
 //---------------------------
 const DOUBLE2 Skelethon::IMPULSE = DOUBLE2(100, 100);
+const int MAX_DISTANCE = 300;
 Skelethon::Skelethon(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 30, 50, bmpPtr)
 {
 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
@@ -58,20 +59,17 @@ void Skelethon::Tick(double deltaTime)
 	m_ActActorPtr->SetLinearVelocity(impulse);
 	Enemy::Tick(deltaTime);
 
-	DOUBLE2 velocity = m_ActActorPtr->GetLinearVelocity();
-	DOUBLE2 enemyPos = m_ActActorPtr->GetPosition();
-	double distance = DOUBLE2(enemyPos - elfPos).Length();
-	double maxdistance = 300;
+	DOUBLE2 skelethonPos = m_ActActorPtr->GetPosition();
+	double distance = DOUBLE2(skelethonPos - elfPos).Length();
 
-	if (distance < maxdistance)
+	if (distance < MAX_DISTANCE)
 	{
-		double angle = enemyPos.AngleWith(elfPos);
-		DOUBLE2 dir = DOUBLE2(cos(angle), sin(angle));
-		m_ActActorPtr->ApplyLinearImpulse(dir);
+		DOUBLE2 dir = DOUBLE2(elfPos.x - skelethonPos.x, elfPos.y - skelethonPos.y);
+		m_ActActorPtr->ApplyForce(dir);
 	}
 }
 
 int Skelethon::GetInitialHealth()
 {
 	return 2;
-}//kyde gi pravehme ghost
+}

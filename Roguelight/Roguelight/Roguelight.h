@@ -20,6 +20,7 @@
 #include "Resource.h"	
 #include "AbstractGame.h"
 #include "Collectible.h"
+#include <map>
 
 
 //-----------------------------------------------------------------
@@ -35,6 +36,7 @@ class Bullet;
 class Lamp;
 class StartScreen;
 class PauseScreen;
+class Session;
 class Roguelight : public AbstractGame
 {
 public:
@@ -71,6 +73,8 @@ public:
 	void ParseHeart(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseShadyguy(std::wstring & item);
 	void ParseSkelethon(std::wstring & item);
+	void ParseLamp(std::wstring & item);
+	void ParseElf(std::wstring & item);
 	void ParseItem(std::wstring & item);
 	void InitGame();
 	void CheckHitEnemy(PhysicsActor * actor);
@@ -78,7 +82,7 @@ public:
 	DOUBLE2 GetCameraOrigin();
 	DOUBLE2 GetCameraSize();
 	void Start();
-
+	
 	PhysicsActor * GetLevelActor();
 
 	MATRIX3X2 matCamera, matCamRotate, matCamTranslate,
@@ -96,7 +100,7 @@ private:
 	// -------------------------
 	StartScreen * m_StartScrPtr = nullptr;
 	PauseScreen * m_PauseScrPtr = nullptr;
-
+	Session * m_Session;
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Elf * m_ElfPtr = nullptr;
 	std::vector<Moss *> m_MossArr;

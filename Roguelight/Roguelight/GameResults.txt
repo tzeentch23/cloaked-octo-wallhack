@@ -1,0 +1,60 @@
+<Session>
+  <Start>
+  <Date="2015-5-19">
+  <Time="16:42:15">
+</Session>
+<Session>
+  <Start>
+    <Date="2015-5-19">
+    <Time="16:43:33">
+  </Start>
+</Session>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="18:37:31"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="18:48:15"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="18:49:6"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="18:50:53"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="18:51:11"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="18:51:49"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>
+<Session>
+  <Start>
+    <Date="2015-5-19"/>
+    <Time="19:2:3"/>
+    <Health="5"/>
+    <Ammo="5"/>
+  </Start>

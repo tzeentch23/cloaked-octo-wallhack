@@ -31,7 +31,7 @@ public:
 	void IncreaseAmmo();
 	void DecreaseAmmo();
 	void IncreaseCoins();
-		
+	virtual void DecreaseHealth(); //she go prezapishem
 	virtual int GetSpriteRow();
 	static Elf * player;
 	int GetDirection();

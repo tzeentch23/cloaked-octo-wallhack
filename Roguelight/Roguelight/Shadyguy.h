@@ -43,6 +43,7 @@ public:
 private:
 	int m_Direction = 1;
 	static const DOUBLE2 IMPULSE;
+	static const int MAX_DISTANCE = 300;
 };
 
 

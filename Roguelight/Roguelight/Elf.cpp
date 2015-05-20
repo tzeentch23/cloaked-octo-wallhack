@@ -9,6 +9,7 @@
 // Includes
 //---------------------------
 #include "Elf.h"
+#include "Roguelight.h"
 
 //---------------------------
 // Defines
@@ -182,4 +183,13 @@ int Elf::GetDirection()
 int Elf::GetInitialHealth()
 {
 	return 5;
+}
+
+void Elf::DecreaseHealth()
+{
+	Actor::DecreaseHealth();
+	if (m_Health <= 0)
+	{
+	//GameOver();
+	}
 }

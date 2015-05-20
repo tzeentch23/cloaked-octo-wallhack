@@ -1,7 +1,7 @@
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name: Kirkorova
+// First name: Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
 	
@@ -21,8 +21,8 @@
 //---------------------------
 StartScreen::StartScreen()
 {
-	m_BmpBannerPtr = new Bitmap(String("./resources/banner.png"));
-
+	m_BmpBannerPtr = new Bitmap(String("./resources/start_background.png"));
+	m_BmpTextPtr = new Bitmap(String("./resources/pressentertostart.png"));
 }
 
 StartScreen::~StartScreen()
@@ -32,7 +32,6 @@ StartScreen::~StartScreen()
 }
 void StartScreen::Paint()
 {
-	//ami tuk i a vryshtas.. ili ne znam iaaza
 	DOUBLE2 bannerPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpBannerPtr->GetWidth() / 2,
 		GAME_ENGINE->GetHeight() / 2 - m_BmpBannerPtr->GetHeight() / 2);
 	matTranslate.SetAsTranslate(bannerPos);
@@ -40,36 +39,32 @@ void StartScreen::Paint()
 	matRotate.SetAsScale(m_Scale);
 	matWorldTransform = matRotate * matScale * matTranslate;
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
-
+	GAME_ENGINE->DrawSolidBackground(COLOR(20, 26, 84));
 	GAME_ENGINE->DrawBitmap(m_BmpBannerPtr);
-}
-
-void StartScreen::Tick(double deltaTime)
-{
-	if (GAME_ENGINE->IsKeyboardKeyPressed(VK_RETURN))
+	
+	if (m_PrintText)
 	{
-		Roguelight::GAME->Start(); //shtoto tuk se samoiztivame..  no moje i da e ok..
-		//ok daj da opitame.. nyc, ne si syzdala takyva obekt huh? ami koj shte ti napravi new    
+		DOUBLE2 textPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpTextPtr->GetWidth() / 2,
+			2 * (GAME_ENGINE->GetHeight() / 3) - m_BmpTextPtr->GetHeight() / 2);
+		GAME_ENGINE->DrawBitmap(m_BmpTextPtr, textPos);
+	}
+	if (!m_PrintText)	
+	{
 		return;
 	}
 }
 
-//-------------------------------------------------------
-// ContactListener overloaded member function definitions
-//-------------------------------------------------------
-//void StartScreen::BeginContact(PhStartScreensicsActor *actThisPtr, PhStartScreensicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void StartScreen::EndContact(PhStartScreensicsActor *actThisPtr, PhStartScreensicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void StartScreen::ContactImpulse(PhStartScreensicsActor *actThisPtr, double impulse)
-//{
-//
-//}
-
-
+void StartScreen::Tick(double deltaTime)
+{
+	m_Time += deltaTime;
+	if (m_Time == 10.0)
+	{
+		m_PrintText != m_PrintText;
+		m_Time = 0;
+	}
+	if (GAME_ENGINE->IsKeyboardKeyPressed(VK_RETURN))
+	{
+		Roguelight::GAME->Start(); 
+		return;
+	}
+}

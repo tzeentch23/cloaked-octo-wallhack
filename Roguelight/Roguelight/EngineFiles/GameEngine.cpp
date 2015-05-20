@@ -1588,8 +1588,13 @@ void GameEngine::BeginContact(b2Contact* contactPtr)
 		contactData.actThisPtr = fixAPtr->GetUserData();
 		// the other actor that made contact
 		contactData.actOtherPtr = fixBPtr->GetUserData();
-		// store in caller list
-		m_BeginContactDataArr.push_back(contactData);
+		// check for removed actors, this method can be called from within the PhysicsActor destructor
+		// when one of two overlapping actors is deleted
+		if (contactData.actThisPtr != nullptr && contactData.actOtherPtr != nullptr)
+		{
+			// store in caller list
+			m_BeginContactDataArr.push_back(contactData);
+		}
 	}
 
 	//is B a contactlistener?
@@ -1601,8 +1606,13 @@ void GameEngine::BeginContact(b2Contact* contactPtr)
 		contactData.actThisPtr = fixBPtr->GetUserData();
 		// the other actor that made contact
 		contactData.actOtherPtr = fixAPtr->GetUserData();
-		// store in caller list
-		m_BeginContactDataArr.push_back(contactData);
+		// check for removed actors, this method can be called from within the PhysicsActor destructor
+		// when one of two overlapping actors is deleted
+		if (contactData.actThisPtr != nullptr && contactData.actOtherPtr != nullptr)
+		{
+			// store in caller list
+			m_BeginContactDataArr.push_back(contactData);
+		}
 	}
 };
 
@@ -1624,8 +1634,13 @@ void GameEngine::EndContact(b2Contact* contactPtr)
 		contactData.actThisPtr = fixAPtr->GetUserData();
 		// the other actor that made contact
 		contactData.actOtherPtr = fixBPtr->GetUserData();
-		// store in caller list
-		m_EndContactDataArr.push_back(contactData);
+		// check for removed actors, this method can be called from within the PhysicsActor destructor
+		// when one of two overlapping actors is deleted
+		if (contactData.actThisPtr != nullptr && contactData.actOtherPtr != nullptr)
+		{
+			// store in caller list
+			m_EndContactDataArr.push_back(contactData);
+		}
 	}
 
 	//is B a contactlistener?
@@ -1637,8 +1652,13 @@ void GameEngine::EndContact(b2Contact* contactPtr)
 		contactData.actThisPtr = fixBPtr->GetUserData();
 		// the other actor that made contact
 		contactData.actOtherPtr = fixAPtr->GetUserData();
-		// store in caller list
-		m_EndContactDataArr.push_back(contactData);
+		// check for removed actors, this method can be called from within the PhysicsActor destructor
+		// when one of two overlapping actors is deleted
+		if (contactData.actThisPtr != nullptr && contactData.actOtherPtr != nullptr)
+		{
+			// store in caller list
+			m_EndContactDataArr.push_back(contactData);
+		}
 	}
 };
 

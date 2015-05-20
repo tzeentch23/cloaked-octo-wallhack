@@ -22,6 +22,7 @@ using namespace std;
 #include "Lamp.h"
 #include "StartScreen.h"
 #include "PauseScreen.h"
+#include "Session.h"
 #include <fstream>
 #include <string>
 //-----------------------------------------------------------------
@@ -36,6 +37,7 @@ Roguelight * Roguelight::GAME = nullptr;
 Roguelight::Roguelight()
 {
 	GAME = this;
+	m_Session = new Session();
 }
 
 Roguelight::~Roguelight()
@@ -56,9 +58,9 @@ void Roguelight::GameStart()
 {
 	m_StartScrPtr = new StartScreen();
 	m_PauseScrPtr = new PauseScreen();
-
 	DOUBLE2 elfSpawn(1925.57, 533.34);
 	m_ElfPtr = new Elf(elfSpawn);
+	m_Session->Start(m_ElfPtr->GetHealth(),m_ElfPtr->GetAmmo());
 
 	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
@@ -178,6 +180,10 @@ void Roguelight::GameEnd()
 	m_AmmoArr.clear();
 	m_CoinArr.clear();
 	m_HeartArr.clear();
+
+	m_Session->Stop(m_ElfPtr->GetHealth(), m_ElfPtr->GetCoins(), m_ElfPtr->GetAmmo());
+	delete m_Session;
+	m_Session = nullptr;
 }
 
 
@@ -427,7 +433,7 @@ void Roguelight::GamePaint(RECT rect)
 	}
 	for (size_t i = 0; i < m_LootArr.size(); i++)
 	{
-		if (!m_LootArr[i]->IsConsumed())
+		if (m_LootArr[i] != nullptr && !m_LootArr[i]->IsConsumed())
 		{
 			m_LootArr[i]->Paint();
 		};
@@ -564,7 +570,26 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseSkelethon(item);
 	}
+	else if ((item.find(L"Lamp") == 1))
+	{
+		ParseLamp(item);
+	}
+	else if ((item.find(L"Elf") == 1))
+	{
+		ParseElf(item);
+	}
+}
 
+void Roguelight::ParseElf(std::wstring & item)
+{
+	DOUBLE2 pos = ParsePosition(item);
+	m_ElfPtr->GetPhysicsActor()->SetPosition(pos);
+}
+
+void Roguelight::ParseLamp(std::wstring & item)
+{
+	DOUBLE2 pos = ParsePosition(item);
+	m_LampArr.push_back(new Lamp(pos));
 }
 
 void Roguelight::ParseMoss(std::wstring & item)

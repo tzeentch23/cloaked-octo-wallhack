@@ -1,8 +1,8 @@
 #pragma once
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name: Kirkorova
+// First name: Angelika
+// Group: 1DAE2
 //-----------------------------------------------------
 
 //-----------------------------------------------------
@@ -15,6 +15,7 @@
 //-----------------------------------------------------
 class PauseScreen //: public ContactListener
 {
+
 public:
 	PauseScreen( );
 	virtual ~PauseScreen( );
@@ -23,16 +24,11 @@ public:
 	PauseScreen( const PauseScreen& ) = delete;
 	PauseScreen& operator=( const PauseScreen& ) = delete;
 
-	//--------------------------------------------------------
-	// ContactListener overloaded member function declarations
-	//--------------------------------------------------------
-	//virtual void BeginContact(PhPauseScreensicsActor *actThisPtr, PhPauseScreensicsActor *actOtherPtr); 
-	//virtual void EndContact(PhPauseScreensicsActor *actThisPtr, PhPauseScreensicsActor *actOtherPtr);   
-	//virtual void ContactImpulse(PhPauseScreensicsActor *actThisPtr, double impulse);
 	void Paint();
 	void Tick(double deltaTime);
 	bool IsActive();
 	void SetActive(bool isActive);
+
 private: 
 	//-------------------------------------------------
 	// Datamembers								

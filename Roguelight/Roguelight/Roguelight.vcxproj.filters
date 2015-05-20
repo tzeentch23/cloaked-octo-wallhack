@@ -142,6 +142,9 @@
     <ClCompile Include="PauseScreen.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -400,6 +403,9 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="PauseScreen.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>

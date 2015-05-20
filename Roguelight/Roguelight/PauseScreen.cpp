@@ -1,7 +1,7 @@
 //-----------------------------------------------------
-// Name:
-// First name:
-// Group: 1DAE.
+// Name: Kirkorova
+// First name: Angelika 
+// Group: 1DAE2
 //-----------------------------------------------------
 #include "stdafx.h"		
 	
@@ -48,33 +48,12 @@ void PauseScreen::Paint()
 
 void PauseScreen::Tick(double deltaTime)
 {
-	
-		if (GAME_ENGINE->IsKeyboardKeyPressed(VK_ESCAPE))//e nali e tuka tova e obratnoto pffff nali iskash pak s esc da moje da resumne
+		if (GAME_ENGINE->IsKeyboardKeyPressed(VK_ESCAPE))
 		{
-			m_IsActive = false;//ne, taka si  e ok.. :D dobre.. painta obache ne ni se vika
+			m_IsActive = false;
 			return;
-		}
-	
+		}	
 }
-
-//-------------------------------------------------------
-// ContactListener overloaded member function definitions
-//-------------------------------------------------------
-//void PauseScreen::BeginContact(PhPauseScreensicsActor *actThisPtr, PhPauseScreensicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void PauseScreen::EndContact(PhPauseScreensicsActor *actThisPtr, PhPauseScreensicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void PauseScreen::ContactImpulse(PhPauseScreensicsActor *actThisPtr, double impulse)
-//{
-//
-//}
-
 
 void PauseScreen::SetActive(bool isActive)
 {

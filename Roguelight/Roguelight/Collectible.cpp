@@ -103,9 +103,7 @@ void Collectible::Tick(double deltaTime)
 
 		if (distance < MAX_DISTANCE)
 		{
-			//double angle = coinPos.AngleWith(elfPos);
-			//DOUBLE2 dir = DOUBLE2(cos(angle) * -100, sin(angle) * 100);
-			DOUBLE2 dir = DOUBLE2(elfPos.x - coinPos.x, elfPos.y - coinPos.y); //moje bi i tvoeto e v pravilna posoka, no ne razbiram matematikata zad nego za da go opravia kk moje li da ti pokaja neshto pak>k
+			DOUBLE2 dir = DOUBLE2(elfPos.x - coinPos.x, elfPos.y - coinPos.y);
 			m_ActCollectPtr->ApplyForce(dir);
 		}
 		else 
@@ -192,7 +190,7 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 	{
 		return;
 	}
-		if (m_Type == Type::COINS)
+	if (m_Type == Type::COINS)
 	{
 		elf->IncreaseCoins();
 	}
