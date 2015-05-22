@@ -40,7 +40,7 @@ HUD::HUD(Type type, Roguelight * game)
 
 	if (m_Bmp1UpPtr == nullptr)
 	{
-		m_Bmp1UpPtr = new Bitmap(String("./resources/1up.png"));//tova si go triq kato pich uj
+		m_Bmp1UpPtr = new Bitmap(String("./resources/1up.png"));
 	}
 
 	m_HealthPos = DOUBLE2(200, (GAME_ENGINE->GetHeight() / 4) * 3);
@@ -62,24 +62,6 @@ HUD::~HUD()
 	}
 	
 }
-
-//-------------------------------------------------------
-// ContactListener overloaded member function definitions
-//-------------------------------------------------------
-//void HUD::BeginContact(PhHUDsicsActor *actThisPtr, PhHUDsicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void HUD::EndContact(PhHUDsicsActor *actThisPtr, PhHUDsicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void HUD::ContactImpulse(PhHUDsicsActor *actThisPtr, double impulse)
-//{
-//
-//}
 
 void HUD::Paint()
 {
@@ -122,7 +104,7 @@ void HUD::Paint()
 	switch (m_Type) 
 	{
 	case Type::HEALTH:
-		startPos = DOUBLE2(m_HealthPos.x + 45, m_HealthPos.y+10);
+		startPos = DOUBLE2(m_HealthPos.x + 45, m_HealthPos.y+11);
 		for (int i = 0; i < elf->GetHealth(); i++)
 		{
 			matStartPos.SetAsTranslate(startPos);
@@ -133,7 +115,7 @@ void HUD::Paint()
 		}
 		break;
 	case Type::AMMO:
-		startPos = DOUBLE2(m_AmmoPos.x + 45, m_AmmoPos.y + 10);
+		startPos = DOUBLE2(m_AmmoPos.x + 10, m_AmmoPos.y + 11);
 	
 		for (int i = 0; i < elf->GetAmmo(); i++)
 		{

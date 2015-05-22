@@ -21,19 +21,19 @@
 //---------------------------
 PauseScreen::PauseScreen()
 {
-	m_BmpBannerPtr = new Bitmap(String("./resources/banner.png"));
+	m_BmpBackgroundPtr = new Bitmap(String("./resources/pause_background.png"));
 
 }
 
 PauseScreen::~PauseScreen()
 {
-	delete m_BmpBannerPtr;
-	m_BmpBannerPtr = nullptr;
+	delete m_BmpBackgroundPtr;
+	m_BmpBackgroundPtr = nullptr;
 }
 void PauseScreen::Paint()
 {
-	DOUBLE2 bannerPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpBannerPtr->GetWidth() / 2,
-		GAME_ENGINE->GetHeight() / 2 - m_BmpBannerPtr->GetHeight() / 2);
+	DOUBLE2 bannerPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpBackgroundPtr->GetWidth() / 2,
+		GAME_ENGINE->GetHeight() / 2 - m_BmpBackgroundPtr->GetHeight() / 2);
 	DOUBLE2 originChange = DOUBLE2(Roguelight::GAME->GetCameraOrigin().x - GAME_ENGINE->GetWidth() / 2, 
 		Roguelight::GAME->GetCameraOrigin().y - GAME_ENGINE->GetHeight() / 2);
 	matTranslate.SetAsTranslate(originChange);
@@ -42,8 +42,8 @@ void PauseScreen::Paint()
 	matPivot.SetAsTranslate(bannerPos);
 	matWorldTransform = matPivot * matRotate * matScale * matTranslate;
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
-	GAME_ENGINE->DrawSolidBackground(COLOR(0, 0, 0));
-	GAME_ENGINE->DrawBitmap(m_BmpBannerPtr);
+		GAME_ENGINE->DrawSolidBackground(COLOR(20, 26, 84));
+	GAME_ENGINE->DrawBitmap(m_BmpBackgroundPtr);
 }
 
 void PauseScreen::Tick(double deltaTime)

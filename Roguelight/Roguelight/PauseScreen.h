@@ -33,7 +33,7 @@ private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	Bitmap * m_BmpBannerPtr = nullptr;
+	Bitmap * m_BmpBackgroundPtr = nullptr;
 	MATRIX3X2 matTranslate, matRotate, matScale, matPivot, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;

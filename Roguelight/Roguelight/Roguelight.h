@@ -31,6 +31,7 @@ class Moss;
 class Spike;
 class Collectible;
 class Enemy;
+class Cthulhu;
 class HUD;
 class Bullet;
 class Lamp;
@@ -82,6 +83,7 @@ public:
 	DOUBLE2 GetCameraOrigin();
 	DOUBLE2 GetCameraSize();
 	void Start();
+	void ResetPos();
 	
 	PhysicsActor * GetLevelActor();
 
@@ -102,7 +104,10 @@ private:
 	PauseScreen * m_PauseScrPtr = nullptr;
 	Session * m_Session;
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
+	
 	Elf * m_ElfPtr = nullptr;
+	Cthulhu * m_CthulhuPtr = nullptr;
+
 	std::vector<Moss *> m_MossArr;
 	std::vector<Spike *> m_SpikeArr;
 	std::vector<Collectible *> m_AmmoArr;
@@ -137,7 +142,8 @@ private:
 	double m_Width = W, m_Height = H;
 
 	Bitmap * m_BmpShadyGuyPtr = nullptr,
-		*m_BmpSkelethonPtr = nullptr;
+		*m_BmpSkelethonPtr = nullptr,
+		*m_BmpCthulhuPtr = nullptr;
 
 	static const int W = 800;
 	static const int H = 600;

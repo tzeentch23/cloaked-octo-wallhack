@@ -28,11 +28,7 @@ public:
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
 	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
-	/*
-	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
-	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
-	*/
-
+	
 	virtual int GetInitialHealth();
 
 public:

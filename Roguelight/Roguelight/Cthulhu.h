@@ -8,47 +8,36 @@
 //-----------------------------------------------------
 // Include Files
 //-----------------------------------------------------
-
-#include "ContactListener.h"
+#include "Enemy.h"
+#include "Elf.h"
+//#include "ContactListener.h"
 //-----------------------------------------------------
-// Bullet Class									
+// Cthulhu Class									
 //-----------------------------------------------------
-class Bullet : public ContactListener
+class Cthulhu : public Enemy
 {
 public:
-	Bullet(DOUBLE2 pos, DOUBLE2 velocity);
-	virtual ~Bullet();
+	Cthulhu(DOUBLE2 pos, Bitmap * bmpPtr);
+	virtual ~Cthulhu();
 
-	// C++11 make the class non-copBulletable
-	Bullet(const Bullet&) = delete;
-	Bullet& operator=(const Bullet&) = delete;
+	// C++11 make the class non-copCthulhuable
+	Cthulhu(const Cthulhu&) = delete;
+	Cthulhu& operator=(const Cthulhu&) = delete;
+
+	virtual void Tick(double deltaTime);
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
 	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
-	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
-	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
-	void Paint();
-	void Tick(double deltaTime);
-	bool IsFlying();
-	void Reset();
-
+	virtual int GetInitialHealth();
 public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
-	double m_Scale = 1;
-	double m_Angle = 0;
-	double m_Time;
+	static const DOUBLE2 IMPULSE;
+	int m_Direction = 1;
 
-	DOUBLE2 m_Position;
-	DOUBLE2 m_Velocity;
-
-	PhysicsActor *m_ActortPtr = nullptr;
-
-	bool m_IsFlying = false;
 };
 
 

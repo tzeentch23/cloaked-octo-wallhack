@@ -104,6 +104,10 @@ void Lamp::Paint()
 	//GAME_ENGINE->DrawBitmap(m_BmpChainPtr);
 	//DOUBLE2 chainPos = m_ActLampAPtr->GetPosition();
 }
+void Lamp::Reset()
+{
+	m_IsOn = false;
+}
 //------------------------------------
 //Checks that bullet has hit this lamp
 //------------------------------------

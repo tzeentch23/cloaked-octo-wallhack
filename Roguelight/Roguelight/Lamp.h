@@ -33,8 +33,7 @@ public:
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
-	//void Tick(double deltaTime);
-	//PhysicsActor * GetPhysicsActor();
+	void Reset();
 	bool CheckHit(PhysicsActor * actPtr);
 	DOUBLE2 GetPosition();
 	

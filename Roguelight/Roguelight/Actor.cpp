@@ -125,7 +125,6 @@ void Actor::Paint()
 	spriteElf.right = cropX + spriteWidth;
 
 	GAME_ENGINE->DrawBitmap(m_BmpActorPtr, spriteElf);
-
 }
 
 PhysicsActor * Actor::GetPhysicsActor()
@@ -142,7 +141,7 @@ void Actor::DecreaseHealth()
 {
 	if (--m_Health <= 0) 
 	{
-		m_ActActorPtr->SetGhost(true);
+		m_ActActorPtr->SetActive(false);
 	}
 }
 

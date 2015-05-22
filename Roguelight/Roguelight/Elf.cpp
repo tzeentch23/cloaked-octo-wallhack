@@ -47,34 +47,30 @@ void Elf::Paint()
 
 int Elf::GetSpriteRow()
 {
-	int row = 0;
-	if (m_State == State::STANDING)
+	int row ;
+	switch (m_State)
 	{
-		row = 0;
-	}
-	if (m_State == State::WALKING)
-	{
+	case State::WALKING:
 		row = 1;
-	}
-	if (m_State == State::WALKANDAIM)
-	{
+		break;
+	case State::WALKANDAIM:
 		row = 2;
-	}
-	if (m_State == State::JUMPANDAIM)
-	{
+		break;
+	case State::JUMPANDAIM:
 		row = 3;
-	}
-	if (m_State == State::JUMPING)
-	{
+		break;
+	case State::JUMPING:
 		row = 4;
-	}
-	if (m_State == State::AIMING)
-	{
+		break;
+	case State::AIMING:
 		row = 5;
-	}
-	if (m_State == State::DEAD)
-	{
+		break;
+	case State::DEAD:
 		row = 6;
+		break;
+	default:
+		row = 0;
+		break;
 	}
 	return row;
 }

@@ -23,6 +23,7 @@ Bitmap* Moss::m_BmpMossPtr = nullptr;
 int Moss::m_InstanceCounter = 0;
 Moss::Moss(DOUBLE2 pos)
 {
+	m_SpawnPos = pos;
 	++m_InstanceCounter;
 	if (m_BmpMossPtr == nullptr)
 	{
@@ -32,7 +33,7 @@ Moss::Moss(DOUBLE2 pos)
 	m_ActorHeight = m_BmpMossPtr->GetHeight();
 
 	m_ActMossPtr = new PhysicsActor(pos, 0, BodyType::KINEMATIC);
-	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight / 2, 0.2, 0.5, 0.2);
+	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight / 2, 0.5, 0.5, 0.2);
 	}
 
 Moss::~Moss()
@@ -61,22 +62,9 @@ void Moss::Paint()
 
 	GAME_ENGINE->DrawBitmap(m_BmpMossPtr);
 }
-//-------------------------------------------------------
-// ContactListener overloaded member function definitions
-//-------------------------------------------------------
-void Moss::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+
+
+void Moss::ResetPos()
 {
-
+	m_ActMossPtr->SetPosition(m_SpawnPos);
 }
-
-void Moss::EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
-{
-
-}
-
-void Moss::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
-{
-
-}
-
-

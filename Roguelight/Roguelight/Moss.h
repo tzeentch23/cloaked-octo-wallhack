@@ -23,13 +23,9 @@ public:
 	Moss( const Moss& ) = delete;
 	Moss& operator=( const Moss& ) = delete;
 
-	//--------------------------------------------------------
-	// ContactListener overloaded member function declarations
-	//--------------------------------------------------------
-	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
-	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
-	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
+	
 	void Paint();
+	void ResetPos();
 
 private: 
 	//-------------------------------------------------
@@ -42,6 +38,7 @@ private:
 	static Bitmap * m_BmpMossPtr;
 	static int m_InstanceCounter;
 	double m_ActorWidth, m_ActorHeight;
+	DOUBLE2 m_SpawnPos;
 	
 };
 

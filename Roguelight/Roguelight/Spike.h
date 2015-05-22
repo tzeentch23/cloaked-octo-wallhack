@@ -30,12 +30,14 @@ public:
 	virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);   
 	virtual void ContactImpulse(PhysicsActor *actThisPtr, double impulse);
 	void Paint();
+	void ResetPos();
 	
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
+	DOUBLE2 m_SpawnPos;
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;

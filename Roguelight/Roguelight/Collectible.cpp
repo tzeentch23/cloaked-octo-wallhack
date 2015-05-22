@@ -23,6 +23,7 @@ Bitmap * Collectible::m_BmpCoinPtr = nullptr;
 Bitmap * Collectible::m_BmpAmmoPtr = nullptr;
 Bitmap * Collectible::m_BmpHeartPtr = nullptr;
 int Collectible::m_InstanceCounter = 0;
+
 Collectible::Collectible(DOUBLE2 pos, Type type)
 {
 	m_Type = type;
@@ -40,7 +41,7 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	m_ActCollectPtr->AddBoxShape(10, 10, 0.5, 0.5, 1);
 	m_ActCollectPtr->SetGravityScale(0.1);
 	m_ActCollectPtr->AddContactListener(this);
-	//ne znam shto pak spria da shava tova..
+
 	++m_InstanceCounter;
 	
 	
@@ -55,7 +56,7 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	{
 		if (m_BmpAmmoPtr == nullptr)
 		{
-			m_BmpAmmoPtr = new Bitmap(String("./resources/arrows.png"));
+			m_BmpAmmoPtr = new Bitmap(String("./resources/ammo.png"));
 		}
 	}
 	if (type == Type::COINS)
@@ -70,6 +71,7 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 
 Collectible::~Collectible()
 {
+	m_ActCollectPtr->RemoveContactListener(this);
 	delete m_ActCollectPtr;
 	m_ActCollectPtr = nullptr;
 	--m_InstanceCounter;
@@ -104,7 +106,7 @@ void Collectible::Tick(double deltaTime)
 		if (distance < MAX_DISTANCE)
 		{
 			DOUBLE2 dir = DOUBLE2(elfPos.x - coinPos.x, elfPos.y - coinPos.y);
-			m_ActCollectPtr->ApplyForce(dir);
+			m_ActCollectPtr->ApplyForce(dir*5);
 		}
 		else 
 		{
@@ -220,4 +222,10 @@ void Collectible::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
 bool Collectible::IsConsumed() 
 {
 	return m_IsConsumed;
+}
+
+void Collectible::ResetPos()
+{
+	m_ActCollectPtr->SetPosition(m_InitialPosition);
+	m_IsConsumed = false;
 }

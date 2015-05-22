@@ -41,7 +41,7 @@ void Session::Start(int health, int ammo)
 		time_t rawtime;
 		tm now;
 		time(&rawtime);
-		errno_t result = localtime_s(&now, &rawtime);
+ 		localtime_s(&now, &rawtime);
 		String date = String(now.tm_year + 1900) + String("-") + String(now.tm_mon + 1) + String("-") + String(now.tm_mday);
 		String time = String(now.tm_hour) + String(":") + String(now.tm_min) + String(":") + String(now.tm_sec);
 
@@ -62,7 +62,8 @@ void Session::Stop(int health, int coins, int ammo)
 		time_t rawtime;
 		tm now;
 		time(&rawtime);
-		errno_t result = localtime_s(&now, &rawtime);
+		localtime_s(&now, &rawtime);
+		
 		String date = String(now.tm_year + 1900) + String("-") + String(now.tm_mon + 1) + String("-") + String(now.tm_mday);
 		String time = String(now.tm_hour) + String(":") + String(now.tm_min) + String(":") + String(now.tm_sec);
 

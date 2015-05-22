@@ -41,7 +41,7 @@ public:
 	void Paint();
 	void Tick(double deltaTime);
 	bool IsConsumed();
-
+	void ResetPos();
 
 
 public:

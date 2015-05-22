@@ -145,6 +145,9 @@
     <ClCompile Include="Session.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cthulhu.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -406,6 +409,9 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Session.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cthulhu.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>

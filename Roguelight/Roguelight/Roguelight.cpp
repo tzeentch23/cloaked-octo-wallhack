@@ -14,6 +14,7 @@ using namespace std;
 #include "Enemy.h"
 #include "Shadyguy.h"
 #include "Skelethon.h"
+#include "Cthulhu.h"
 #include "Moss.h"
 #include "Spike.h"
 #include "Collectible.h"
@@ -58,31 +59,33 @@ void Roguelight::GameStart()
 {
 	m_StartScrPtr = new StartScreen();
 	m_PauseScrPtr = new PauseScreen();
-	DOUBLE2 elfSpawn(1925.57, 533.34);
-	m_ElfPtr = new Elf(elfSpawn);
-	m_Session->Start(m_ElfPtr->GetHealth(),m_ElfPtr->GetAmmo());
 
-	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
-
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
+	m_BmpCthulhuPtr = new Bitmap(String("./resources/enemy_cthulhu.png"));
+
+	InitGame();
+
+	m_Session->Start(m_ElfPtr->GetHealth(), m_ElfPtr->GetAmmo());
+
+	//temp:
+	DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
+
+	m_CthulhuPtr = new Cthulhu(elfSpawn, m_BmpCthulhuPtr);
+	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
 
 	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
 	m_HudArr.push_back(new HUD(HUD::Type::COINS, this));
 	m_HudArr.push_back(new HUD(HUD::Type::AMMO, this));
-
 	
 	m_ActLevelPtr = new PhysicsActor(DOUBLE2(5, 7), 0, BodyType::STATIC);
 	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0, 0.2, 0);
-
 	m_CameraDimension.topLeft.x = m_Width / 2;
 	m_CameraDimension.topLeft.y = m_Height / 2;
 	m_CameraDimension.bottomRight.x = m_BmpLvlPtr->GetWidth() - m_Width / 2;
 	m_CameraDimension.bottomRight.y = m_BmpLvlPtr->GetHeight() - m_Height / 2;
 	m_CameraSize = DOUBLE2(m_Width, m_Height);
-	InitGame();
-
 	matTranslate.SetAsTranslate(m_Translate);
 	matRotate.SetAsRotate(m_Angle);
 	matScale.SetAsScale(m_Scale);
@@ -91,6 +94,9 @@ void Roguelight::GameStart()
 
 void Roguelight::GameEnd()
 {
+
+	m_Session->Stop(m_ElfPtr->GetHealth(), m_ElfPtr->GetCoins(), m_ElfPtr->GetAmmo());
+
 	delete m_ActLevelPtr;
 	m_ActLevelPtr = nullptr;
 	delete m_BmpLvlPtr;
@@ -101,6 +107,8 @@ void Roguelight::GameEnd()
 	m_BmpShadyGuyPtr;
 	delete m_BmpSkelethonPtr;
 	m_BmpSkelethonPtr = nullptr;
+	delete m_BmpCthulhuPtr;
+	m_BmpCthulhuPtr = nullptr;
 	delete m_PauseScrPtr;
 	m_PauseScrPtr = nullptr;
 	delete m_StartScrPtr;
@@ -169,7 +177,9 @@ void Roguelight::GameEnd()
 		delete m_LampArr[i];
 		m_LampArr[i] = nullptr;
 	}
-
+	
+	delete m_CthulhuPtr;
+	m_CthulhuPtr = nullptr;
 	m_LootArr.clear();
 	m_LampArr.clear();
 	m_HudArr.clear();
@@ -180,8 +190,6 @@ void Roguelight::GameEnd()
 	m_AmmoArr.clear();
 	m_CoinArr.clear();
 	m_HeartArr.clear();
-
-	m_Session->Stop(m_ElfPtr->GetHealth(), m_ElfPtr->GetCoins(), m_ElfPtr->GetAmmo());
 	delete m_Session;
 	m_Session = nullptr;
 }
@@ -201,8 +209,11 @@ void Roguelight::GameTick(double deltaTime)
 	}
 
 	m_ElfPtr->Tick(deltaTime);
-	m_ElfPos = m_ElfPtr->GetPosition();
 
+	m_CthulhuPtr->Tick(deltaTime);
+
+	m_ElfPos = m_ElfPtr->GetPosition();
+		
 	m_ShootTime += deltaTime;
 
 	if (GAME_ENGINE->IsKeyboardKeyPressed(VK_ESCAPE))
@@ -232,13 +243,10 @@ void Roguelight::GameTick(double deltaTime)
 			OutputDebugString(String("m_CameraSize : ") + String(m_CameraScale) + String(" ") + String(m_CameraSize.y) + String(" ") + String(m_CameraScale) + String('\n'));
 		}
 	}
-	if (GAME_ENGINE->IsKeyboardKeyDown('R'))
+
+	if (GAME_ENGINE->IsKeyboardKeyPressed('R'))
 	{
-		m_CameraAngle += 0.2;
-	}
-	if (GAME_ENGINE->IsKeyboardKeyDown('T'))
-	{
-		m_CameraAngle -= 0.2;
+		ResetPos();
 	}
 
 	if (GAME_ENGINE->IsKeyboardKeyPressed('X'))
@@ -273,7 +281,6 @@ void Roguelight::GameTick(double deltaTime)
 			m_BulletArr.push_back(bullet);
 		}
 	}
-
 	if (((m_ElfPos.x + MAX_RIGHT) < m_BmpLvlPtr->GetWidth()) && ((m_ElfPos.x - MIN_LEFT) >= 0))
 	{
 		m_CameraPos.x = m_ElfPos.x;
@@ -338,14 +345,18 @@ void Roguelight::GameTick(double deltaTime)
 	{
 		Enemy * enemy = m_ShadyguyArr[i];
 		if (enemy->IsAlive())
+		{
 			enemy->Tick(deltaTime);
+		}
 	}
 
 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
 	{
 		Enemy * enemy = m_SkelethonArr[i];
 		if (enemy->IsAlive())
+		{
 			enemy->Tick(deltaTime);
+		}
 	}
 
 	for (size_t i = 0; i < m_LootArr.size(); i++)
@@ -397,6 +408,7 @@ void Roguelight::GamePaint(RECT rect)
 	GAME_ENGINE->DrawBitmap(m_BmpLvlPtr);
 
 	m_ElfPtr->Paint();
+	m_CthulhuPtr->Paint();
 
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
@@ -544,7 +556,6 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseShadyguy(item);
 	}
-	
 	else if (item.find(L"Moss") == 1)
 	{
 		ParseMoss(item);
@@ -557,7 +568,6 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseHeart(Collectible::HEARTS, item, m_HeartArr);
 	}
-	
 	else if (item.find(L"Coin") == 1)
 	{
 		ParseCoin(Collectible::COINS, item, m_CoinArr);
@@ -583,7 +593,7 @@ void Roguelight::ParseItem(wstring & item)
 void Roguelight::ParseElf(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
-	m_ElfPtr->GetPhysicsActor()->SetPosition(pos);
+	m_ElfPtr = new Elf(pos);
 }
 
 void Roguelight::ParseLamp(std::wstring & item)
@@ -721,4 +731,43 @@ void Roguelight::Start()
 {
 	delete m_StartScrPtr;
 	m_StartScrPtr = nullptr;
+}
+
+void Roguelight::ResetPos()
+{
+	m_ElfPtr->ResetPosition();
+	
+	for (size_t i = 0; i < m_MossArr.size(); i++)
+	{
+		m_MossArr[i]->ResetPos();
+	}
+	for (size_t i = 0; i < m_SpikeArr.size(); i++)
+	{
+		m_SpikeArr[i]->ResetPos();
+	}
+	for (size_t i = 0; i < m_AmmoArr.size(); i++)
+	{
+		m_AmmoArr[i]->ResetPos();
+	}
+	for (size_t i = 0; i < m_CoinArr.size(); i++)
+	{
+		m_CoinArr[i]->ResetPos();
+	}
+	for (size_t i = 0; i < m_HeartArr.size(); i++)
+	{
+		m_HeartArr[i]->ResetPos();
+	}
+	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
+	{
+		m_ShadyguyArr[i]->Reset();
+	}
+	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
+	{
+		m_SkelethonArr[i]->Reset();
+	}
+	//for (size_t i = 0; i < m_LampArr.size(); i++)
+	//{
+	//	m_LampArr[i]->Reset;
+	//}
+
 }

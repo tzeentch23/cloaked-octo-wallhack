@@ -25,15 +25,11 @@ public:
 	Skelethon& operator=( const Skelethon& ) = delete;
 
 	virtual void Tick(double deltaTime);
-	/*void Fly();
-*/
+
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
 	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
-	//virtual void EndContact(PhSkelethonsicsActor *actThisPtr, PhSkelethonsicsActor *actOtherPtr);   
-	//virtual void ContactImpulse(PhSkelethonsicsActor *actThisPtr, double impulse);
-
 	virtual int GetInitialHealth();
 public: 
 	//-------------------------------------------------

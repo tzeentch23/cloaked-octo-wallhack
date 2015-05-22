@@ -23,6 +23,7 @@ Bitmap * Spike::m_BmpSpikePtr = nullptr;
 int Spike::m_InstanceCounter = 0;
 Spike::Spike(DOUBLE2 pos)
 {
+	m_SpawnPos = pos;
 	++m_InstanceCounter;
 	m_ActSpikePtr = new PhysicsActor(pos, 0, BodyType::STATIC);
 	m_ActSpikePtr->AddBoxShape(40, 10, 0.2, 0.9, 0.2);
@@ -60,6 +61,12 @@ void Spike::Paint()
 
 	GAME_ENGINE->DrawBitmap(m_BmpSpikePtr);
 }
+
+void Spike::ResetPos()
+{
+	m_ActSpikePtr->SetPosition(m_SpawnPos);
+}
+
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------

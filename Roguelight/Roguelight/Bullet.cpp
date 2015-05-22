@@ -25,7 +25,7 @@ Bullet::Bullet(DOUBLE2 pos, DOUBLE2 velocity) : m_IsFlying(true)
 	if (velocity.y == 0)
 		m_ActortPtr->SetGravityScale(0.1);
 	m_ActortPtr->SetBullet(true);
-	m_ActortPtr->AddBoxShape(10, 10, 1.0, 100.0, 100);
+	m_ActortPtr->AddBoxShape(5, 5, 1.0, 100.0, 10);
 	m_ActortPtr->AddContactListener(this);
 	m_ActortPtr->SetPosition(pos);
 	m_ActortPtr->SetLinearVelocity(velocity);
@@ -65,20 +65,21 @@ void Bullet::Paint()
 	GAME_ENGINE->FillEllipse(DOUBLE2(0, 0), 2.0, 2.0);	
 }
 
+void Bullet::Reset()
+{
+
+}
 
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
 void Bullet::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-	//pyrviat e bulleta, vtoriat e tozi v kojto se blyska
-
 	if (Elf::GetPlayer()->GetPhysicsActor() != actOtherPtr)
 	{
 		m_IsFlying = false;
 		m_ActortPtr->SetActive(false);
 	}
-	//ta tuk podavame vtoriat,  i nashata zadacha e da vlidim dali ni e interesent
 	Roguelight::GAME->CheckHitEnemy(actOtherPtr); 
 }
 

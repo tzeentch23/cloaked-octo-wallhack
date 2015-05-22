@@ -29,6 +29,8 @@ StartScreen::~StartScreen()
 {
 	delete m_BmpBannerPtr;
 	m_BmpBannerPtr = nullptr;
+	delete m_BmpTextPtr;
+	m_BmpTextPtr = nullptr;
 }
 void StartScreen::Paint()
 {
@@ -43,28 +45,27 @@ void StartScreen::Paint()
 	GAME_ENGINE->DrawBitmap(m_BmpBannerPtr);
 	
 	if (m_PrintText)
-	{
-		DOUBLE2 textPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpTextPtr->GetWidth() / 2,
+	{ 
+		DOUBLE2 textPos = DOUBLE2((GAME_ENGINE->GetWidth()  - m_BmpTextPtr->GetWidth())/2,
 			2 * (GAME_ENGINE->GetHeight() / 3) - m_BmpTextPtr->GetHeight() / 2);
-		GAME_ENGINE->DrawBitmap(m_BmpTextPtr, textPos);
+		matTranslate.SetAsTranslate(textPos);
+		GAME_ENGINE->SetWorldMatrix(matTranslate);
+		GAME_ENGINE->DrawBitmap(m_BmpTextPtr);
 	}
-	if (!m_PrintText)	
-	{
-		return;
-	}
+	//bez naluckvane e po-dobre maj :) takak go bqh napisala ama go promenih shtoto misleh che e tam problema x_x 
+	//ako iskash mi vqrvai..
 }
 
 void StartScreen::Tick(double deltaTime)
 {
 	m_Time += deltaTime;
-	if (m_Time == 10.0)
+	if (m_Time >= 1)
 	{
-		m_PrintText != m_PrintText;
+		m_PrintText = !m_PrintText;
 		m_Time = 0;
 	}
 	if (GAME_ENGINE->IsKeyboardKeyPressed(VK_RETURN))
 	{
 		Roguelight::GAME->Start(); 
-		return;
 	}
 }

@@ -8,27 +8,26 @@
 //---------------------------
 // Includes
 //---------------------------
-#include "Shadyguy.h"
+#include "Cthulhu.h"
+#include "Elf.h"
 #include "Enemy.h"
-#include "Roguelight.h"
-
 //---------------------------
 // Defines
 //---------------------------
 #define GAME_ENGINE (GameEngine::GetSingleton())
 
-const DOUBLE2 Shadyguy::IMPULSE = DOUBLE2(60, 0);
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 20, 40, bmpPtr)
+const DOUBLE2 Cthulhu::IMPULSE = DOUBLE2(100, 100);
+const int MAX_DISTANCE = 300;
+Cthulhu::Cthulhu(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 2, 1, 30, 50, bmpPtr)
 {
 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
-	m_ActActorPtr->SetGravityScale(0.8);
 	m_Health = GetInitialHealth();
 }
 
-Shadyguy::~Shadyguy()
+Cthulhu::~Cthulhu()
 {
 	delete m_ActActorPtr;
 	m_ActActorPtr = nullptr;
@@ -37,32 +36,40 @@ Shadyguy::~Shadyguy()
 //-------------------------------------------------------
 // ContactListener overloaded member function definitions
 //-------------------------------------------------------
-void Shadyguy::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
+void Cthulhu::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-
-	if (actThisPtr->GetContactList().size() > 2)
+	if (actThisPtr->GetContactList().size() > 1)
 	{
 		m_Direction *= -1;
-		m_Scale = m_Direction * -1;
 	}
 	Enemy::BeginContact(actThisPtr, actOtherPtr);
 }
 
-void Shadyguy::Tick(double deltaTime)
+void Cthulhu::Tick(double deltaTime)
 {
+	Elf * elf = Elf::GetPlayer();
+	DOUBLE2 elfPos = elf->GetPosition();
 	DOUBLE2 impulse;
 	DOUBLE2 newPos = m_ActActorPtr->GetPosition();
-	DOUBLE2 targetVelocity = DOUBLE2(100, 0);
+	DOUBLE2 targetVelocity = DOUBLE2(1000, 1000);
 	double mass = m_ActActorPtr->GetMass();
 
 	impulse.x = IMPULSE.x * m_Direction;
-	impulse.y = IMPULSE.y;
+	impulse.y = IMPULSE.y * m_Direction;
 	m_ActActorPtr->SetLinearVelocity(impulse);
 	Enemy::Tick(deltaTime);
 
+	DOUBLE2 CthulhuPos = m_ActActorPtr->GetPosition();
+	double distance = DOUBLE2(CthulhuPos - elfPos).Length();
+
+	if (distance < MAX_DISTANCE)
+	{
+		DOUBLE2 dir = DOUBLE2(elfPos.x - CthulhuPos.x, elfPos.y - CthulhuPos.y);
+		m_ActActorPtr->ApplyForce(dir);
+	}
 }
 
-int Shadyguy::GetInitialHealth()
+int Cthulhu::GetInitialHealth()
 {
-	return 3;
+	return 2;
 }
