@@ -10,3 +10,6 @@
 *.suo
 *.opensdf
 **/Thumbs.db
+*.rar
+*.pdf
+GameResults.txt
