@@ -40,9 +40,10 @@ void Elf::Paint()
 {
 	m_Position = m_ActActorPtr->GetPosition();
 	Actor::Paint();
-	String status = String(m_Position.x) + String(" ") + String(m_Position.y) + String("\n") +
-		String(m_Ammo) + String("  ") + String(m_Health) + String("  ") + String(m_Coins);
+	String status = String(m_Position.x) + String(" ") + String(m_Position.y) + String("\n");
 	GAME_ENGINE->SetColor(COLOR(255, 255, 255));
+	OutputDebugString(status);
+
 }
 
 int Elf::GetSpriteRow()

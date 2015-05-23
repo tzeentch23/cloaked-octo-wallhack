@@ -43,27 +43,66 @@ Lamp::Lamp(DOUBLE2 pos)
 	m_InitPosition = pos;
 	m_BulbPosition.y = m_InitPosition.y+m_JointLenght;
 	m_BulbPosition.x = m_InitPosition.x;
-
+	/*
 	m_ActLampAPtr = new PhysicsActor(m_InitPosition, 0, BodyType::STATIC);
 	m_ActLampAPtr->AddBoxShape(m_ActorWidth, m_ActorHeight / 2, 0.2, 0.5, 0.2);
-
-
 	m_ActLampBPtr = new PhysicsActor(m_BulbPosition, 0, BodyType::DYNAMIC);
 	m_ActLampBPtr->AddBoxShape(m_ActorWidth, m_ActorHeight / 2, 0.2, 0.5, 0.2);
 	m_ActLampBPtr->SetGravityScale(1.3);
 	m_ActLampBPtr->SetFixedRotation(true);
+	*/
 
-	m_DistanceJointPtr = new PhysicsDistanceJoint(m_ActLampAPtr, DOUBLE2(0, 0), m_ActLampBPtr, DOUBLE2(0, 0), m_JointLenght, -1, 0.1);
-}
+	// chain of revolute joints
+	double boxWidth = 10;
+	double boxHeight = 16;
+	m_ActChainPtr = new PhysicsActor(m_InitPosition, 0, BodyType::STATIC);
+	m_ActChainPtr->AddCircleShape(boxHeight / 2);
+	PhysicsActor * actChainPtr = m_ActChainPtr;
+	
+	for (size_t i = 0; i < 3; i++)
+	{
+		PhysicsActor * newActChainPtr = new PhysicsActor(m_InitPosition + DOUBLE2(0, boxHeight * (i + 1) * 1.1), 0, BodyType::DYNAMIC);
+		newActChainPtr->AddBoxShape(boxWidth, boxHeight);
+
+		PhysicsRevoluteJoint *jointPtr = new PhysicsRevoluteJoint(
+			actChainPtr, DOUBLE2(0, boxHeight / 2 * 1.1),
+			newActChainPtr, DOUBLE2(0, -boxHeight / 2 * 1.1),
+			false, 0.0);
+			actChainPtr = newActChainPtr;
+
+		m_ChainArr.push_back(newActChainPtr);
+		m_RevJntArr.push_back(jointPtr);
+	}
+
+	//m_ActBulbPtr = new PhysicsActor(m_BulbPosition)
+
+	//PhysicsRevoluteJoint * bulbJoint = new PhysicsRevoluteJoint(m_ChainArr.pop_back(),
+	//	DOUBLE2(0, boxHeight / 2 * 1.1))
+	}
 
 Lamp::~Lamp()
 {
-	delete m_DistanceJointPtr;
-	m_DistanceJointPtr = nullptr;
-	delete m_ActLampAPtr;
+	for (size_t i = 0; i < m_RevJntArr.size(); i++)
+	{
+		delete m_RevJntArr[i];
+		m_RevJntArr[i] = nullptr;
+	}
+
+
+	for(size_t i = 0; i < m_ChainArr.size(); i++)
+	{
+		delete m_ChainArr[i];
+		m_ChainArr[i] = nullptr;
+	}
+
+
+	/*delete m_ActLampAPtr;
 	m_ActLampAPtr = nullptr;
-	delete m_ActLampBPtr;
-	m_ActLampBPtr = nullptr;
+	*/
+	delete m_ActBulbPtr;
+	m_ActBulbPtr = nullptr;
+	delete m_ActChainPtr;
+	m_ActChainPtr = nullptr;
 
 	--m_InstanceCounter;
 
@@ -82,7 +121,7 @@ Lamp::~Lamp()
 void Lamp::Paint()
 {
 	
-	DOUBLE2 bulbPos = m_ActLampBPtr->GetPosition();
+	DOUBLE2 bulbPos = m_ActChainPtr->GetPosition();
 	matTranslate.SetAsTranslate(bulbPos);
 	matRotate.SetAsRotate(m_Angle);
 	matRotate.SetAsScale(m_Scale);
@@ -99,6 +138,17 @@ void Lamp::Paint()
 		bmp = m_BmpBulbOffPtr;
 	}
 	GAME_ENGINE->DrawBitmap(bmp);
+	for (int i = 0; i < m_ChainArr.size(); i++)
+	{
+		/*
+		PhysicsActor * act = m_ChainArr[i];
+		RECT Chain(0, 0, act->GetPosition().x - m_ActLampBPtr->GetPosition().x, m_ActLampAPtr->GetPosition().y - m_ActLampBPtr->GetPosition().y);
+		matRotate.SetAsRotate(m_ActLampBPtr->GetAngle());
+		GAME_ENGINE->DrawBitmap(m_BmpChainPtr);
+		DOUBLE2 chainPos = m_ActLampAPtr->GetPosition();
+		*/
+	}
+
 	//RECT Chain(0, 0, m_ActLampAPtr->GetPosition().x - m_ActLampBPtr->GetPosition().x, m_ActLampAPtr->GetPosition().y - m_ActLampBPtr->GetPosition().y);
 	//matRotate.SetAsRotate(m_ActLampBPtr->GetAngle());
 	//GAME_ENGINE->DrawBitmap(m_BmpChainPtr);
@@ -113,7 +163,7 @@ void Lamp::Reset()
 //------------------------------------
 bool Lamp::CheckHit(PhysicsActor * actPtr)
 {
-	if (actPtr == m_ActLampBPtr)
+	if (actPtr == m_ActBulbPtr)
 	{
 		m_IsOn = true;
 		return true;
@@ -140,6 +190,6 @@ void Lamp::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
 
 DOUBLE2 Lamp::GetPosition() 
 {
-	return m_ActLampBPtr->GetPosition();
+	return m_ActChainPtr->GetPosition();
 }
 

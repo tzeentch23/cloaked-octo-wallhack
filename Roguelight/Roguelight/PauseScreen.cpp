@@ -10,6 +10,7 @@
 //---------------------------
 #include "PauseScreen.h"
 #include "Roguelight.h"
+#include "Camera.h"
 
 //---------------------------
 // Defines
@@ -34,8 +35,9 @@ void PauseScreen::Paint()
 {
 	DOUBLE2 bannerPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpBackgroundPtr->GetWidth() / 2,
 		GAME_ENGINE->GetHeight() / 2 - m_BmpBackgroundPtr->GetHeight() / 2);
-	DOUBLE2 originChange = DOUBLE2(Roguelight::GAME->GetCameraOrigin().x - GAME_ENGINE->GetWidth() / 2, 
-		Roguelight::GAME->GetCameraOrigin().y - GAME_ENGINE->GetHeight() / 2);
+	DOUBLE2 origin = Roguelight::GAME->GetCamera()->GetCameraOrigin();
+	DOUBLE2 originChange = DOUBLE2(origin.x - GAME_ENGINE->GetWidth() / 2, 
+								   origin.y - GAME_ENGINE->GetHeight() / 2);
 	matTranslate.SetAsTranslate(originChange);
 	matRotate.SetAsRotate(m_Angle);
 	matRotate.SetAsScale(m_Scale);

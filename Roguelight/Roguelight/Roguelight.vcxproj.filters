@@ -148,6 +148,9 @@
     <ClCompile Include="Cthulhu.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -412,6 +415,9 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Cthulhu.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>

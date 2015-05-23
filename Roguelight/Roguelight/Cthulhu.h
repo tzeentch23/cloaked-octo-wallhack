@@ -8,23 +8,23 @@
 //-----------------------------------------------------
 // Include Files
 //-----------------------------------------------------
-#include "Enemy.h"
+#include "Skelethon.h"
 #include "Elf.h"
 //#include "ContactListener.h"
 //-----------------------------------------------------
 // Cthulhu Class									
 //-----------------------------------------------------
-class Cthulhu : public Enemy
+class Cthulhu : public Skelethon
 {
 public:
-	Cthulhu(DOUBLE2 pos, Bitmap * bmpPtr);
+	Cthulhu(DOUBLE2 pos, int cols, Bitmap * bmpPtr);
 	virtual ~Cthulhu();
 
 	// C++11 make the class non-copCthulhuable
 	Cthulhu(const Cthulhu&) = delete;
 	Cthulhu& operator=(const Cthulhu&) = delete;
 
-	virtual void Tick(double deltaTime);
+	//virtual void Tick(double deltaTime);
 
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
@@ -35,9 +35,7 @@ public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	static const DOUBLE2 IMPULSE;
-	int m_Direction = 1;
-
+	
 };
 
 

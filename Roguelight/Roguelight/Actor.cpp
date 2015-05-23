@@ -97,8 +97,8 @@ void Actor::Paint()
 	int spriteWidth = m_BmpActorPtr->GetWidth() / NR_COLS;
 	int spriteHeight = m_BmpActorPtr->GetHeight() / NR_ROWS;
 
-	DOUBLE2 bitmapPos(m_ActActorPtr->GetPosition().x - (ACTOR_WIDTH / 2),
-		m_ActActorPtr->GetPosition().y - (ACTOR_HEIGHT / 2));
+	DOUBLE2 bitmapPos(m_ActActorPtr->GetPosition().x - (spriteWidth/ 2),
+		m_ActActorPtr->GetPosition().y - (spriteHeight / 2));
 	if (m_Scale < 0)
 	{
 		bitmapPos.x += m_BmpActorPtr->GetWidth() / NR_COLS;

@@ -17,7 +17,7 @@
 class Skelethon : public Enemy
 {
 public:
-	Skelethon(DOUBLE2 pos, Bitmap * bmpPtr); 
+	Skelethon(DOUBLE2 pos, int cols, Bitmap * bmpPtr); 
 	virtual ~Skelethon( );
 
 	// C++11 make the class non-copSkelethonable

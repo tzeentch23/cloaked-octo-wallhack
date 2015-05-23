@@ -11,6 +11,7 @@
 #include "HUD.h"
 #include "Elf.h"
 #include "Roguelight.h"
+#include "Camera.h"
 //---------------------------
 // Defines
 //---------------------------
@@ -86,10 +87,11 @@ void HUD::Paint()
 		break;
 	}
 
-
 	Bitmap * bmp = m_BmpHUDPtr;
-	DOUBLE2 originTranslate = DOUBLE2(m_Game->GetCameraOrigin().x - GAME_ENGINE->GetWidth() / 2,
-										m_Game->GetCameraOrigin().y - GAME_ENGINE->GetHeight() / 2);
+
+	DOUBLE2 origin = m_Game->GetCamera()->GetCameraOrigin();
+	DOUBLE2 originTranslate = DOUBLE2(origin.x - GAME_ENGINE->GetWidth() / 2,
+										origin.y - GAME_ENGINE->GetHeight() / 2);
 	matTranslate.SetAsTranslate(originTranslate);
 	matRotate.SetAsRotate(m_Angle);
 	matScale.SetAsScale(m_Scale);

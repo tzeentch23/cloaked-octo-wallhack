@@ -27,6 +27,7 @@
 // Roguelight Class																
 //-----------------------------------------------------------------
 class Elf;
+class Camera;
 class Moss;
 class Spike;
 class Collectible;
@@ -66,7 +67,7 @@ public:
 	// -------------------------
 	// Public Member functions
 	// -------------------------
-	void Camera();
+	
 	void ParseMoss(std::wstring & item);
 	void ParseSpike(std::wstring & item);
 	void ParseAmmo(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
@@ -76,19 +77,16 @@ public:
 	void ParseSkelethon(std::wstring & item);
 	void ParseLamp(std::wstring & item);
 	void ParseElf(std::wstring & item);
+	void ParseCthulhu(std::wstring & item);
 	void ParseItem(std::wstring & item);
 	void InitGame();
 	void CheckHitEnemy(PhysicsActor * actor);
 	DOUBLE2 ParsePosition(std::wstring & item);
-	DOUBLE2 GetCameraOrigin();
-	DOUBLE2 GetCameraSize();
 	void Start();
 	void ResetPos();
+	Camera * GetCamera();
 	
 	PhysicsActor * GetLevelActor();
-
-	MATRIX3X2 matCamera, matCamRotate, matCamTranslate,
-		matCamScale, matPivot, matCamWorldTransform;
 
 	static Roguelight * GAME;
 private:
@@ -104,6 +102,7 @@ private:
 	PauseScreen * m_PauseScrPtr = nullptr;
 	Session * m_Session;
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
+	Camera * m_CameraPtr = nullptr;
 	
 	Elf * m_ElfPtr = nullptr;
 	Cthulhu * m_CthulhuPtr = nullptr;
@@ -127,27 +126,14 @@ private:
 	double m_Angle = 0;
 	double m_Scale = 0.5;
 	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
-	double m_CameraAngle = 0;
-	double m_CameraScale = 0.7;
 
 	double m_ShootTime = 0;
-	struct CameraDimension {
-		DOUBLE2 topLeft;
-		DOUBLE2 bottomRight;
-	};
-
-	CameraDimension m_CameraDimension;
-	DOUBLE2 m_CameraSize;
 	bool m_IsPhysicsDebudRendering = false;
-	double m_Width = W, m_Height = H;
+	
 
 	Bitmap * m_BmpShadyGuyPtr = nullptr,
 		*m_BmpSkelethonPtr = nullptr,
 		*m_BmpCthulhuPtr = nullptr;
 
-	static const int W = 800;
-	static const int H = 600;
-	static const int MIN_LEFT = W / 2;
-	static const int MAX_RIGHT = W / 2;
 
 };

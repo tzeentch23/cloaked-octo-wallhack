@@ -21,7 +21,7 @@
 //---------------------------
 const DOUBLE2 Skelethon::IMPULSE = DOUBLE2(100, 100);
 const int MAX_DISTANCE = 300;
-Skelethon::Skelethon(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 30, 50, bmpPtr)
+Skelethon::Skelethon(DOUBLE2 pos, int cols, Bitmap * bmpPtr) : Enemy(pos, 5, cols, 1, 30, 50, bmpPtr)
 {
 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
 	m_Health = GetInitialHealth();

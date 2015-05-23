@@ -45,8 +45,10 @@ private:
 	double m_Scale = 1;
 	double m_Angle = 0;
 	int m_JointLenght = 50;
-	PhysicsActor * m_ActLampAPtr = nullptr, *m_ActLampBPtr = nullptr;
-	PhysicsDistanceJoint *m_DistanceJointPtr = nullptr;
+	PhysicsActor * m_ActLampAPtr = nullptr, *m_ActBulbPtr = nullptr;
+	PhysicsActor *m_ActChainPtr = nullptr;
+	std::vector<PhysicsActor*> m_ChainArr;
+	std::vector<PhysicsRevoluteJoint*> m_RevJntArr;
 	static Bitmap * m_BmpChainPtr, *m_BmpBulbOnPtr, *m_BmpBulbOffPtr;
 	static int m_InstanceCounter;
 	static double m_ActorWidth, m_ActorHeight;

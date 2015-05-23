@@ -7,7 +7,7 @@
 	
 //---------------------------
 // Includes
-//---------------------------hahhhha
+//---------------------------
 #include "Enemy.h"
 #include "Skelethon.h"
 #include "Shadyguy.h"
