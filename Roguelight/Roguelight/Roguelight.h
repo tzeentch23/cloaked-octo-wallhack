@@ -71,7 +71,6 @@ public:
 	void ParseMoss(std::wstring & item);
 	void ParseSpike(std::wstring & item);
 	void ParseAmmo(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
-	void ParseCoin(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseHeart(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseShadyguy(std::wstring & item);
 	void ParseSkelethon(std::wstring & item);

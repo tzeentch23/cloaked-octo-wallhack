@@ -21,8 +21,8 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Enemy::Enemy(DOUBLE2 spawnPos, int frameRate, int nrCols, int nrRows, int width, int height, Bitmap * bmpPtr)
-:Actor(spawnPos, frameRate, nrCols, nrRows, width, height)
+Enemy::Enemy(DOUBLE2 spawnPos, int frameRate, int nrCols, int nrRows, Bitmap * bmpPtr)
+:Actor(spawnPos, frameRate, nrCols, nrRows, bmpPtr->GetWidth() / nrCols , bmpPtr->GetHeight() / nrRows )
 {
 	m_BmpActorPtr = bmpPtr;
 }
@@ -38,7 +38,16 @@ void Enemy::Paint() {
 }
 
 void Enemy::Tick(double deltatime)
-{
+{	if (abs(m_ActActorPtr->GetPosition().x - m_LastPosition.x) <= 1) {
+		m_StuckTime += deltatime;
+		if (m_StuckTime>= 5)
+		{
+			m_StuckTime = 0;
+			ChangeDirection();
+		}
+	}
+
+	m_LastPosition = m_ActActorPtr->GetPosition();
 	Actor::Tick(deltatime);
 }
 //-------------------------------------------------------
@@ -54,16 +63,19 @@ void Enemy::BeginContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
 		elf->DecreaseHealth();
 	}
 }
-//
-//void Enemy::EndContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
-//{
-//
-//}
-//
-//void Enemy::ContactImpulse(PhysicsActor *actthisptr, double impulse)
-//{
-//
-//}
-//
 
+void Enemy::EndContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
+{
+}
 
+void Enemy::ChangeDirection() 
+{
+	time_t rawtime;
+	time(&rawtime);
+	if (rawtime - m_LastChangeDirectionTime > 2) 
+	{
+		m_Direction *= -1;
+		m_Scale = m_Direction  * - 1;
+		m_LastChangeDirectionTime = rawtime;
+	}
+}

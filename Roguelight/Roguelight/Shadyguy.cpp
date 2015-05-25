@@ -17,14 +17,15 @@
 //---------------------------
 #define GAME_ENGINE (GameEngine::GetSingleton())
 
-const DOUBLE2 Shadyguy::IMPULSE = DOUBLE2(60, 0);
+const DOUBLE2 Shadyguy::IMPULSE = DOUBLE2(60, 60);
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, 20, 40, bmpPtr)
+Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, bmpPtr)
 {
+	m_Position = pos;
 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
-	m_ActActorPtr->SetGravityScale(0.8);
+	m_ActActorPtr->SetGravityScale(0.0);
 	m_Health = GetInitialHealth();
 }
 
@@ -39,12 +40,6 @@ Shadyguy::~Shadyguy()
 //-------------------------------------------------------
 void Shadyguy::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-
-	if (actThisPtr->GetContactList().size() > 2)
-	{
-		m_Direction *= -1;
-		m_Scale = m_Direction * -1;
-	}
 	Enemy::BeginContact(actThisPtr, actOtherPtr);
 }
 
@@ -52,14 +47,18 @@ void Shadyguy::Tick(double deltaTime)
 {
 	DOUBLE2 impulse;
 	DOUBLE2 newPos = m_ActActorPtr->GetPosition();
-	DOUBLE2 targetVelocity = DOUBLE2(100, 0);
-	double mass = m_ActActorPtr->GetMass();
+	double dif = (newPos - m_Position).Length();
+
+	if (dif >= 50)
+	{
+		ChangeDirection();
+	}
 
 	impulse.x = IMPULSE.x * m_Direction;
 	impulse.y = IMPULSE.y;
 	m_ActActorPtr->SetLinearVelocity(impulse);
-	Enemy::Tick(deltaTime);
 
+	Enemy::Tick(deltaTime);	
 }
 
 int Shadyguy::GetInitialHealth()

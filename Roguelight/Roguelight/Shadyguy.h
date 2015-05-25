@@ -28,18 +28,19 @@ public:
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
 	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
-	
+	//virtual void EndContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
 	virtual int GetInitialHealth();
 
 public:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-
 private:
-	int m_Direction = 1;
+	//int m_Direction = 1;
 	static const DOUBLE2 IMPULSE;
 	static const int MAX_DISTANCE = 300;
+	PhysicsActor * m_TriggerLeftPtr = nullptr, *m_TriggerRightPtr = nullptr;
+	DOUBLE2 m_Position;
 };
 
 

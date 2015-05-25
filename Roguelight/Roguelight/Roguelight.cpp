@@ -137,12 +137,6 @@ void Roguelight::GameEnd()
 		m_AmmoArr[i] = nullptr;
 	}
 
-	for (size_t i = 0; i < m_CoinArr.size(); i++)
-	{
-		delete m_CoinArr[i];
-		m_CoinArr[i] = nullptr;
-	}
-
 	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
 	{
 		delete m_ShadyguyArr[i];
@@ -187,7 +181,6 @@ void Roguelight::GameEnd()
 	m_MossArr.clear();
 	m_SpikeArr.clear();
 	m_AmmoArr.clear();
-	m_CoinArr.clear();
 	m_HeartArr.clear();
 	delete m_Session;
 	m_Session = nullptr;
@@ -275,14 +268,7 @@ void Roguelight::GameTick(double deltaTime)
 			m_AmmoArr[i]->Tick(deltaTime);
 		}
 	}
-	for (size_t i = 0; i < m_CoinArr.size(); i++)
-	{
-
-		if (!m_CoinArr[i]->IsConsumed())
-		{
-			m_CoinArr[i]->Tick(deltaTime);
-		}
-	}
+	
 	for (size_t i = 0; i < m_HeartArr.size(); i++)
 	{
 		if (!m_HeartArr[i]->IsConsumed())
@@ -377,13 +363,6 @@ void Roguelight::GamePaint(RECT rect)
 		}
 	}
 
-	for (size_t i = 0; i < m_CoinArr.size(); i++)
-	{
-		if (!m_CoinArr[i]->IsConsumed())
-		{
-			m_CoinArr[i]->Paint();
-		}
-	}
 
 	for (size_t i = 0; i < m_HeartArr.size(); i++)
 	{
@@ -501,10 +480,6 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseHeart(Collectible::HEARTS, item, m_HeartArr);
 	}
-	else if (item.find(L"Coin") == 1)
-	{
-		ParseCoin(Collectible::COINS, item, m_CoinArr);
-	}
 	else if (item.find(L"Ammo") == 1)
 	{
 		ParseAmmo(Collectible::AMMO, item, m_AmmoArr);
@@ -573,13 +548,6 @@ void Roguelight::ParseCthulhu(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
 	m_CthulhuPtr = new Cthulhu(pos, 2, m_BmpCthulhuPtr);
-}
-
-void Roguelight::ParseCoin(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr)
-{
-	DOUBLE2 pos = ParsePosition(item);
-	arrayPtr.push_back(new Collectible(pos, type));
-
 }
 
 void Roguelight::ParseShadyguy(std::wstring & item)
@@ -688,10 +656,6 @@ void Roguelight::ResetPos()
 	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
 		m_AmmoArr[i]->ResetPos();
-	}
-	for (size_t i = 0; i < m_CoinArr.size(); i++)
-	{
-		m_CoinArr[i]->ResetPos();
 	}
 	for (size_t i = 0; i < m_HeartArr.size(); i++)
 	{

@@ -23,10 +23,11 @@ Bitmap * Spike::m_BmpSpikePtr = nullptr;
 int Spike::m_InstanceCounter = 0;
 Spike::Spike(DOUBLE2 pos)
 {
+
 	m_SpawnPos = pos;
 	++m_InstanceCounter;
-	m_ActSpikePtr = new PhysicsActor(pos, 0, BodyType::STATIC);
-	m_ActSpikePtr->AddBoxShape(40, 10, 0.2, 0.9, 0.2);
+	m_ActSpikePtr = new PhysicsActor(pos, 0, BodyType::KINEMATIC);
+	m_ActSpikePtr->AddBoxShape(40, 10, 0.2, 0.9, 0);
 	m_ActSpikePtr->AddContactListener(this);
 	if (m_BmpSpikePtr == nullptr)
 	{

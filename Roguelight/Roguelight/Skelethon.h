@@ -36,7 +36,8 @@ public:
 	// Datamembers								
 	//-------------------------------------------------
 	static const DOUBLE2 IMPULSE;
-	int m_Direction = 1;
+	static const int MAX_DISTANCE;
+	//int m_Direction = 1;
 
 };
 
