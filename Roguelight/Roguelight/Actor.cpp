@@ -26,7 +26,7 @@ ACTOR_HEIGHT(height),
 ACTOR_WIDTH(width)
 {
 	m_ActActorPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
-	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0.2, 0.2, 1);
+	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0.2, 1);
 	m_ActActorPtr->SetFixedRotation(true);
 	//m_ActActorPtr->SetTrigger(false);
 	m_ActActorPtr->SetGravityScale(1);
@@ -82,14 +82,6 @@ DOUBLE2 Actor::GetPosition()
 {
 	DOUBLE2 posActor = m_ActActorPtr->GetPosition();
 	return posActor;
-}
-
-void Actor::ResetPosition()
-{
-	m_ActActorPtr->SetPosition(m_SpawnPos);
-	m_ActActorPtr->SetAngle(0.0);
-	m_ActActorPtr->SetAngularVelocity(0.0);
-	m_ActActorPtr->SetLinearVelocity(DOUBLE2(0, 0));
 }
 
 void Actor::Paint()
@@ -157,7 +149,10 @@ bool Actor::IsAlive()
 
 void Actor::Reset()
 {
+	m_ActActorPtr->SetAngle(0.0);
+	m_ActActorPtr->SetAngularVelocity(0.0);
+	m_ActActorPtr->SetLinearVelocity(DOUBLE2(0, 0));
 	m_ActActorPtr->SetPosition(m_SpawnPos);
-	m_ActActorPtr->SetGhost(false);
+	m_ActActorPtr->SetActive(true);
 	m_Health = GetInitialHealth();
 }

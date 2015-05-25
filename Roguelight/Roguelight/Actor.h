@@ -43,7 +43,6 @@ public:
 	virtual void Reset();
 	virtual int GetInitialHealth() = 0;
 public:
-	void ResetPosition();
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------

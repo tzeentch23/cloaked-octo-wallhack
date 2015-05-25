@@ -38,7 +38,7 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	}
 	m_InitialPosition = pos;
 	m_ActCollectPtr = new PhysicsActor(pos, 0, bodyType);
-	m_ActCollectPtr->AddBoxShape(10, 10, 0.5, 0.5, 1);
+	m_ActCollectPtr->AddBoxShape(10, 10, 0, 0.5, 1);
 	m_ActCollectPtr->SetGravityScale(0.1);
 	m_ActCollectPtr->AddContactListener(this);
 
@@ -198,7 +198,7 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 	}
 	if (m_Type == Type::AMMO)
 	{
-		elf->IncreaseAmmo();
+		elf->Reload();
 	}
 	if (m_Type == Type::HEARTS)
 	{

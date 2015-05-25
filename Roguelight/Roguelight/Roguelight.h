@@ -82,7 +82,7 @@ public:
 	void CheckHitEnemy(PhysicsActor * actor);
 	DOUBLE2 ParsePosition(std::wstring & item);
 	void Start();
-	void ResetPos();
+	void Reset();
 	Camera * GetCamera();
 	
 	PhysicsActor * GetLevelActor();

@@ -55,6 +55,7 @@ void Skelethon::Tick(double deltaTime)
 		DOUBLE2 impulse;
 		DOUBLE2 newPos = m_ActActorPtr->GetPosition();
 
+		Enemy::Tick(deltaTime);
 
 		DOUBLE2 skelethonPos = m_ActActorPtr->GetPosition();
 		double distance = DOUBLE2(skelethonPos - elfPos).Length();

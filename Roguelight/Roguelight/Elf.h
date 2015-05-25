@@ -28,7 +28,9 @@ public:
 	//--------------------------------------------------------
 	// ContactListener overloaded member function declarations
 	//--------------------------------------------------------
-	void IncreaseAmmo();
+	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr);
+	virtual void Reset();
+	void Reload();
 	void DecreaseAmmo();
 	void IncreaseCoins();
 	virtual void DecreaseHealth(); //she go prezapishem
@@ -47,9 +49,6 @@ public:
 
 	int m_Ammo, m_Coins;
 	
-	DOUBLE2 m_SpawnPos, m_Position;
-	
-	
 	enum class State {
 		STANDING,
 		JUMPING, 
@@ -61,9 +60,10 @@ public:
 	};
 
 	State m_State;
-
+	static const int MAX_AMMO = 8;
 	int m_Direction = 1;
-
+	int m_NrOfJumps = 0;
+	double m_JumpTime = 0;
 };
 
  
