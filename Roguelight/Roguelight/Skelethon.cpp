@@ -40,10 +40,6 @@ Skelethon::~Skelethon()
 //-------------------------------------------------------
 void Skelethon::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-	if (actThisPtr->GetContactList().size() > 1)
-	{
-		m_Direction *= -1;
-	}
 	Enemy::BeginContact(actThisPtr, actOtherPtr);
 }
 
@@ -59,7 +55,6 @@ void Skelethon::Tick(double deltaTime)
 		DOUBLE2 impulse;
 		DOUBLE2 newPos = m_ActActorPtr->GetPosition();
 
-		//Enemy::Tick(deltaTime);
 
 		DOUBLE2 skelethonPos = m_ActActorPtr->GetPosition();
 		double distance = DOUBLE2(skelethonPos - elfPos).Length();

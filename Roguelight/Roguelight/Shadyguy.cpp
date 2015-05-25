@@ -45,6 +45,19 @@ void Shadyguy::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 
 void Shadyguy::Tick(double deltaTime)
 {
+	m_AfterChangeDirection += deltaTime;
+
+	if (abs(m_ActActorPtr->GetPosition().x - m_LastPosition.x) <= 1) {
+		m_StuckTime += deltaTime;
+		if (m_StuckTime >= 5)
+		{
+			m_StuckTime = 0;
+			ChangeDirection();
+		}
+	}
+
+	m_LastPosition = m_ActActorPtr->GetPosition();
+
 	DOUBLE2 impulse;
 	DOUBLE2 newPos = m_ActActorPtr->GetPosition();
 	double dif = (newPos - m_Position).Length();
@@ -64,4 +77,14 @@ void Shadyguy::Tick(double deltaTime)
 int Shadyguy::GetInitialHealth()
 {
 	return 3;
+}
+
+void Shadyguy::ChangeDirection()
+{
+	if (m_AfterChangeDirection > 2)
+	{
+		m_Direction *= -1;
+		m_Scale = m_Direction  * -1;
+		m_AfterChangeDirection = 0;
+	}
 }

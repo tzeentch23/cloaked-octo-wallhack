@@ -38,16 +38,7 @@ void Enemy::Paint() {
 }
 
 void Enemy::Tick(double deltatime)
-{	if (abs(m_ActActorPtr->GetPosition().x - m_LastPosition.x) <= 1) {
-		m_StuckTime += deltatime;
-		if (m_StuckTime>= 5)
-		{
-			m_StuckTime = 0;
-			ChangeDirection();
-		}
-	}
-
-	m_LastPosition = m_ActActorPtr->GetPosition();
+{	
 	Actor::Tick(deltatime);
 }
 //-------------------------------------------------------
@@ -66,16 +57,4 @@ void Enemy::BeginContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
 
 void Enemy::EndContact(PhysicsActor *actthisptr, PhysicsActor *actotherptr)
 {
-}
-
-void Enemy::ChangeDirection() 
-{
-	time_t rawtime;
-	time(&rawtime);
-	if (rawtime - m_LastChangeDirectionTime > 2) 
-	{
-		m_Direction *= -1;
-		m_Scale = m_Direction  * - 1;
-		m_LastChangeDirectionTime = rawtime;
-	}
 }

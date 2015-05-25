@@ -35,10 +35,5 @@ protected:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	DOUBLE2 m_LastPosition =  DOUBLE2(0, 0);
-	int m_Direction = 1;
-	time_t m_LastChangeDirectionTime = 0;
-	double m_StuckTime = 0;
-	void ChangeDirection();
 };
  

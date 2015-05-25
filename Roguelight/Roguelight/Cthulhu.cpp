@@ -37,11 +37,7 @@ Cthulhu::~Cthulhu()
 //-------------------------------------------------------
 void Cthulhu::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
-	if (actThisPtr->GetContactList().size() > 1)
-	{
-		m_Direction *= -1;
-	}
-	Enemy::BeginContact(actThisPtr, actOtherPtr);
+	Skelethon::BeginContact(actThisPtr, actOtherPtr);
 }
 
 //void Cthulhu::Tick(double deltaTime)
