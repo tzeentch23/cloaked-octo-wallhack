@@ -37,7 +37,7 @@ public:
 	//-------------------------------------------------
 	static const DOUBLE2 IMPULSE;
 	static const int MAX_DISTANCE;
-	//int m_Direction = 1;
+	double m_ImpulseTime;
 
 };
 

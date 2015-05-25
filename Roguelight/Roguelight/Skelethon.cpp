@@ -26,7 +26,7 @@ Skelethon::Skelethon(DOUBLE2 pos, int cols, Bitmap * bmpPtr) : Enemy(pos, 5, col
 {
 	//m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
 	m_Health = GetInitialHealth();
-	m_ActActorPtr->SetGravityScale(0.1);
+	m_ActActorPtr->SetGravityScale(0);
 }
 
 Skelethon::~Skelethon()
@@ -49,34 +49,50 @@ void Skelethon::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr
 
 void Skelethon::Tick(double deltaTime)
 {
-	Elf * elf = Elf::GetPlayer();
-	DOUBLE2 elfPos = elf->GetPosition();
-	DOUBLE2 impulse;
-	DOUBLE2 newPos = m_ActActorPtr->GetPosition();
-//	DOUBLE2 targetVelocity = DOUBLE2(1000, 1000);
-	double mass = m_ActActorPtr->GetMass();
+	m_ImpulseTime += deltaTime;
 
-	Enemy::Tick(deltaTime);
-
-	DOUBLE2 skelethonPos = m_ActActorPtr->GetPosition();
-	double distance = DOUBLE2(skelethonPos - elfPos).Length();
-
-	if (distance < MAX_DISTANCE)
+	if (m_ImpulseTime > 1)
 	{
-	  //DOUBLE2 dir = DOUBLE2((elfPos.x - skelethonPos.x) *10 ,  (elfPos.y - skelethonPos.y) * 10);
-		DOUBLE2 dir = DOUBLE2((elfPos.x - skelethonPos.x) * 5, ( rand() % 50 * m_Direction) *  50);
-		//OutputDebugString(String("Y " )+ String(dir.y));
-		m_ActActorPtr->ApplyForce(dir );
-	}
-	else 
-	{
-		impulse.x = IMPULSE.x * m_Direction;
-		impulse.y = IMPULSE.y * m_Direction * -1;
-		m_ActActorPtr->SetLinearVelocity(impulse);
+		m_ImpulseTime = 0;
+		Elf * elf = Elf::GetPlayer();
+		DOUBLE2 elfPos = elf->GetPosition();
+		DOUBLE2 impulse;
+		DOUBLE2 newPos = m_ActActorPtr->GetPosition();
+
+		//Enemy::Tick(deltaTime);
+
+		DOUBLE2 skelethonPos = m_ActActorPtr->GetPosition();
+		double distance = DOUBLE2(skelethonPos - elfPos).Length();
+
+		DOUBLE2 target = m_SpawnPos;
+		if (distance < MAX_DISTANCE)
+		{
+			target = elfPos;
+		}
+
+		int dirX = 1;
+		if (target.x - skelethonPos.x < 0)
+		{
+			dirX = -1;
+		}
+
+		int dirY = 1;
+		if (target.y - skelethonPos.y < 0)
+		{
+			dirX = -1;
+		}
+		m_Scale = dirX;
+
+
+		DOUBLE2 dir = DOUBLE2(dirX * (rand() % 500 + 100), ((rand() % 500 + 100) * dirY));
+
+		//m_ActActorPtr->ApplyLinearImpulse(dir);
+	
+		m_ActActorPtr->ApplyForce(dir * 100);
 	}
 }
 
 int Skelethon::GetInitialHealth()
 {
-	return 2;
+	return 4;
 }
