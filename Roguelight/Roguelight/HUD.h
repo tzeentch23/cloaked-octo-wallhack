@@ -39,7 +39,7 @@ public:
 	//virtual void ContactImpulse(PhHUDsicsActor *actThisPtr, double impulse);
 	void Paint();
 	static Bitmap *m_Bmp1UpPtr;
-
+	static Bitmap *m_BmpCoinCountPtr;
 
 private:
 	//-------------------------------------------------

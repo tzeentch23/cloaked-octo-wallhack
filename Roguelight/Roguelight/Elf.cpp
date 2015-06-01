@@ -10,26 +10,29 @@
 //---------------------------
 #include "Elf.h"
 #include "Roguelight.h"
+#include "Camera.h"
 
 //---------------------------
 // Defines
 //---------------------------
 #define GAME_ENGINE (GameEngine::GetSingleton())
 
-Elf* Elf::player = nullptr;
 //---------------------------
 // Constructor & Destructor
 //---------------------------
+
+Elf* Elf::player = nullptr;
 Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 7, 20, 40)
 {
 	player = this;
-	m_Ammo = 5;
+	m_Ammo = MAX_AMMO;
 	m_Coins = 0;
 	m_Health = GetInitialHealth();
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
-	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
-}
 
+	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
+	m_ActActorPtr->AddContactListener(this);
+}
 Elf::~Elf()
 {
 	delete m_BmpActorPtr;
@@ -38,12 +41,7 @@ Elf::~Elf()
 
 void Elf::Paint()
 {
-	m_Position = m_ActActorPtr->GetPosition();
-	Actor::Paint();
-	String status = String(m_Position.x) + String(" ") + String(m_Position.y) + String("\n");
-	GAME_ENGINE->SetColor(COLOR(255, 255, 255));
-	OutputDebugString(status);
-
+	Actor::Paint();	
 }
 
 int Elf::GetSpriteRow()
@@ -80,6 +78,7 @@ void Elf::Tick(double deltatime)
 {
 	if (m_Health > 0)
 	{
+		bool applyImpulse = false;
 		if (m_ActActorPtr->GetContactList().size() > 0)
 		{
 			m_State = State::STANDING;
@@ -94,6 +93,7 @@ void Elf::Tick(double deltatime)
 			newVelocity.x = -500;
 			m_Direction = -1;
 			m_Scale = -1;
+			applyImpulse = true;
 		}
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
 		{
@@ -101,23 +101,80 @@ void Elf::Tick(double deltatime)
 			newVelocity.x = 500;
 			m_Direction = 1;
 			m_Scale = 1;
+			applyImpulse = true;
+
 		}
 
+		m_JumpTime += deltatime;
+
+		if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
+		{
+			//if (m_ActActorPtr->GetContactList().size() > 0) {
+				m_JumpTime = 0;
+		//		OutputDebugString(String("111111\n"));
+		//	}
+		}
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
 		{
-			m_State = State::JUMPING;
-			newVelocity.y = -2500;
+			/*if (m_ActActorPtr->GetContactList().size() > 0) {
+			m_JumpTime = 0;
+			*/
+	
+			if (m_JumpTime > 0.2)
+			{
+				newVelocity.y = -1000;
+				applyImpulse = true;
+				OutputDebugString(String("2222222\n"));
+			}
+			else 
+			{
+				newVelocity.y = -2500;
+				applyImpulse = true;
+			}
+
+			//if (m_JumpTime > 0.1)
+		//	{
+			//	newVelocity.y = -6000;
+			//	applyImpulse = true;
+
+			//}
+		}
+		
+		if (GAME_ENGINE->IsKeyboardKeyReleased('Z'))
+		{
+			if (m_ActActorPtr->GetContactList().size() > 0) {
+				applyImpulse = true;
+//				newVelocity.y = -20000;
+	//			if (m_JumpTime > 0.2)
+		//		{
+					//newVelocity.y -= min(m_JumpTime, 0.5) * 30000; //iskam da se poluchi umnojenie po 2-3 primerno
+			//	}
+				m_State = State::JUMPING;
+			}
+		}
+		
+		if (GAME_ENGINE->IsKeyboardKeyDown('S')) //show position
+		{
+			DOUBLE2 pos = m_ActActorPtr->GetPosition();
+			String status = String(pos.x) + String(" ") + String(pos.y) + String("\n");
+			OutputDebugString(status);
 		}
 
-		velocityChange.y = newVelocity.y - m_ActActorPtr->GetLinearVelocity().y;
-		velocityChange.x = newVelocity.x - m_ActActorPtr->GetLinearVelocity().x;
-		impulse = mass * velocityChange / PhysicsActor::SCALE;
-		m_ActActorPtr->ApplyForce(impulse);
+		if (applyImpulse) 
+		{
+			velocityChange.y = newVelocity.y;// -m_ActActorPtr->GetLinearVelocity().y;
+			velocityChange.x = newVelocity.x - m_ActActorPtr->GetLinearVelocity().x;
+			//velocityChange.y = max(velocityChange.y, -10000);
+			impulse = mass * velocityChange / PhysicsActor::SCALE;
+			OutputDebugString(String("YYYY ") + String(velocityChange.y) + String('\n'));
+			m_ActActorPtr->ApplyForce(impulse);
+		}
 
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('X'))
 		{
+
 			if (m_State == State::JUMPING)
 			{
 				m_State = State::JUMPANDAIM;
@@ -136,6 +193,7 @@ void Elf::Tick(double deltatime)
 	else
 	{
 		m_State = State::DEAD;
+
 		if (m_FrameNr < NR_COLS)
 		{
 			Actor::Tick(deltatime);
@@ -144,9 +202,9 @@ void Elf::Tick(double deltatime)
 
 }
 
-void Elf::IncreaseAmmo()
+void Elf::Reload()
 {
-	++m_Ammo;
+	m_Ammo = MAX_AMMO;
 }
 void Elf::DecreaseAmmo()
 {
@@ -179,7 +237,7 @@ int Elf::GetDirection()
 
 int Elf::GetInitialHealth()
 {
-	return 5;
+	return 8;
 }
 
 void Elf::DecreaseHealth()
@@ -187,6 +245,19 @@ void Elf::DecreaseHealth()
 	Actor::DecreaseHealth();
 	if (m_Health <= 0)
 	{
-	//GameOver();
 	}
+}
+
+
+void Elf::Reset()
+{
+	Actor::Reset();
+	m_Ammo = MAX_AMMO;
+	m_State = State::STANDING;
+}
+
+void Elf::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr) 
+{
+	m_NrOfJumps = 0;
+
 }

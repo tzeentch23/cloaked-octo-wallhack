@@ -21,6 +21,7 @@
 //---------------------------
 int HUD::m_InstanceCount = 0;
 Bitmap * HUD::m_Bmp1UpPtr = nullptr;
+Bitmap * HUD::m_BmpCoinCountPtr = nullptr;
 HUD::HUD(Type type, Roguelight * game)
 {
 	m_InstanceCount++;
@@ -44,6 +45,10 @@ HUD::HUD(Type type, Roguelight * game)
 		m_Bmp1UpPtr = new Bitmap(String("./resources/1up.png"));
 	}
 
+	if (m_BmpCoinCountPtr == nullptr)
+	{
+		m_BmpCoinCountPtr = new Bitmap(String("./resources/coins_0to9.png"));
+	}
 	m_HealthPos = DOUBLE2(200, (GAME_ENGINE->GetHeight() / 4) * 3);
 	m_CoinsPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpHUDPtr->GetWidth() / 2,
 						(GAME_ENGINE->GetHeight() / 4) * 3);
@@ -128,6 +133,36 @@ void HUD::Paint()
 			startPos.x += w + 2;
 		}
 		break;
+	case Type::COINS:
+			int coins = elf->GetCoins();
+			if (coins > 99)
+			{
+				coins = 99;
+			}
+			int first = coins / 10;
+			int second = coins % 10;
+			DOUBLE2 startPos = DOUBLE2(m_CoinsPos.x + 10, m_CoinsPos.y + 10);
+			matStartPos.SetAsTranslate(startPos);
+			matWorldTransform = matStartPos* matRotate*matScale*matTranslate;
+			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+			
+			RECT coin;
+			coin.top = 0;
+			coin.bottom = m_BmpCoinCountPtr->GetHeight();
+			int w = m_BmpCoinCountPtr->GetWidth() / 10;
+			coin.left = w * first;
+			coin.right = coin.left + w;
+			GAME_ENGINE->DrawBitmap(m_BmpCoinCountPtr, coin);
+			startPos.x += w + 5;
+
+			matStartPos.SetAsTranslate(startPos);
+			matWorldTransform = matStartPos* matRotate*matScale*matTranslate;
+			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+
+			coin.left = w * second;
+			coin.right = coin.left + w;
+			GAME_ENGINE->DrawBitmap(m_BmpCoinCountPtr, coin);
+
 	}
 	
 
