@@ -18,6 +18,7 @@ using namespace std;
 #include "Cthulhu.h"
 #include "Moss.h"
 #include "Spike.h"
+#include "Door.h"
 #include "Collectible.h"
 #include "HUD.h"
 #include "Bullet.h"
@@ -36,6 +37,7 @@ using namespace std;
 // Roguelight methods																				
 //-----------------------------------------------------------------
 Roguelight * Roguelight::GAME = nullptr;
+Bitmap* Roguelight::m_BmpDeadTextPtr = nullptr;
 Roguelight::Roguelight()
 {
 	GAME = this;
@@ -65,6 +67,7 @@ void Roguelight::GameStart()
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 	m_BmpCthulhuPtr = new Bitmap(String("./resources/enemy_cthulhu.png"));
+	m_BmpDeadTextPtr = new Bitmap(String("./resources/deadText.png"));
 
 	m_CameraPtr = new Camera(m_BmpLvlPtr->GetWidth(), m_BmpLvlPtr->GetHeight());
 
@@ -74,7 +77,7 @@ void Roguelight::GameStart()
 
 	//temp:
 	DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
-
+	m_DoorArr.push_back(new Door(DOUBLE2(elfSpawn.x - 100, elfSpawn.y)));
 	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
 
 	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
@@ -113,6 +116,8 @@ void Roguelight::GameEnd()
 	m_StartScrPtr = nullptr;
 	delete m_CameraPtr;
 	m_CameraPtr = nullptr;
+	delete m_BmpDeadTextPtr;
+	m_BmpDeadTextPtr = nullptr;
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -170,7 +175,12 @@ void Roguelight::GameEnd()
 		delete m_LampArr[i];
 		m_LampArr[i] = nullptr;
 	}
-	
+	for (size_t i = 0; i < m_DoorArr.size(); i++)
+	{
+		delete m_DoorArr[i];
+		m_DoorArr[i] = nullptr;
+	}
+
 	delete m_CthulhuPtr;
 	m_CthulhuPtr = nullptr;
 	m_LootArr.clear();
@@ -182,6 +192,7 @@ void Roguelight::GameEnd()
 	m_SpikeArr.clear();
 	m_AmmoArr.clear();
 	m_HeartArr.clear();
+	m_DoorArr.clear();
 	delete m_Session;
 	m_Session = nullptr;
 }
@@ -205,8 +216,11 @@ void Roguelight::GameTick(double deltaTime)
 
 	m_CameraPtr->Tick(deltaTime, m_ElfPos);
 
+	if (m_CthulhuPtr->IsAlive())
+	{
+		//TODO for all enemies
+	}
 	m_CthulhuPtr->Tick(deltaTime);
-
 
 	m_ShootTime += deltaTime;
 
@@ -223,40 +237,43 @@ void Roguelight::GameTick(double deltaTime)
 	
 	if (GAME_ENGINE->IsKeyboardKeyPressed('R'))
 	{
-		ResetPos();
+		Reset();
 	}
 
 	if (GAME_ENGINE->IsKeyboardKeyPressed('X'))
 	{
 		m_ShootTime = 0;	
 	}
-
 	if (GAME_ENGINE->IsKeyboardKeyReleased('X'))
-	{
-		OutputDebugString(String(m_ShootTime) + String('\n'));
-		DOUBLE2 bulletSpeed = DOUBLE2(350,0);
-		if (m_ShootTime > 0.2)
+	{	OutputDebugString(String(m_ShootTime) + String('\n'));
+		if (m_ElfPtr->GetAmmo()>0)
 		{
-			bulletSpeed.y = m_ShootTime * -1500;
-		}
-		int direction = m_ElfPtr->GetDirection();
-		bulletSpeed.x *= direction;
-		DOUBLE2 bulletPos = m_ElfPos;
-		bulletPos.x += 10 * direction; //paddding
-		Bullet * bullet = new Bullet(bulletPos, bulletSpeed);
-
-		for (size_t i = 0; i < m_BulletArr.size(); i++)
-		{
-			if (m_BulletArr[i] == nullptr)
+			DOUBLE2 bulletSpeed = DOUBLE2(350, 0);
+			if (m_ShootTime > 0.2)
 			{
-				m_BulletArr[i] = bullet;
-				bullet = nullptr;
+				bulletSpeed.y = m_ShootTime * -1500;
+			}
+			int direction = m_ElfPtr->GetDirection();
+			bulletSpeed.x *= direction;
+			DOUBLE2 bulletPos = m_ElfPos;
+			bulletPos.x += 10 * direction; //paddding
+			Bullet * bullet = new Bullet(bulletPos, bulletSpeed);
+			m_ElfPtr->DecreaseAmmo();
+
+			for (size_t i = 0; i < m_BulletArr.size(); i++)
+			{
+				if (m_BulletArr[i] == nullptr)
+				{
+					m_BulletArr[i] = bullet;
+					bullet = nullptr;
+				}
+			}
+			if (bullet != nullptr) //not added above
+			{
+				m_BulletArr.push_back(bullet);
 			}
 		}
-		if (bullet != nullptr) //not added above
-		{
-			m_BulletArr.push_back(bullet);
-		}
+		
 	}
 	
 
@@ -319,6 +336,11 @@ void Roguelight::GameTick(double deltaTime)
 			}
 		}
 	}
+
+	for (size_t i = 0; i < m_DoorArr.size(); i++)
+	{
+		m_DoorArr[i]->Tick(deltaTime);
+	}
 }
 
 void Roguelight::GamePaint(RECT rect)
@@ -341,8 +363,6 @@ void Roguelight::GamePaint(RECT rect)
 	matWorldTransform = matRotate * matScale * matTranslate;
 
 	GAME_ENGINE->DrawBitmap(m_BmpLvlPtr);
-
-	m_ElfPtr->Paint();
 	m_CthulhuPtr->Paint();
 
 	for (size_t i = 0; i < m_MossArr.size(); i++)
@@ -353,6 +373,11 @@ void Roguelight::GamePaint(RECT rect)
 	for (size_t i = 0; i < m_SpikeArr.size(); i++)
 	{
 		m_SpikeArr[i]->Paint();
+	}
+
+	for (size_t i = 0; i < m_DoorArr.size(); i++)
+	{
+		m_DoorArr[i]->Paint();
 	}
 
 	for (size_t i = 0; i < m_AmmoArr.size(); i++)
@@ -406,6 +431,25 @@ void Roguelight::GamePaint(RECT rect)
 		{
 			m_BulletArr[i]->Paint();
 		}
+	}
+
+	m_ElfPtr->Paint();
+
+	if (!m_ElfPtr->IsAlive())
+	{
+		MATRIX3X2 camOrigin, textTranslate, textScale, textWorldTransfrom, matPivot;
+
+		DOUBLE2 bannerPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpDeadTextPtr->GetWidth() / 2,
+			GAME_ENGINE->GetHeight() / 2 - m_BmpDeadTextPtr->GetHeight() / 2);
+		DOUBLE2 origin = GetCamera()->GetCameraOrigin();
+		DOUBLE2 originChange = DOUBLE2(origin.x - GAME_ENGINE->GetWidth() / 2,
+			origin.y - GAME_ENGINE->GetHeight() / 2);
+		matTranslate.SetAsTranslate(originChange);
+		matScale.SetAsScale(1);
+		matPivot.SetAsTranslate(bannerPos);
+		matWorldTransform = matPivot * matRotate * matScale * matTranslate;
+		GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+		GAME_ENGINE->DrawBitmap(m_BmpDeadTextPtr);
 	}
 }
 
@@ -641,18 +685,11 @@ void Roguelight::Start()
 	m_StartScrPtr = nullptr;
 }
 
-void Roguelight::ResetPos()
+
+void Roguelight::Reset()
 {
-	m_ElfPtr->ResetPosition();
-	
-	for (size_t i = 0; i < m_MossArr.size(); i++)
-	{
-		m_MossArr[i]->ResetPos();
-	}
-	for (size_t i = 0; i < m_SpikeArr.size(); i++)
-	{
-		m_SpikeArr[i]->ResetPos();
-	}
+	m_ElfPtr->Reset();
+
 	for (size_t i = 0; i < m_AmmoArr.size(); i++)
 	{
 		m_AmmoArr[i]->ResetPos();

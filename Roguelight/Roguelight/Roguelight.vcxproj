@@ -86,6 +86,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cthulhu.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="EngineFiles\AudioDecoder.cpp" />
     <ClCompile Include="EngineFiles\AudioSystem.cpp" />
     <ClCompile Include="EngineFiles\Bitmap.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cthulhu.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="EngineFiles\AudioDecoder.h" />
     <ClInclude Include="EngineFiles\AudioSystem.h" />
     <ClInclude Include="EngineFiles\Bitmap.h" />

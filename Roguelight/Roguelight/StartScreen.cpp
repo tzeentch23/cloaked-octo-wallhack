@@ -52,8 +52,6 @@ void StartScreen::Paint()
 		GAME_ENGINE->SetWorldMatrix(matTranslate);
 		GAME_ENGINE->DrawBitmap(m_BmpTextPtr);
 	}
-	//bez naluckvane e po-dobre maj :) takak go bqh napisala ama go promenih shtoto misleh che e tam problema x_x 
-	//ako iskash mi vqrvai..
 }
 
 void StartScreen::Tick(double deltaTime)

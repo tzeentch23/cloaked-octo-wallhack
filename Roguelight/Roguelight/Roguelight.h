@@ -30,6 +30,7 @@ class Elf;
 class Camera;
 class Moss;
 class Spike;
+class Door;
 class Collectible;
 class Enemy;
 class Cthulhu;
@@ -88,6 +89,8 @@ public:
 	PhysicsActor * GetLevelActor();
 
 	static Roguelight * GAME;
+	static Bitmap *m_BmpDeadTextPtr;
+
 private:
 	// -------------------------
 	// Privaalte Member functions
@@ -108,6 +111,7 @@ private:
 
 	std::vector<Moss *> m_MossArr;
 	std::vector<Spike *> m_SpikeArr;
+	std::vector<Door *> m_DoorArr;
 	std::vector<Collectible *> m_AmmoArr;
 	std::vector<Collectible *> m_CoinArr;
 	std::vector<Collectible *> m_HeartArr;

@@ -117,6 +117,7 @@ void Actor::Paint()
 	spriteElf.right = cropX + spriteWidth;
 
 	GAME_ENGINE->DrawBitmap(m_BmpActorPtr, spriteElf);
+
 }
 
 PhysicsActor * Actor::GetPhysicsActor()

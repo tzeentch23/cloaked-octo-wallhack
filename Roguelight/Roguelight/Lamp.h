@@ -41,7 +41,7 @@ private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
+	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform, matPivot;
 	double m_Scale = 1;
 	double m_Angle = 0;
 	int m_JointLenght = 50;
@@ -49,7 +49,7 @@ private:
 	PhysicsActor *m_ActChainPtr = nullptr;
 	std::vector<PhysicsActor*> m_ChainArr;
 	std::vector<PhysicsRevoluteJoint*> m_RevJntArr;
-	static Bitmap * m_BmpChainPtr, *m_BmpBulbOnPtr, *m_BmpBulbOffPtr;
+	static Bitmap * m_BmpChainFragmentPtr, *m_BmpBulbOnPtr, *m_BmpBulbOffPtr;
 	static int m_InstanceCounter;
 	static double m_ActorWidth, m_ActorHeight;
 	DOUBLE2 m_InitPosition, m_BulbPosition;

@@ -151,6 +151,9 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -418,6 +421,9 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
