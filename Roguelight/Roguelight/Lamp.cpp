@@ -138,7 +138,7 @@ void Lamp::Paint()
 		GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 		GAME_ENGINE->DrawBitmap(bmp);
 	}
-	}
+}
 
 void Lamp::Reset()
 {

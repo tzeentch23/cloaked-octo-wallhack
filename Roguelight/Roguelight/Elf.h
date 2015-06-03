@@ -56,8 +56,10 @@ public:
 		JUMPANDAIM,
 		WALKANDAIM,
 		DEAD,
+		GODMODE,
 	};
 
+	bool m_GodMode = false;
 	State m_State;
 	static const int MAX_AMMO = 8;
 	int m_Direction = 1;

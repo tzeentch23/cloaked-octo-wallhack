@@ -33,11 +33,22 @@ private:
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	Bitmap * m_BmpBackgroundPtr = nullptr;
+	Bitmap  * m_BmpBackgroundPtr = nullptr, 
+			* m_BmpMenuPtr = nullptr,
+			* m_BmpControlsPtr = nullptr;
 	MATRIX3X2 matTranslate, matRotate, matScale, matPivot, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;
 	bool m_IsActive = false;
+	enum class Choice
+	{
+		RETURN,
+		QUIT,
+		CONTROLS,
+	};
+
+	Choice m_Choice = Choice::RETURN;
+	bool m_DrawControls = false;
 };
 
  

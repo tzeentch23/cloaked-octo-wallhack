@@ -84,6 +84,20 @@ void Elf::Tick(double deltatime)
 			m_State = State::STANDING;
 		}
 
+		if (GAME_ENGINE->IsKeyboardKeyPressed('G'))
+		{
+			m_GodMode = !m_GodMode;
+			m_ActActorPtr->SetGhost(m_GodMode);
+			if (m_GodMode)
+			{
+				m_ActActorPtr->SetGravityScale(0);
+			}
+			else 
+			{
+				m_ActActorPtr->SetGravityScale(1); 
+			}
+		}
+		
 		DOUBLE2 velocityChange, newVelocity, impulse;
 		newVelocity.y = 200;
 		double mass = m_ActActorPtr->GetMass();
@@ -110,9 +124,9 @@ void Elf::Tick(double deltatime)
 		if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
 		{
 			//if (m_ActActorPtr->GetContactList().size() > 0) {
-				m_JumpTime = 0;
-		//		OutputDebugString(String("111111\n"));
-		//	}
+			m_JumpTime = 0;
+			//		OutputDebugString(String("111111\n"));
+			//	}
 		}
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
@@ -120,45 +134,61 @@ void Elf::Tick(double deltatime)
 			/*if (m_ActActorPtr->GetContactList().size() > 0) {
 			m_JumpTime = 0;
 			*/
-	
+
 			if (m_JumpTime > 0.2)
 			{
 				newVelocity.y = -1000;
 				applyImpulse = true;
 				OutputDebugString(String("2222222\n"));
 			}
-			else 
+			else
 			{
 				newVelocity.y = -2500;
 				applyImpulse = true;
 			}
 
 			//if (m_JumpTime > 0.1)
-		//	{
+			//	{
 			//	newVelocity.y = -6000;
 			//	applyImpulse = true;
 
 			//}
 		}
-		
+
 		if (GAME_ENGINE->IsKeyboardKeyReleased('Z'))
 		{
 			if (m_ActActorPtr->GetContactList().size() > 0) {
 				applyImpulse = true;
-//				newVelocity.y = -20000;
-	//			if (m_JumpTime > 0.2)
-		//		{
-					//newVelocity.y -= min(m_JumpTime, 0.5) * 30000; //iskam da se poluchi umnojenie po 2-3 primerno
-			//	}
+				//				newVelocity.y = -20000;
+				//			if (m_JumpTime > 0.2)
+				//		{
+				//	}
 				m_State = State::JUMPING;
 			}
 		}
-		
+
 		if (GAME_ENGINE->IsKeyboardKeyDown('S')) //show position
 		{
 			DOUBLE2 pos = m_ActActorPtr->GetPosition();
 			String status = String(pos.x) + String(" ") + String(pos.y) + String("\n");
 			OutputDebugString(status);
+		}
+
+		if (m_GodMode)
+		{
+			if (GAME_ENGINE->IsKeyboardKeyDown(VK_UP))
+			{
+			newVelocity.y = -25000;
+				applyImpulse = true;
+
+			}
+			if (GAME_ENGINE->IsKeyboardKeyDown(VK_UP))
+			{
+			newVelocity.y = 2500;
+			applyImpulse = true;
+
+			}
+				newVelocity.x *= 3;
 		}
 
 		if (applyImpulse) 
