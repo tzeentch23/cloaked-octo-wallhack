@@ -65,6 +65,8 @@ HUD::~HUD()
 	{
 		delete m_Bmp1UpPtr;
 		m_Bmp1UpPtr = nullptr;
+		delete m_BmpCoinCountPtr;
+		m_BmpCoinCountPtr = nullptr;
 	}
 	
 }

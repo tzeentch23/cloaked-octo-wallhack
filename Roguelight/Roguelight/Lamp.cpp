@@ -74,14 +74,14 @@ Lamp::~Lamp()
 		delete m_RevJntArr[i];
 		m_RevJntArr[i] = nullptr;
 	}
-
+	m_RevJntArr.clear();
 
 	for(size_t i = 0; i < m_ChainArr.size(); i++)
 	{
 		delete m_ChainArr[i];
 		m_ChainArr[i] = nullptr;
 	}
-
+	m_ChainArr.clear();
 
 	/*delete m_ActLampAPtr;
 	m_ActLampAPtr = nullptr;
@@ -177,8 +177,13 @@ void Lamp::ContactImpulse(PhysicsActor *actThisPtr, double impulse)
 }
 
 
-DOUBLE2 Lamp::GetPosition() 
+DOUBLE2 Lamp::GetPosition()
 {
-	return m_ActChainPtr->GetPosition();
+	//return m_ActChainPtr->GetPosition();
+	return m_ChainArr.back()->GetPosition();
 }
 
+bool Lamp::IsOn()
+{
+	return m_IsOn;
+}

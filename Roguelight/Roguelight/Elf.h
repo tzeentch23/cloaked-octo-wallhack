@@ -56,7 +56,7 @@ public:
 		JUMPANDAIM,
 		WALKANDAIM,
 		DEAD,
-		GODMODE,
+		GODMODE,	
 	};
 
 	bool m_GodMode = false;
@@ -65,6 +65,9 @@ public:
 	int m_Direction = 1;
 	int m_NrOfJumps = 0;
 	double m_JumpTime = 0;
+	Sound * m_DecreaseHealthSndPtr = nullptr, 
+			*m_GetCoinSndPtr = nullptr, 
+			*m_IsDeadSndPtr = nullptr;
 };
 
  

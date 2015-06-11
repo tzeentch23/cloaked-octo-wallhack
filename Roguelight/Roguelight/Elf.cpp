@@ -30,6 +30,8 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 7, 20, 40)
 	m_Health = GetInitialHealth();
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 
+	m_DecreaseHealthSndPtr = new Sound(String("./resources/beep10.mp3"));
+
 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
 	m_ActActorPtr->AddContactListener(this);
 }
@@ -37,6 +39,15 @@ Elf::~Elf()
 {
 	delete m_BmpActorPtr;
 	m_BmpActorPtr = nullptr;
+
+	delete m_DecreaseHealthSndPtr;
+	m_DecreaseHealthSndPtr = nullptr;
+
+	delete m_IsDeadSndPtr;
+	m_IsDeadSndPtr = nullptr;
+
+	delete m_GetCoinSndPtr;
+	m_GetCoinSndPtr = nullptr;
 }
 
 void Elf::Paint()
@@ -162,6 +173,7 @@ void Elf::Tick(double deltatime)
 				//				newVelocity.y = -20000;
 				//			if (m_JumpTime > 0.2)
 				//		{
+				//newVelocity.y -= min(m_JumpTime, 0.5) * 30000; 
 				//	}
 				m_State = State::JUMPING;
 			}
@@ -173,22 +185,20 @@ void Elf::Tick(double deltatime)
 			String status = String(pos.x) + String(" ") + String(pos.y) + String("\n");
 			OutputDebugString(status);
 		}
-
 		if (m_GodMode)
 		{
 			if (GAME_ENGINE->IsKeyboardKeyDown(VK_UP))
 			{
-			newVelocity.y = -25000;
+				newVelocity.y = -250;
 				applyImpulse = true;
-
 			}
-			if (GAME_ENGINE->IsKeyboardKeyDown(VK_UP))
+
+			if (GAME_ENGINE->IsKeyboardKeyDown(VK_DOWN))
 			{
-			newVelocity.y = 2500;
-			applyImpulse = true;
-
+				newVelocity.y = 250;
+				applyImpulse = true;
 			}
-				newVelocity.x *= 3;
+				//newVelocity.x *= 3;
 		}
 
 		if (applyImpulse) 
@@ -269,13 +279,10 @@ int Elf::GetInitialHealth()
 {
 	return 8;
 }
-
 void Elf::DecreaseHealth()
 {
 	Actor::DecreaseHealth();
-	if (m_Health <= 0)
-	{
-	}
+	m_DecreaseHealthSndPtr->Play();
 }
 
 

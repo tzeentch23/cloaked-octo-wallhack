@@ -36,7 +36,7 @@ public:
 	void Reset();
 	bool CheckHit(PhysicsActor * actPtr);
 	DOUBLE2 GetPosition();
-	
+	bool IsOn();
 private:
 	//-------------------------------------------------
 	// Datamembers								

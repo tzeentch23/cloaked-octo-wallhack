@@ -62,8 +62,10 @@ void Roguelight::GameStart()
 {
 	m_StartScrPtr = new StartScreen();
 	m_PauseScrPtr = new PauseScreen();
-
+	//predi malko ne beshe li po-interesno? ne znam a tva s kryga se otkazahme az ponee
+	m_BmpLvlDarkPtr = new Bitmap(String("./resources/levelmapb.png"));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
+	m_BmpLvlPtr->SetTransparencyColor(COLOR(35, 29, 63));
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 	m_BmpCthulhuPtr = new Bitmap(String("./resources/enemy_cthulhu.png"));
@@ -102,6 +104,8 @@ void Roguelight::GameEnd()
 	m_ActLevelPtr = nullptr;
 	delete m_BmpLvlPtr;
 	m_BmpLvlPtr = nullptr;
+	delete m_BmpLvlDarkPtr;
+	m_BmpLvlDarkPtr = nullptr;
 	delete m_ElfPtr;
 	m_ElfPtr = nullptr;
 	delete m_BmpShadyGuyPtr;
@@ -118,6 +122,9 @@ void Roguelight::GameEnd()
 	m_CameraPtr = nullptr;
 	delete m_BmpDeadTextPtr;
 	m_BmpDeadTextPtr = nullptr;
+	delete m_GameSoundPtr;
+	m_GameSoundPtr = nullptr; 
+
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -215,11 +222,7 @@ void Roguelight::GameTick(double deltaTime)
 	m_ElfPos = m_ElfPtr->GetPosition();
 
 	m_CameraPtr->Tick(deltaTime, m_ElfPos);
-
-	if (m_CthulhuPtr->IsAlive())
-	{
-		//TODO for all enemies
-	}
+	
 	m_CthulhuPtr->Tick(deltaTime);
 
 	m_ShootTime += deltaTime;
@@ -231,8 +234,28 @@ void Roguelight::GameTick(double deltaTime)
 	}
 	if (GAME_ENGINE->IsKeyboardKeyPressed('P'))
 	{
-		m_IsPhysicsDebudRendering = !m_IsPhysicsDebudRendering;
-		GAME_ENGINE->EnablePhysicsDebugRendering(m_IsPhysicsDebudRendering);
+		switch (m_DrawMode)
+		{
+		case DrawMode::BITMAP:
+			m_DrawMode = DrawMode::PHYSICS;
+			break;
+		case DrawMode::PHYSICS:
+			m_DrawMode = DrawMode::ALL;
+			break;
+
+		case DrawMode::ALL:
+			m_DrawMode = DrawMode::BITMAP;
+			break;		
+		}
+
+		if (m_DrawMode != DrawMode::BITMAP)
+		{
+			GAME_ENGINE->EnablePhysicsDebugRendering(true);
+		}
+		else
+		{
+			GAME_ENGINE->EnablePhysicsDebugRendering(false);
+		}
 	}
 	
 	if (GAME_ENGINE->IsKeyboardKeyPressed('R'))
@@ -341,10 +364,16 @@ void Roguelight::GameTick(double deltaTime)
 	{
 		m_DoorArr[i]->Tick(deltaTime);
 	}
+
+	fixElfPos();
 }
 
 void Roguelight::GamePaint(RECT rect)
 {
+	if (m_DrawMode == DrawMode::PHYSICS)
+	{
+		return;
+	}
 	if (m_StartScrPtr != nullptr)
 	{
 		m_StartScrPtr->Paint();
@@ -362,7 +391,17 @@ void Roguelight::GamePaint(RECT rect)
 	matRotate.SetAsScale(1);
 	matWorldTransform = matRotate * matScale * matTranslate;
 
-	GAME_ENGINE->DrawBitmap(m_BmpLvlPtr);
+	GAME_ENGINE->DrawBitmap(m_BmpLvlDarkPtr);
+	DrawBgRect(m_ElfPos, 100);
+
+	for (size_t i = 0; i < m_LampArr.size(); i++)
+	{
+		if (m_LampArr[i]->IsOn())
+		{
+			DrawBgRect(m_LampArr[i]->GetPosition(), 100);
+		}
+		m_LampArr[i]->Paint();
+	}
 	m_CthulhuPtr->Paint();
 
 	for (size_t i = 0; i < m_MossArr.size(); i++)
@@ -418,11 +457,6 @@ void Roguelight::GamePaint(RECT rect)
 	for (size_t i = 0; i < m_HudArr.size(); i++)
 	{
 		m_HudArr[i]->Paint();
-	}
-
-	for (size_t i = 0; i < m_LampArr.size(); i++)
-	{
-		m_LampArr[i]->Paint();
 	}
 
 	for (size_t i = 0; i < m_BulletArr.size(); i++)
@@ -615,11 +649,11 @@ PhysicsActor * Roguelight::GetLevelActor()
 
 void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 {
-	if (IsEnemiyHit(m_SkelethonArr, actor))
+	if (IsEnemyHit(m_SkelethonArr, actor))
 	{
 		return;
 	}
-	if (IsEnemiyHit(m_ShadyguyArr, actor))
+	if (IsEnemyHit(m_ShadyguyArr, actor))
 	{
 		return;
 	}
@@ -637,9 +671,34 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 
 }
 
-bool Roguelight::IsEnemiyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor)
+
+void Roguelight::fixElfPos()
 {
-	for (size_t i = 0; i < enemies.size(); i++)
+	int border = 200;
+	DOUBLE2 levelPos = m_ActLevelPtr->GetPosition();
+	DOUBLE2 pos = m_ElfPos;
+
+	if (pos.y - border < levelPos.y)
+	{
+		pos.y = levelPos.y  - border;
+
+		m_ElfPtr->GetPhysicsActor()->SetPosition(pos);
+
+		m_ElfPtr->GetPhysicsActor()->SetLinearVelocity(DOUBLE2(0, 100));
+	}
+	if (pos.y > levelPos.y + m_BmpLvlPtr->GetHeight() - border)
+	{
+		pos.y = levelPos.y +m_BmpLvlPtr->GetHeight() + border;
+		m_ElfPtr->GetPhysicsActor()->SetPosition(pos);
+
+	}
+
+
+}
+bool Roguelight::IsEnemyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor)
+{
+	for (size_t i = 0; i 
+		< enemies.size(); i++)
 	{
 		if (enemies[i]->GetPhysicsActor() == actor)
 		{
@@ -711,10 +770,33 @@ void Roguelight::Reset()
 	//	m_LampArr[i]->Reset;
 	//}
 
+
 }
 
 
 Camera * Roguelight::GetCamera()
 {
 	return m_CameraPtr;
+}
+
+void Roguelight::Quit()
+{
+	GAME_ENGINE->QuitGame();
+}
+
+
+void Roguelight::DrawBgRect(DOUBLE2 pos, int r)
+{
+	m_BgRect.left = pos.x - r;
+	m_BgRect.top = pos.y - r;
+	m_BgRect.right = pos.x + r;
+	m_BgRect.bottom = pos.y + r;
+
+	matTranslate.SetAsTranslate(pos.x - r, pos.y - r);
+	matRotate.SetAsRotate(m_Angle);
+	matScale.SetAsScale(1);
+
+	matWorldTransform = matRotate * matScale * matTranslate;
+	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+	GAME_ENGINE->DrawBitmap(m_BmpLvlPtr, m_BgRect);
 }

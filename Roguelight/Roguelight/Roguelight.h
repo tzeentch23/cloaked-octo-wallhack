@@ -84,8 +84,10 @@ public:
 	DOUBLE2 ParsePosition(std::wstring & item);
 	void Start();
 	void Reset();
+	void Quit();
 	Camera * GetCamera();
-	
+	void DrawBgRect(DOUBLE2 pos, int r);
+
 	PhysicsActor * GetLevelActor();
 
 	static Roguelight * GAME;
@@ -96,7 +98,7 @@ private:
 	// Privaalte Member functions
 	// -------------------------
 
-
+	void fixElfPos();
 	// -------------------------
 	// Private Datamembers
 	// -------------------------
@@ -105,6 +107,14 @@ private:
 	Session * m_Session;
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Camera * m_CameraPtr = nullptr;
+	
+	enum class DrawMode
+	{
+		BITMAP,
+		PHYSICS,
+		ALL
+	};
+	DrawMode m_DrawMode = DrawMode::BITMAP;
 	
 	Elf * m_ElfPtr = nullptr;
 	Cthulhu * m_CthulhuPtr = nullptr;
@@ -122,7 +132,8 @@ private:
 	std::vector<Bullet *> m_BulletArr;
 	std::vector<Lamp*> m_LampArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
-	bool IsEnemiyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor);
+	Bitmap  * m_BmpLvlDarkPtr = nullptr;
+	bool IsEnemyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor);
 	void NewCoin(DOUBLE2 pos);
 
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
@@ -131,12 +142,12 @@ private:
 	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
 
 	double m_ShootTime = 0;
-	bool m_IsPhysicsDebudRendering = false;
 	
 
 	Bitmap * m_BmpShadyGuyPtr = nullptr,
 		*m_BmpSkelethonPtr = nullptr,
 		*m_BmpCthulhuPtr = nullptr;
-
+	Sound * m_GameSoundPtr = nullptr;
+	RECT m_BgRect;
 
 };
