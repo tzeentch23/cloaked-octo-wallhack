@@ -75,6 +75,7 @@ public:
 	void ParseHeart(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
 	void ParseShadyguy(std::wstring & item);
 	void ParseSkelethon(std::wstring & item);
+	void ParseDoor(std::wstring & item);
 	void ParseLamp(std::wstring & item);
 	void ParseElf(std::wstring & item);
 	void ParseCthulhu(std::wstring & item);
@@ -142,7 +143,6 @@ private:
 	DOUBLE2 m_Translate, m_CameraPos, m_ElfPos, m_HealthPos, m_CoinsPos, m_AmmoPos;
 
 	double m_ShootTime = 0;
-	
 
 	Bitmap * m_BmpShadyGuyPtr = nullptr,
 		*m_BmpSkelethonPtr = nullptr,

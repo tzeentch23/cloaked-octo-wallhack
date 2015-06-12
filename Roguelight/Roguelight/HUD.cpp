@@ -143,7 +143,7 @@ void HUD::Paint()
 			}
 			int first = coins / 10;
 			int second = coins % 10;
-			DOUBLE2 startPos = DOUBLE2(m_CoinsPos.x + 10, m_CoinsPos.y + 10);
+			DOUBLE2 startPos = DOUBLE2(m_CoinsPos.x + 25, m_CoinsPos.y + 10);
 			matStartPos.SetAsTranslate(startPos);
 			matWorldTransform = matStartPos* matRotate*matScale*matTranslate;
 			GAME_ENGINE->SetWorldMatrix(matWorldTransform);

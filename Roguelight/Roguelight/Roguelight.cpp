@@ -62,10 +62,11 @@ void Roguelight::GameStart()
 {
 	m_StartScrPtr = new StartScreen();
 	m_PauseScrPtr = new PauseScreen();
-	//predi malko ne beshe li po-interesno? ne znam a tva s kryga se otkazahme az ponee
 	m_BmpLvlDarkPtr = new Bitmap(String("./resources/levelmapb.png"));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 	m_BmpLvlPtr->SetTransparencyColor(COLOR(35, 29, 63));
+	m_GameSoundPtr = new Sound(String("./resources/game_song.mp3"));
+	m_GameSoundPtr->SetVolume(0.2);
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 	m_BmpCthulhuPtr = new Bitmap(String("./resources/enemy_cthulhu.png"));
@@ -78,15 +79,16 @@ void Roguelight::GameStart()
 	m_Session->Start(m_ElfPtr->GetHealth(), m_ElfPtr->GetAmmo());
 
 	//temp:
-	DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
+	/*DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
 	m_DoorArr.push_back(new Door(DOUBLE2(elfSpawn.x - 100, elfSpawn.y)));
 	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
+*/
 
 	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
 	m_HudArr.push_back(new HUD(HUD::Type::COINS, this));
 	m_HudArr.push_back(new HUD(HUD::Type::AMMO, this));
 	
-	m_ActLevelPtr = new PhysicsActor(DOUBLE2(5, 7), 0, BodyType::STATIC);
+	m_ActLevelPtr = new PhysicsActor(DOUBLE2(-12, 7), 0, BodyType::STATIC);
 	m_ActLevelPtr->AddSVGShape(String("./resources/LevelSVG.svg"), 0, 0.2, 0);
 	
 	matTranslate.SetAsTranslate(m_Translate);
@@ -124,7 +126,6 @@ void Roguelight::GameEnd()
 	m_BmpDeadTextPtr = nullptr;
 	delete m_GameSoundPtr;
 	m_GameSoundPtr = nullptr; 
-
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -218,6 +219,7 @@ void Roguelight::GameTick(double deltaTime)
 		return;
 	}
 
+//	m_GameSoundPtr->Play();
 	m_ElfPtr->Tick(deltaTime);
 	m_ElfPos = m_ElfPtr->GetPosition();
 
@@ -268,7 +270,7 @@ void Roguelight::GameTick(double deltaTime)
 		m_ShootTime = 0;	
 	}
 	if (GAME_ENGINE->IsKeyboardKeyReleased('X'))
-	{	OutputDebugString(String(m_ShootTime) + String('\n'));
+	{	
 		if (m_ElfPtr->GetAmmo()>0)
 		{
 			DOUBLE2 bulletSpeed = DOUBLE2(350, 0);
@@ -578,6 +580,10 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseCthulhu(item);
 	}
+	else if ((item.find(L"Door") == 1))
+	{
+		ParseDoor(item);
+	}
 }
 
 void Roguelight::ParseElf(std::wstring & item)
@@ -638,6 +644,12 @@ void Roguelight::ParseSkelethon(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
 	m_SkelethonArr.push_back(new Skelethon(pos, 3, m_BmpSkelethonPtr));
+}
+
+void Roguelight::ParseDoor(std::wstring & item)
+{
+	DOUBLE2 pos = ParsePosition(item);
+	m_DoorArr.push_back(new Door(pos));
 }
 
 PhysicsActor * Roguelight::GetLevelActor()
@@ -783,7 +795,6 @@ void Roguelight::Quit()
 {
 	GAME_ENGINE->QuitGame();
 }
-
 
 void Roguelight::DrawBgRect(DOUBLE2 pos, int r)
 {

@@ -35,8 +35,7 @@ public:
 	virtual int GetSpriteRow();
 	virtual int GetSpriteCol();
 	virtual PhysicsActor * GetPhysicsActor();
-	
-	virtual void IncreaseHealth();
+	void IncreaseHealth();
 	virtual void DecreaseHealth();
 	virtual int GetHealth();
 	virtual bool IsAlive();

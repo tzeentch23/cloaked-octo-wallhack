@@ -10,7 +10,8 @@
 // Includes
 //---------------------------
 #include "Actor.h"
-
+#include "Elf.h"
+#include "Roguelight.h"
 //---------------------------
 // Defines
 //---------------------------
@@ -110,24 +111,19 @@ void Actor::Paint()
 	int cropX = spriteWidth* col;
 	int cropY = spriteHeight* row;
 
-	RECT spriteElf;
-	spriteElf.top = cropY;
-	spriteElf.bottom = cropY + spriteHeight;
-	spriteElf.left = cropX;
-	spriteElf.right = cropX + spriteWidth;
+	RECT spriteRect;
+	spriteRect.top = cropY;
+	spriteRect.bottom = cropY + spriteHeight;
+	spriteRect.left = cropX;
+	spriteRect.right = cropX + spriteWidth;
 
-	GAME_ENGINE->DrawBitmap(m_BmpActorPtr, spriteElf);
+	GAME_ENGINE->DrawBitmap(m_BmpActorPtr, spriteRect);
 
 }
 
 PhysicsActor * Actor::GetPhysicsActor()
 {
 	return m_ActActorPtr;
-}
-
-void Actor::IncreaseHealth()
-{
-	++m_Health;
 }
 
 void Actor::DecreaseHealth()

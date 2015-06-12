@@ -41,6 +41,8 @@ PauseScreen::~PauseScreen()
 }
 void PauseScreen::Paint()
 {
+	DOUBLE2 controlPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpControlsPtr->GetWidth() / 2,
+		GAME_ENGINE->GetHeight() / 2 - m_BmpControlsPtr->GetHeight() / 2);
 	DOUBLE2 menuPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpMenuPtr->GetWidth() / 2,
 							GAME_ENGINE->GetHeight() / 2 - m_BmpMenuPtr->GetHeight() / 2);
 	DOUBLE2 backgroundPos = DOUBLE2(GAME_ENGINE->GetWidth() / 2 - m_BmpBackgroundPtr->GetWidth() / 2,
@@ -103,7 +105,7 @@ void PauseScreen::Paint()
 			matTranslate.SetAsTranslate(originChange);
 			matRotate.SetAsRotate(m_Angle);
 			matScale.SetAsScale(m_Scale);
-			matPivot.SetAsTranslate(backgroundPos);
+			matPivot.SetAsTranslate(controlPos);
 			matWorldTransform = matPivot * matRotate * matScale * matTranslate;
 			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 			GAME_ENGINE->DrawBitmap(m_BmpControlsPtr);

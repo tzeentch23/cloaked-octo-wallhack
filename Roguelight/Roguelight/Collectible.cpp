@@ -194,18 +194,34 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 	}
 	if (m_Type == Type::COINS)
 	{
-		elf->IncreaseCoins();
+			m_IsConsumed = true;
+			elf->IncreaseCoins();
 	}
 	if (m_Type == Type::AMMO)
 	{
-		elf->Reload();
+		if (elf->m_Ammo == elf->MAX_AMMO)
+		{
+			m_IsConsumed = false;
+		}
+		else
+		{
+			m_IsConsumed = true;
+			elf->Reload();
+		}
 	}
 	if (m_Type == Type::HEARTS)
 	{
-		elf->IncreaseHealth();
+		if (elf->m_Health == elf->MAX_HEALTH)
+		{
+			m_IsConsumed = false;
+		}
+		else 
+		{
+			m_IsConsumed = true;
+			elf->IncreaseHealth();
+		}
+		m_ActCollectPtr->SetGhost(true);
 	}	
-	m_IsConsumed = true;
-	m_ActCollectPtr->SetGhost(true); 
 }
 
 

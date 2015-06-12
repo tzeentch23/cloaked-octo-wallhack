@@ -33,10 +33,12 @@ public:
 	void Reload();
 	void DecreaseAmmo();
 	void IncreaseCoins();
-	virtual void DecreaseHealth(); //she go prezapishem
+	void IncreaseHealth();
+	virtual void DecreaseHealth(); 
 	virtual int GetSpriteRow();
 	static Elf * player;
 	int GetDirection();
+	void PlayGodmodeSound();
 
 public:
 	static Elf * GetPlayer();
@@ -58,16 +60,19 @@ public:
 		DEAD,
 		GODMODE,	
 	};
-
+	Bitmap *m_BmpGodModePtr = nullptr;
 	bool m_GodMode = false;
 	State m_State;
 	static const int MAX_AMMO = 8;
+	static const int MAX_HEALTH = 8;
 	int m_Direction = 1;
 	int m_NrOfJumps = 0;
 	double m_JumpTime = 0;
+	double m_SoundTime = 0;
 	Sound * m_DecreaseHealthSndPtr = nullptr, 
 			*m_GetCoinSndPtr = nullptr, 
-			*m_IsDeadSndPtr = nullptr;
+			*m_IsDeadSndPtr = nullptr,
+			*m_GodmodeSndPtr = nullptr;
 };
 
  

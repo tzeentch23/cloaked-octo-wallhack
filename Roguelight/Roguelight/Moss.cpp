@@ -33,7 +33,7 @@ Moss::Moss(DOUBLE2 pos)
 	m_ActorHeight = m_BmpMossPtr->GetHeight();
 
 	m_ActMossPtr = new PhysicsActor(pos, 0, BodyType::KINEMATIC);
-	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight / 2, 0.5, 0.5, 0.2);
+	m_ActMossPtr->AddBoxShape(m_ActorWidth, m_ActorHeight / 2, 0.3, 0, 0.2);
 	}
 
 Moss::~Moss()

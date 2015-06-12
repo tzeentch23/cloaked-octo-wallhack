@@ -30,8 +30,14 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 7, 20, 40)
 	m_Health = GetInitialHealth();
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 
-	m_DecreaseHealthSndPtr = new Sound(String("./resources/beep10.mp3"));
+	m_BmpGodModePtr = new Bitmap(String("./resources/godmode.png"));
 
+	m_DecreaseHealthSndPtr = new Sound(String("./resources/sound_decreasehealth.mp3"));
+	m_DecreaseHealthSndPtr->SetVolume(0.7);
+	m_GetCoinSndPtr = new Sound(String("./resources/sound_get_coin.mp3"));
+	m_GetCoinSndPtr->SetVolume(0.7);
+	m_IsDeadSndPtr = new Sound(String("./resources/sound_death.mp3"));
+	m_IsDeadSndPtr->SetVolume(0.7);
 	m_BmpActorPtr->SetTransparencyColor(COLOR(0, 0, 0));
 	m_ActActorPtr->AddContactListener(this);
 }
@@ -39,6 +45,9 @@ Elf::~Elf()
 {
 	delete m_BmpActorPtr;
 	m_BmpActorPtr = nullptr;
+
+	delete m_BmpGodModePtr;
+	m_BmpGodModePtr = nullptr;
 
 	delete m_DecreaseHealthSndPtr;
 	m_DecreaseHealthSndPtr = nullptr;
@@ -52,7 +61,23 @@ Elf::~Elf()
 
 void Elf::Paint()
 {
-	Actor::Paint();	
+	Actor::Paint();
+
+		if (m_ActActorPtr->GetContactList().size() <= 0)
+		{
+		m_State = State::JUMPING;
+		}
+		if (m_GodMode)
+		{
+			DOUBLE2 origin = Roguelight::GAME->GetCamera()->GetCameraOrigin();
+			DOUBLE2 godmodeBmpPos = DOUBLE2(origin.x - (m_BmpGodModePtr->GetWidth() / 2),
+				origin.y - 150);
+			matTranslate.SetAsTranslate(godmodeBmpPos);
+			matScale.SetAsScale(m_Scale);
+			matWorldTransform = matRotate*matScale*matTranslate;
+			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+			GAME_ENGINE->DrawBitmap(m_BmpGodModePtr );
+		}
 }
 
 int Elf::GetSpriteRow()
@@ -117,7 +142,7 @@ void Elf::Tick(double deltatime)
 			m_State = State::WALKING;
 			newVelocity.x = -500;
 			m_Direction = -1;
-			m_Scale = -1;
+		//	m_Scale = -1;
 			applyImpulse = true;
 		}
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
@@ -134,52 +159,35 @@ void Elf::Tick(double deltatime)
 
 		if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
 		{
-			//if (m_ActActorPtr->GetContactList().size() > 0) {
 			m_JumpTime = 0;
-			//		OutputDebugString(String("111111\n"));
-			//	}
 		}
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
 		{
-			/*if (m_ActActorPtr->GetContactList().size() > 0) {
-			m_JumpTime = 0;
-			*/
-
+			m_State = State::JUMPING;
 			if (m_JumpTime > 0.2)
 			{
+				m_Scale = 1;
 				newVelocity.y = -1000;
 				applyImpulse = true;
-				OutputDebugString(String("2222222\n"));
 			}
 			else
 			{
+				m_Scale = 1;
 				newVelocity.y = -2500;
 				applyImpulse = true;
 			}
-
-			//if (m_JumpTime > 0.1)
-			//	{
-			//	newVelocity.y = -6000;
-			//	applyImpulse = true;
-
-			//}
 		}
 
 		if (GAME_ENGINE->IsKeyboardKeyReleased('Z'))
 		{
 			if (m_ActActorPtr->GetContactList().size() > 0) {
 				applyImpulse = true;
-				//				newVelocity.y = -20000;
-				//			if (m_JumpTime > 0.2)
-				//		{
-				//newVelocity.y -= min(m_JumpTime, 0.5) * 30000; 
-				//	}
 				m_State = State::JUMPING;
 			}
 		}
 
-		if (GAME_ENGINE->IsKeyboardKeyDown('S')) //show position
+		if (GAME_ENGINE->IsKeyboardKeyDown('S'))
 		{
 			DOUBLE2 pos = m_ActActorPtr->GetPosition();
 			String status = String(pos.x) + String(" ") + String(pos.y) + String("\n");
@@ -198,16 +206,13 @@ void Elf::Tick(double deltatime)
 				newVelocity.y = 250;
 				applyImpulse = true;
 			}
-				//newVelocity.x *= 3;
 		}
 
 		if (applyImpulse) 
 		{
-			velocityChange.y = newVelocity.y;// -m_ActActorPtr->GetLinearVelocity().y;
+			velocityChange.y = newVelocity.y;
 			velocityChange.x = newVelocity.x - m_ActActorPtr->GetLinearVelocity().x;
-			//velocityChange.y = max(velocityChange.y, -10000);
 			impulse = mass * velocityChange / PhysicsActor::SCALE;
-			OutputDebugString(String("YYYY ") + String(velocityChange.y) + String('\n'));
 			m_ActActorPtr->ApplyForce(impulse);
 		}
 
@@ -233,7 +238,6 @@ void Elf::Tick(double deltatime)
 	else
 	{
 		m_State = State::DEAD;
-
 		if (m_FrameNr < NR_COLS)
 		{
 			Actor::Tick(deltatime);
@@ -253,6 +257,7 @@ void Elf::DecreaseAmmo()
 
 void Elf::IncreaseCoins()
 {
+	//m_GetCoinSndPtr->Play();
 	++m_Coins;
 }
 
@@ -277,12 +282,21 @@ int Elf::GetDirection()
 
 int Elf::GetInitialHealth()
 {
-	return 8;
+	return MAX_HEALTH;
 }
 void Elf::DecreaseHealth()
 {
-	Actor::DecreaseHealth();
-	m_DecreaseHealthSndPtr->Play();
+	int previousHealth = m_Health;
+	Actor::DecreaseHealth();  
+
+	if (previousHealth > 0 && m_Health <= 0)
+	{
+	//	m_IsDeadSndPtr->Play();
+	}
+	else
+	{
+	//	m_DecreaseHealthSndPtr->Play();
+	}
 }
 
 
@@ -293,8 +307,20 @@ void Elf::Reset()
 	m_State = State::STANDING;
 }
 
+void Elf::IncreaseHealth()
+{
+	m_Health = MAX_HEALTH;
+}
+
 void Elf::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr) 
 {
 	m_NrOfJumps = 0;
 
+}
+void Elf::PlayGodmodeSound()
+{
+	if (m_GodMode)
+	{
+		m_GodmodeSndPtr->Play();
+	}
 }

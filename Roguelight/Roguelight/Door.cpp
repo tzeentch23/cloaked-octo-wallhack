@@ -24,7 +24,7 @@ Bitmap* Door::m_BmpDoorPtr = nullptr;
 int Door::m_InstanceCounter = 0;
 Door::Door(DOUBLE2 pos)
 {
-	m_SpawnPos = pos;
+	m_SpawnPos = DOUBLE2(pos.x + 50, pos.y);
 	++m_InstanceCounter;
 	if (m_BmpDoorPtr == nullptr)
 	{
@@ -33,9 +33,9 @@ Door::Door(DOUBLE2 pos)
 	m_ActorWidth = m_BmpDoorPtr->GetWidth();
 	m_ActorHeight = m_BmpDoorPtr->GetHeight();
 
-	m_ActDoorPtr = new PhysicsActor(pos, 0, BodyType::KINEMATIC);
+	m_ActDoorPtr = new PhysicsActor(DOUBLE2(pos.x + 50, pos.y), 0, BodyType::KINEMATIC);
 	m_ActDoorPtr->AddBoxShape(m_ActorWidth, m_ActorHeight, 0.5, 0.5, 0.2);
-	m_ActTriggerPtr = new PhysicsActor(DOUBLE2(pos.x + 50, pos.y), 0, BodyType::STATIC);
+	m_ActTriggerPtr = new PhysicsActor(DOUBLE2(pos), 0, BodyType::STATIC);
 	m_ActTriggerPtr->AddBoxShape(5,5,0,0,0);
 	m_ActTriggerPtr->SetTrigger(true);
 
