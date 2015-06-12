@@ -26,6 +26,7 @@ using namespace std;
 #include "StartScreen.h"
 #include "PauseScreen.h"
 #include "Session.h"
+#include "Firefly.h"
 #include <fstream>
 #include <string>
 //-----------------------------------------------------------------
@@ -65,12 +66,15 @@ void Roguelight::GameStart()
 	m_BmpLvlDarkPtr = new Bitmap(String("./resources/levelmapb.png"));
 	m_BmpLvlPtr = new Bitmap(String("./resources/levelmap.png"));
 	m_BmpLvlPtr->SetTransparencyColor(COLOR(35, 29, 63));
+	m_BmpGodModePtr = new Bitmap(String("./resources/godmode.png"));
 	m_GameSoundPtr = new Sound(String("./resources/game_song.mp3"));
-	m_GameSoundPtr->SetVolume(0.2);
+	m_GameSoundPtr->SetVolume(0.1);
+	m_GodmodeSndPtr = new Sound(String("./resources/godmode.mp3"));
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 	m_BmpCthulhuPtr = new Bitmap(String("./resources/enemy_cthulhu.png"));
 	m_BmpDeadTextPtr = new Bitmap(String("./resources/deadText.png"));
+	m_BmpFireflyPtr = new Bitmap(String("./resources/firefly.png"));
 
 	m_CameraPtr = new Camera(m_BmpLvlPtr->GetWidth(), m_BmpLvlPtr->GetHeight());
 
@@ -79,10 +83,11 @@ void Roguelight::GameStart()
 	m_Session->Start(m_ElfPtr->GetHealth(), m_ElfPtr->GetAmmo());
 
 	//temp:
-	/*DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
-	m_DoorArr.push_back(new Door(DOUBLE2(elfSpawn.x - 100, elfSpawn.y)));
-	m_LampArr.push_back(new Lamp(DOUBLE2(elfSpawn.x, elfSpawn.y-100)));
-*/
+	/*
+	m_DoorArr.push_back(new Door(DOUBLE2(elfSpawn.x - 100, elfSpawn.y)));*/
+	DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
+	m_FireflyArr.push_back(new Firefly(DOUBLE2(elfSpawn.x, elfSpawn.y - 100), 8,1, m_BmpFireflyPtr));
+
 
 	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
 	m_HudArr.push_back(new HUD(HUD::Type::COINS, this));
@@ -101,7 +106,11 @@ void Roguelight::GameEnd()
 {
 
 	m_Session->Stop(m_ElfPtr->GetHealth(), m_ElfPtr->GetCoins(), m_ElfPtr->GetAmmo());
-
+	
+	delete m_BmpFireflyPtr;
+	m_BmpFireflyPtr = nullptr;
+	delete m_BmpGodModePtr;
+	m_BmpGodModePtr = nullptr;
 	delete m_ActLevelPtr;
 	m_ActLevelPtr = nullptr;
 	delete m_BmpLvlPtr;
@@ -126,6 +135,8 @@ void Roguelight::GameEnd()
 	m_BmpDeadTextPtr = nullptr;
 	delete m_GameSoundPtr;
 	m_GameSoundPtr = nullptr; 
+	delete m_GodmodeSndPtr;
+	m_GameSoundPtr = nullptr;
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -188,6 +199,11 @@ void Roguelight::GameEnd()
 		delete m_DoorArr[i];
 		m_DoorArr[i] = nullptr;
 	}
+	for (size_t i = 0; i < m_FireflyArr.size(); i++)
+	{
+		delete m_FireflyArr[i];
+		m_FireflyArr[i] = nullptr;
+	}
 
 	delete m_CthulhuPtr;
 	m_CthulhuPtr = nullptr;
@@ -201,6 +217,7 @@ void Roguelight::GameEnd()
 	m_AmmoArr.clear();
 	m_HeartArr.clear();
 	m_DoorArr.clear();
+	m_FireflyArr.clear();
 	delete m_Session;
 	m_Session = nullptr;
 }
@@ -326,6 +343,10 @@ void Roguelight::GameTick(double deltaTime)
 			enemy->Tick(deltaTime);
 		}
 	}
+	for (size_t i = 0; i < m_FireflyArr.size(); i++)
+	{
+		m_FireflyArr[i]->Tick(deltaTime);
+	}
 
 	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
 	{
@@ -338,9 +359,8 @@ void Roguelight::GameTick(double deltaTime)
 
 	for (size_t i = 0; i < m_LootArr.size(); i++)
 	{
-
 		if (m_LootArr[i] != nullptr)
-		{
+		{ 
 			m_LootArr[i]->Tick(deltaTime);
 			if (m_LootArr[i]->IsConsumed())
 			{
@@ -410,7 +430,10 @@ void Roguelight::GamePaint(RECT rect)
 	{
 		m_MossArr[i]->Paint();
 	}
-
+	for (size_t i = 0; i < m_FireflyArr.size(); i++)
+	{
+		m_FireflyArr[i]->Paint();
+	}
 	for (size_t i = 0; i < m_SpikeArr.size(); i++)
 	{
 		m_SpikeArr[i]->Paint();
@@ -486,6 +509,21 @@ void Roguelight::GamePaint(RECT rect)
 		matWorldTransform = matPivot * matRotate * matScale * matTranslate;
 		GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 		GAME_ENGINE->DrawBitmap(m_BmpDeadTextPtr);
+	}
+	PhysicsActor * elfActor = m_ElfPtr->GetPhysicsActor(); 
+	
+	if (m_ElfPtr->m_GodMode)
+	{
+
+//		m_GodmodeSndPtr->Play();
+		DOUBLE2 origin = Roguelight::GAME->GetCamera()->GetCameraOrigin();
+		DOUBLE2 godmodeBmpPos = DOUBLE2(origin.x - (m_BmpGodModePtr->GetWidth() / 2),
+			origin.y - 150);
+		matScale.SetAsScale(1);
+		matTranslate.SetAsTranslate(godmodeBmpPos);
+		matWorldTransform = matRotate*matScale*matTranslate;
+		GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+		GAME_ENGINE->DrawBitmap(m_BmpGodModePtr);
 	}
 }
 
@@ -602,7 +640,7 @@ void Roguelight::ParseMoss(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
 	pos.x += 5;
-	pos.y += 35;
+	pos.y += 40;
 	m_MossArr.push_back(new Moss(pos));
 }
 
@@ -637,7 +675,7 @@ void Roguelight::ParseCthulhu(std::wstring & item)
 void Roguelight::ParseShadyguy(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
-	m_ShadyguyArr.push_back(new Shadyguy(pos, m_BmpShadyGuyPtr));
+	m_ShadyguyArr.push_back(new Shadyguy(pos, 3,1, m_BmpShadyGuyPtr));
 }
 
 void Roguelight::ParseSkelethon(std::wstring & item)
@@ -803,7 +841,7 @@ void Roguelight::DrawBgRect(DOUBLE2 pos, int r)
 	m_BgRect.right = pos.x + r;
 	m_BgRect.bottom = pos.y + r;
 
-	matTranslate.SetAsTranslate(pos.x - r, pos.y - r);
+	matTranslate.SetAsTranslate(DOUBLE2(pos.x - r, pos.y - r));
 	matRotate.SetAsRotate(m_Angle);
 	matScale.SetAsScale(1);
 
