@@ -9,14 +9,14 @@
 // Include Files
 //-----------------------------------------------------
 
-#include "Shadyguy.h"
+#include "Skelethon.h"
 //-----------------------------------------------------
 // Firefly Class									
 //-----------------------------------------------------
-class Firefly : public Shadyguy
+class Firefly
 {
 public:
-	Firefly(DOUBLE2 pos, int nrCols, int nrRows,Bitmap* bmp);
+	Firefly(DOUBLE2 pos, Bitmap* bmp);
 	virtual ~Firefly( );
 
 	// C++11 make the class non-copFireflysable
@@ -28,19 +28,21 @@ public:
 	//--------------------------------------------------------
 	void Paint();
 	void Tick(double deltaTime);
-	void ResetPos();
-	
+	DOUBLE2 GetPosition();
 
 private: 
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
-	DOUBLE2 m_SpawnPos;
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
 	double m_Scale = 1;
 	double m_Angle = 0;
-	PhysicsActor * m_ActFireflyPtr = nullptr;
-	static int m_InstanceCounter;
+	DOUBLE2 m_Position;
 	static const int NR_COLS = 8; 
 	static const int NR_ROWS = 1;
+	static const int FRAMERATE = 5;
+	Bitmap *m_BmpPtr = nullptr;
+	PhysicsActor * m_ActFireflyPtr;
+	int m_FrameNr = 0;
+	double m_Time = 0.0;
 };

@@ -69,7 +69,7 @@ public:
 	// -------------------------
 	// Public Member functions
 	// -------------------------
-	
+	void ParseFirefly(std::wstring & item);
 	void ParseMoss(std::wstring & item);
 	void ParseSpike(std::wstring & item);
 	void ParseAmmo(Collectible::Type type, std::wstring & item, std::vector<Collectible *> & arrayPtr);
@@ -151,8 +151,7 @@ private:
 		*m_BmpSkelethonPtr = nullptr,
 		*m_BmpCthulhuPtr = nullptr,
 		*m_BmpFireflyPtr = nullptr;
-	Sound * m_GameSoundPtr = nullptr,
-		*m_GodmodeSndPtr = nullptr;
+	Sound * m_GameSoundPtr = nullptr;
 	RECT m_BgRect;
 
 };

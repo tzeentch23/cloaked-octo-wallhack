@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine,
 
 		IDXGIDebug* pDXGIDebug;
 		DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDXGIDebug);
-		_CrtSetBreakAlloc(724);
+		//_CrtSetBreakAlloc(724);
 	#endif
 		
 		//

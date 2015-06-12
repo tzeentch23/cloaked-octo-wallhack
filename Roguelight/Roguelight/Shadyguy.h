@@ -38,9 +38,7 @@ public:
 private:
 	static const DOUBLE2 IMPULSE;
 	static const int MAX_DISTANCE = 300;
-	PhysicsActor * m_TriggerLeftPtr = nullptr, *m_TriggerRightPtr = nullptr;
 	DOUBLE2 m_Position;
-
 	DOUBLE2 m_LastPosition = DOUBLE2(0, 0);
 	int m_Direction = 1;
 	double m_StuckTime = 0;

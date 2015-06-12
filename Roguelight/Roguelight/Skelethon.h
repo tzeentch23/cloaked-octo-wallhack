@@ -31,6 +31,7 @@ public:
 	//--------------------------------------------------------
 	virtual void BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr); 
 	virtual int GetInitialHealth();
+	virtual int GetImpulseForce();
 public: 
 	//-------------------------------------------------
 	// Datamembers								
@@ -39,6 +40,9 @@ public:
 	static const int MAX_DISTANCE;
 	double m_ImpulseTime;
 
-};
+};//ok de stava li samo da mahnem damage-a i da gi ostavim taka che nqmam vreme. koe da mahnem? ami kato se udrq v elfa i vzima health
+//ne mojem da go mahnem of 
+//imash ghost, kojto po niakakva prichina go precakva.. triabva da se napravi izcialo nanovo - da e static i triger i da si shava podobno na tova.. no po-razlichno..
+
 
  

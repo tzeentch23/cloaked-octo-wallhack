@@ -69,7 +69,6 @@ void Roguelight::GameStart()
 	m_BmpGodModePtr = new Bitmap(String("./resources/godmode.png"));
 	m_GameSoundPtr = new Sound(String("./resources/game_song.mp3"));
 	m_GameSoundPtr->SetVolume(0.1);
-	m_GodmodeSndPtr = new Sound(String("./resources/godmode.mp3"));
 	m_BmpShadyGuyPtr = new Bitmap(String("./resources/enemy_shadyguy.png"));
 	m_BmpSkelethonPtr = new Bitmap(String("./resources/enemy_skelethon.png"));
 	m_BmpCthulhuPtr = new Bitmap(String("./resources/enemy_cthulhu.png"));
@@ -86,7 +85,7 @@ void Roguelight::GameStart()
 	/*
 	m_DoorArr.push_back(new Door(DOUBLE2(elfSpawn.x - 100, elfSpawn.y)));*/
 	DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
-	m_FireflyArr.push_back(new Firefly(DOUBLE2(elfSpawn.x, elfSpawn.y - 100), 8,1, m_BmpFireflyPtr));
+	m_FireflyArr.push_back(new Firefly(DOUBLE2(elfSpawn.x, elfSpawn.y - 100), m_BmpFireflyPtr));
 
 
 	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
@@ -135,8 +134,6 @@ void Roguelight::GameEnd()
 	m_BmpDeadTextPtr = nullptr;
 	delete m_GameSoundPtr;
 	m_GameSoundPtr = nullptr; 
-	delete m_GodmodeSndPtr;
-	m_GameSoundPtr = nullptr;
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		delete m_MossArr[i];
@@ -416,6 +413,11 @@ void Roguelight::GamePaint(RECT rect)
 	GAME_ENGINE->DrawBitmap(m_BmpLvlDarkPtr);
 	DrawBgRect(m_ElfPos, 100);
 
+	for (size_t i = 0; i < m_FireflyArr.size(); i++)
+	{
+		DrawBgRect(m_FireflyArr[i]->GetPosition(), 150);
+		m_FireflyArr[i]->Paint();
+	}
 	for (size_t i = 0; i < m_LampArr.size(); i++)
 	{
 		if (m_LampArr[i]->IsOn())
@@ -430,10 +432,7 @@ void Roguelight::GamePaint(RECT rect)
 	{
 		m_MossArr[i]->Paint();
 	}
-	for (size_t i = 0; i < m_FireflyArr.size(); i++)
-	{
-		m_FireflyArr[i]->Paint();
-	}
+
 	for (size_t i = 0; i < m_SpikeArr.size(); i++)
 	{
 		m_SpikeArr[i]->Paint();
@@ -514,8 +513,6 @@ void Roguelight::GamePaint(RECT rect)
 	
 	if (m_ElfPtr->m_GodMode)
 	{
-
-//		m_GodmodeSndPtr->Play();
 		DOUBLE2 origin = Roguelight::GAME->GetCamera()->GetCameraOrigin();
 		DOUBLE2 godmodeBmpPos = DOUBLE2(origin.x - (m_BmpGodModePtr->GetWidth() / 2),
 			origin.y - 150);
@@ -586,6 +583,10 @@ void Roguelight::ParseItem(wstring & item)
 	{
 		ParseShadyguy(item);
 	}
+	if (item.find(L"Firefly") == 1)
+	{
+		ParseShadyguy(item);
+	}
 	else if (item.find(L"Moss") == 1)
 	{
 		ParseMoss(item);
@@ -628,6 +629,12 @@ void Roguelight::ParseElf(std::wstring & item)
 {
 	DOUBLE2 pos = ParsePosition(item);
 	m_ElfPtr = new Elf(pos);
+}
+
+void Roguelight::ParseFirefly(std::wstring & item)
+{
+	DOUBLE2 pos = ParsePosition(item);
+	m_FireflyArr.push_back (new Firefly(pos, m_BmpFireflyPtr));
 }
 
 void Roguelight::ParseLamp(std::wstring & item)
@@ -780,7 +787,7 @@ void Roguelight::NewCoin(DOUBLE2 pos)
 			coin = nullptr;
 		}
 	}
-	if (coin != nullptr) //not added above
+	if (coin != nullptr)
 	{
 		m_LootArr.push_back(coin);
 	}
@@ -815,11 +822,6 @@ void Roguelight::Reset()
 	{
 		m_SkelethonArr[i]->Reset();
 	}
-	//for (size_t i = 0; i < m_LampArr.size(); i++)
-	//{
-	//	m_LampArr[i]->Reset;
-	//}
-
 
 }
 
@@ -836,7 +838,7 @@ void Roguelight::Quit()
 
 void Roguelight::DrawBgRect(DOUBLE2 pos, int r)
 {
-	m_BgRect.left = pos.x - r;
+	m_BgRect.left = (long) (pos.x - r);
 	m_BgRect.top = pos.y - r;
 	m_BgRect.right = pos.x + r;
 	m_BgRect.bottom = pos.y + r;

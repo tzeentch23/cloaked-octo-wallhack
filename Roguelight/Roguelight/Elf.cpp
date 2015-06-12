@@ -29,6 +29,8 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 7, 20, 40)
 	m_Coins = 0;
 	m_Health = GetInitialHealth();
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
+	
+	m_GodmodeSndPtr = new Sound(String("./resources/godmode.mp3"));
 
 	m_DecreaseHealthSndPtr = new Sound(String("./resources/sound_decreasehealth.mp3"));
 	m_DecreaseHealthSndPtr->SetVolume(0.7);
@@ -52,6 +54,9 @@ Elf::~Elf()
 
 	delete m_GetCoinSndPtr;
 	m_GetCoinSndPtr = nullptr;
+
+	delete m_GodmodeSndPtr;
+	m_GodmodeSndPtr = nullptr;
 }
 
 void Elf::Paint()
@@ -119,10 +124,15 @@ void Elf::Tick(double deltatime)
 			{
 				m_ActActorPtr->SetGravityScale(0);
 			}
-			else 
+			else
 			{
-				m_ActActorPtr->SetGravityScale(1); 
+				m_ActActorPtr->SetGravityScale(1);
 			}
+			if (m_GodMode)
+			{ 
+				m_GodmodeSndPtr->Play();
+			}
+		
 		}
 		
 		DOUBLE2 velocityChange, newVelocity, impulse;
@@ -146,15 +156,7 @@ void Elf::Tick(double deltatime)
 
 		}
 
-		//ok li e??? da
-		//obiasni mi go :) mi. 
-		//1. ako ne se dvijim po y - znachi ne sme v skok
-		//zanuliaame jumptime, moje da si e bilo 0, vse taia
-		//ako se dvijim po y - prosto si go uvelichavame..
-		//tova e s cel ej tazi proverka tam, koiato e syvsem nacelena t vyzduha
-		//v smisyl igrah si, daje ne znam dali pyrvto e nujno, ili samo < 0.4
-		//ideiata e da ne dyrjisj 10 sekundi i vse da se katerish nagore..
-		//i kogato mne vremeto (0.4) veche 'Z' ne igrae
+	
 		if (abs(m_ActActorPtr->GetLinearVelocity().y) < 40) //t.e. da niamame dvijenie po y
 		{
 			m_JumpTime = 0;
@@ -163,7 +165,7 @@ void Elf::Tick(double deltatime)
 		{
 			m_JumpTime += deltatime;
 		}
-		//tuk i da vlezesh - jumptime != 0
+
 		if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
 		{
 			if (m_JumpTime == 0)

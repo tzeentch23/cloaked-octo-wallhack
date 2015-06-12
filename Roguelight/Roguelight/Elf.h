@@ -36,7 +36,6 @@ public:
 	void IncreaseHealth();
 	virtual void DecreaseHealth(); 
 	virtual int GetSpriteRow();
-	static Elf * player;
 	int GetDirection();
 
 public:
@@ -45,6 +44,7 @@ public:
 	 int GetAmmo();
 	 int GetCoins();
 	 virtual int GetInitialHealth();
+	 static Elf * player;
 	//-------------------------------------------------
 	// Datamembers								
 	//-------------------------------------------------
@@ -69,7 +69,8 @@ public:
 	double m_SoundTime = 0;
 	Sound * m_DecreaseHealthSndPtr = nullptr, 
 			*m_GetCoinSndPtr = nullptr, 
-			*m_IsDeadSndPtr = nullptr;
+			*m_IsDeadSndPtr = nullptr,
+			*m_GodmodeSndPtr = nullptr;
 };
 
  

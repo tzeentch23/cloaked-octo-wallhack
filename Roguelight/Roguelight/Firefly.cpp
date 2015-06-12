@@ -10,7 +10,7 @@
 // Includes
 //---------------------------
 #include "Firefly.h"
-#include "Shadyguy.h"
+#include "Skelethon.h"
 //---------------------------
 // Defines
 //---------------------------
@@ -19,17 +19,12 @@
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-int Firefly::m_InstanceCounter = 0;
 
-Firefly::Firefly(DOUBLE2 pos, int nrCols, int nrRows, Bitmap * bmpPtr) : Shadyguy(pos, nrRows, nrCols , bmpPtr)
+Firefly::Firefly(DOUBLE2 pos, Bitmap * bmpPtr)
 {
-	nrCols = NR_COLS;
-	nrRows = NR_ROWS;
-	m_SpawnPos = pos;
-	++m_InstanceCounter;
-	m_ActFireflyPtr = new PhysicsActor(pos, 0, BodyType::DYNAMIC);
-	m_ActFireflyPtr->AddBoxShape(5, 5, 0.2, 0.9, 0);
-	
+	m_Position = pos;
+	m_ActFireflyPtr = new PhysicsActor(pos, 0, BodyType::STATIC);
+	m_BmpPtr = bmpPtr;
 }
 
 Firefly::~Firefly()
@@ -40,26 +35,46 @@ Firefly::~Firefly()
 
 void Firefly::Paint()
 {
-	DOUBLE2 bitmapPos = DOUBLE2(m_ActFireflyPtr->GetPosition().x - m_BmpActorPtr->GetWidth() / 2,
-		m_ActFireflyPtr->GetPosition().y - m_BmpActorPtr->GetHeight() / 2);
+	
+	int spriteWidth = m_BmpPtr->GetWidth() / NR_COLS;
+	int spriteHeight = m_BmpPtr->GetHeight() / NR_ROWS;
+	int col = m_FrameNr % NR_COLS;
+	int cropX = spriteWidth*col;
+	int cropY = 0;
+	RECT bmpRect;
+	bmpRect.top = cropY;
+	bmpRect.bottom = cropY + spriteHeight;
+	bmpRect.left = cropX;
+	bmpRect.right = cropX + spriteWidth;
+	DOUBLE2 bitmapPos(m_ActFireflyPtr->GetPosition().x - (spriteWidth / 2),
+		m_ActFireflyPtr->GetPosition().y - (spriteHeight / 2));
 
-	matTranslate.SetAsTranslate(bitmapPos);
-	matRotate.SetAsRotate(m_Angle);
-	matRotate.SetAsScale(m_Scale);
-	matWorldTransform = matRotate * matScale * matTranslate;
-	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+	if (m_BmpPtr != nullptr)
+	{
+		matTranslate.SetAsTranslate(bitmapPos);
+		matRotate.SetAsRotate(m_Angle);
+		matRotate.SetAsScale(m_Scale);
+		matWorldTransform = matRotate * matScale * matTranslate;
 
-	GAME_ENGINE->DrawBitmap(m_BmpActorPtr);
+		GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+
+		GAME_ENGINE->DrawBitmap(m_BmpPtr, bmpRect);
+	}
+	
 }
 
 void Firefly::Tick(double deltaTime)
 {
-	Shadyguy::Tick(deltaTime);
+	m_Time += deltaTime;
+	if (m_Time>1.0 / FRAMERATE)
+	{
+		++m_FrameNr;
+		m_FrameNr %= NR_COLS* NR_ROWS;
+		m_Time = 0;
+	}
 }
 
-void Firefly::ResetPos()
+DOUBLE2 Firefly::GetPosition()
 {
-	m_ActFireflyPtr->SetPosition(m_SpawnPos);
+	return m_Position;
 }
-
-
