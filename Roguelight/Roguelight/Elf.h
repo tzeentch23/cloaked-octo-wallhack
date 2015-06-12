@@ -38,9 +38,9 @@ public:
 	virtual int GetSpriteRow();
 	static Elf * player;
 	int GetDirection();
+	void PlayGodmodeSound();
 
 public:
-	bool m_GodMode = false;
 	static Elf * GetPlayer();
 	 int GetAmmo();
 	 int GetCoins();
@@ -60,6 +60,8 @@ public:
 		DEAD,
 		GODMODE,	
 	};
+	Bitmap *m_BmpGodModePtr = nullptr;
+	bool m_GodMode = false;
 	State m_State;
 	static const int MAX_AMMO = 8;
 	static const int MAX_HEALTH = 8;
@@ -69,7 +71,8 @@ public:
 	double m_SoundTime = 0;
 	Sound * m_DecreaseHealthSndPtr = nullptr, 
 			*m_GetCoinSndPtr = nullptr, 
-			*m_IsDeadSndPtr = nullptr;
+			*m_IsDeadSndPtr = nullptr,
+			*m_GodmodeSndPtr = nullptr;
 };
 
  

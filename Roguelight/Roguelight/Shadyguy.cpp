@@ -21,10 +21,8 @@ const DOUBLE2 Shadyguy::IMPULSE = DOUBLE2(60, 60);
 //---------------------------
 // Constructor & Destructor
 //---------------------------
-Shadyguy::Shadyguy(DOUBLE2 pos, int nrCols, int nrRows, Bitmap * bmpPtr) : Enemy(pos, 5, nrCols, nrRows, bmpPtr)
+Shadyguy::Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr) : Enemy(pos, 5, 3, 1, bmpPtr)
 {
-	nrCols = 3;
-	nrRows = 1;
 	m_Position = pos;
 	m_ActActorPtr->ApplyLinearImpulse(IMPULSE);
 	m_ActActorPtr->SetGravityScale(0.0);

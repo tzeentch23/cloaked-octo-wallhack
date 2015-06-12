@@ -98,7 +98,7 @@ void Actor::Paint()
 	}
 	matTranslate.SetAsTranslate(bitmapPos);
 	matRotate.SetAsRotate(0);
-	matScale.SetAsScale(m_Scale, 1);
+	matRotate.SetAsScale(m_Scale, 1);
 	matWorldTransform = matScale * matRotate* matTranslate;
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 	GAME_ENGINE->SetBitmapInterpolationModeNearestNeighbor();

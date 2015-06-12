@@ -30,6 +30,8 @@ Elf::Elf(DOUBLE2 spawnPos) :Actor(spawnPos, 3, 5, 7, 20, 40)
 	m_Health = GetInitialHealth();
 	m_BmpActorPtr = new Bitmap(String("./resources/spritesElf.png"));
 
+	m_BmpGodModePtr = new Bitmap(String("./resources/godmode.png"));
+
 	m_DecreaseHealthSndPtr = new Sound(String("./resources/sound_decreasehealth.mp3"));
 	m_DecreaseHealthSndPtr->SetVolume(0.7);
 	m_GetCoinSndPtr = new Sound(String("./resources/sound_get_coin.mp3"));
@@ -44,6 +46,9 @@ Elf::~Elf()
 	delete m_BmpActorPtr;
 	m_BmpActorPtr = nullptr;
 
+	delete m_BmpGodModePtr;
+	m_BmpGodModePtr = nullptr;
+
 	delete m_DecreaseHealthSndPtr;
 	m_DecreaseHealthSndPtr = nullptr;
 
@@ -57,6 +62,22 @@ Elf::~Elf()
 void Elf::Paint()
 {
 	Actor::Paint();
+
+		if (m_ActActorPtr->GetContactList().size() <= 0)
+		{
+		m_State = State::JUMPING;
+		}
+		if (m_GodMode)
+		{
+			DOUBLE2 origin = Roguelight::GAME->GetCamera()->GetCameraOrigin();
+			DOUBLE2 godmodeBmpPos = DOUBLE2(origin.x - (m_BmpGodModePtr->GetWidth() / 2),
+				origin.y - 150);
+			matTranslate.SetAsTranslate(godmodeBmpPos);
+			matScale.SetAsScale(m_Scale);
+			matWorldTransform = matRotate*matScale*matTranslate;
+			GAME_ENGINE->SetWorldMatrix(matWorldTransform);
+			GAME_ENGINE->DrawBitmap(m_BmpGodModePtr );
+		}
 }
 
 int Elf::GetSpriteRow()
@@ -94,21 +115,9 @@ void Elf::Tick(double deltatime)
 	if (m_Health > 0)
 	{
 		bool applyImpulse = false;
-		//bool isStanding = m_ActActorPtr->GetContactList().size() > 0;
-		//a taka ne lagva li? lagva po drugiq nachin :D brb wc
-		//ne razbiram kakvo lagva..
-		//ako ne overlapva moss ? ili actother different from moss? ami  ne, shtoto imame ujasno mnogo obekti, ne moje da proveriavame vsichko
-		bool isStanding = abs(m_ActActorPtr->GetLinearVelocity().y) < 50;
-		//bachka ama leko lagva
-		//koe lagva? ami nez nam kamerata ot proverkata li?
-		//OutputDebugString(String(m_ActActorPtr->GetLinearVelocity().y) + String('\n'));
-		if (isStanding)
+		if (m_ActActorPtr->GetContactList().size() > 0)
 		{
 			m_State = State::STANDING;
-		}
-		else
-		{
-			m_State = State::JUMPING;
 		}
 
 		if (GAME_ENGINE->IsKeyboardKeyPressed('G'))
@@ -133,7 +142,7 @@ void Elf::Tick(double deltatime)
 			m_State = State::WALKING;
 			newVelocity.x = -500;
 			m_Direction = -1;
-			m_Scale = -1;
+		//	m_Scale = -1;
 			applyImpulse = true;
 		}
 		if (GAME_ENGINE->IsKeyboardKeyDown(VK_RIGHT))
@@ -146,38 +155,35 @@ void Elf::Tick(double deltatime)
 
 		}
 
-		//ok li e??? da
-		//obiasni mi go :) mi. 
-		//1. ako ne se dvijim po y - znachi ne sme v skok
-		//zanuliaame jumptime, moje da si e bilo 0, vse taia
-		//ako se dvijim po y - prosto si go uvelichavame..
-		//tova e s cel ej tazi proverka tam, koiato e syvsem nacelena t vyzduha
-		//v smisyl igrah si, daje ne znam dali pyrvto e nujno, ili samo < 0.4
-		//ideiata e da ne dyrjisj 10 sekundi i vse da se katerish nagore..
-		//i kogato mne vremeto (0.4) veche 'Z' ne igrae
-		if (abs(m_ActActorPtr->GetLinearVelocity().y) < 40) //t.e. da niamame dvijenie po y
-		{
-			m_JumpTime = 0;
-		}
-		else
-		{
-			m_JumpTime += deltatime;
-		}
-		//tuk i da vlezesh - jumptime != 0
+		m_JumpTime += deltatime;
+
 		if (GAME_ENGINE->IsKeyboardKeyPressed('Z'))
 		{
-			if (m_JumpTime == 0)
-			{
-				m_ActActorPtr->ApplyLinearImpulse(DOUBLE2(0, -3000));
-			}
+			m_JumpTime = 0;
 		}
 
 		if (GAME_ENGINE->IsKeyboardKeyDown('Z'))
 		{
-				m_State = State::JUMPING;
-			if (m_JumpTime > 0.1 && m_JumpTime < 0.4)
+			m_State = State::JUMPING;
+			if (m_JumpTime > 0.2)
 			{
-				m_ActActorPtr->ApplyForce(DOUBLE2(0, -12000));
+				m_Scale = 1;
+				newVelocity.y = -1000;
+				applyImpulse = true;
+			}
+			else
+			{
+				m_Scale = 1;
+				newVelocity.y = -2500;
+				applyImpulse = true;
+			}
+		}
+
+		if (GAME_ENGINE->IsKeyboardKeyReleased('Z'))
+		{
+			if (m_ActActorPtr->GetContactList().size() > 0) {
+				applyImpulse = true;
+				m_State = State::JUMPING;
 			}
 		}
 
@@ -310,4 +316,11 @@ void Elf::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
 	m_NrOfJumps = 0;
 
+}
+void Elf::PlayGodmodeSound()
+{
+	if (m_GodMode)
+	{
+		m_GodmodeSndPtr->Play();
+	}
 }

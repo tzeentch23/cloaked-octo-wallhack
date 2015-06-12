@@ -40,7 +40,6 @@ class Lamp;
 class StartScreen;
 class PauseScreen;
 class Session;
-class Firefly;
 class Roguelight : public AbstractGame
 {
 public:
@@ -109,8 +108,7 @@ private:
 	Session * m_Session;
 	PhysicsActor * m_ActFloorPtr = nullptr, *m_ActLevelPtr = nullptr;
 	Camera * m_CameraPtr = nullptr;
-	Bitmap *m_BmpGodModePtr = nullptr;
-
+	
 	enum class DrawMode
 	{
 		BITMAP,
@@ -134,7 +132,6 @@ private:
 	std::vector<HUD *> m_HudArr;
 	std::vector<Bullet *> m_BulletArr;
 	std::vector<Lamp*> m_LampArr;
-	std::vector<Firefly*> m_FireflyArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
 	Bitmap  * m_BmpLvlDarkPtr = nullptr;
 	bool IsEnemyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor);
@@ -149,10 +146,8 @@ private:
 
 	Bitmap * m_BmpShadyGuyPtr = nullptr,
 		*m_BmpSkelethonPtr = nullptr,
-		*m_BmpCthulhuPtr = nullptr,
-		*m_BmpFireflyPtr = nullptr;
-	Sound * m_GameSoundPtr = nullptr,
-		*m_GodmodeSndPtr = nullptr;
+		*m_BmpCthulhuPtr = nullptr;
+	Sound * m_GameSoundPtr = nullptr;
 	RECT m_BgRect;
 
 };
