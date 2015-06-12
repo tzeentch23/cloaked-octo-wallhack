@@ -95,6 +95,7 @@
     <ClCompile Include="EngineFiles\Font.cpp" />
     <ClCompile Include="EngineFiles\GameEngine.cpp" />
     <ClCompile Include="EngineFiles\GameSettings.cpp" />
+    <ClCompile Include="Firefly.cpp" />
     <ClCompile Include="GameWinMain.cpp" />
     <ClCompile Include="EngineFiles\GUIBase.cpp" />
     <ClCompile Include="EngineFiles\InputManager.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="EngineFiles\Font.h" />
     <ClInclude Include="EngineFiles\GameEngine.h" />
     <ClInclude Include="EngineFiles\GameSettings.h" />
+    <ClInclude Include="Firefly.h" />
     <ClInclude Include="GameWinMain.h" />
     <ClInclude Include="EngineFiles\GUIBase.h" />
     <ClInclude Include="EngineFiles\InputManager.h" />

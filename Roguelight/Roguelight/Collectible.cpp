@@ -40,11 +40,9 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	m_ActCollectPtr = new PhysicsActor(pos, 0, bodyType);
 	m_ActCollectPtr->AddBoxShape(10, 10, 0, 0.5, 1);
 	m_ActCollectPtr->SetGravityScale(0.1);
-	m_ActCollectPtr->AddContactListener(this);
-
+	m_ActCollectPtr->SetTrigger(true);
 	++m_InstanceCounter;
-	
-	
+
 	if ( type == Type::HEARTS)
 	{
 		if (m_BmpHeartPtr == nullptr)
@@ -61,6 +59,8 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	}
 	if (type == Type::COINS)
 	{
+		m_ActCollectPtr->AddContactListener(this);
+
 		if (m_BmpCoinPtr == nullptr)
 		{
 			m_BmpCoinPtr = new Bitmap(String("./resources/coins.png"));
@@ -96,9 +96,38 @@ void Collectible::Tick(double deltaTime)
 		m_Time = 0;
 	}
 
+	Elf * elf = Elf::GetPlayer();
+
+
+	if (m_ActCollectPtr->IsOverlapping(elf->GetPhysicsActor())) 
+	{
+	
+		if (m_Type == Type::COINS)
+		{
+			m_IsConsumed = true;
+			elf->IncreaseCoins();
+		}
+		if (m_Type == Type::AMMO)
+		{
+			if (elf->m_Ammo < elf->MAX_AMMO)
+			{
+				m_IsConsumed = true;
+				elf->Reload();
+			}
+		}
+		if (m_Type == Type::HEARTS)
+		{
+			if (elf->m_Health < elf->MAX_HEALTH)
+			{
+				m_IsConsumed = true;
+				elf->IncreaseHealth();
+			}
+		}
+	}
+
+	//move coin towards  elf
 	if (m_Type == Type::COINS)
 	{
-		Elf * elf = Elf::GetPlayer();
 		DOUBLE2 elfPos = elf->GetPosition();
 		DOUBLE2 coinPos = m_ActCollectPtr->GetPosition();
 		double distance = DOUBLE2(coinPos - elfPos).Length();
@@ -177,6 +206,7 @@ void Collectible::Paint()
 //-------------------------------------------------------
 void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherPtr)
 {
+
 	if (m_Type == Type::COINS)
 	{
 		if (actOtherPtr == Roguelight::GAME->GetLevelActor())
@@ -185,43 +215,6 @@ void Collectible::BeginContact(PhysicsActor *actThisPtr, PhysicsActor *actOtherP
 			m_ActCollectPtr->SetLinearVelocity(m_CoinVelocity);
 		}
 	}
-
-	Elf * elf = Elf::GetPlayer();
-	
-	if (actOtherPtr != elf->GetPhysicsActor())
-	{
-		return;
-	}
-	if (m_Type == Type::COINS)
-	{
-			m_IsConsumed = true;
-			elf->IncreaseCoins();
-	}
-	if (m_Type == Type::AMMO)
-	{
-		if (elf->m_Ammo == elf->MAX_AMMO)
-		{
-			m_IsConsumed = false;
-		}
-		else
-		{
-			m_IsConsumed = true;
-			elf->Reload();
-		}
-	}
-	if (m_Type == Type::HEARTS)
-	{
-		if (elf->m_Health == elf->MAX_HEALTH)
-		{
-			m_IsConsumed = false;
-		}
-		else 
-		{
-			m_IsConsumed = true;
-			elf->IncreaseHealth();
-		}
-		m_ActCollectPtr->SetGhost(true);
-	}	
 }
 
 

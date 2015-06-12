@@ -16,7 +16,7 @@
 class Shadyguy : public Enemy
 {
 public:
-	Shadyguy(DOUBLE2 pos, Bitmap * bmpPtr);
+	Shadyguy(DOUBLE2 pos, int nrCols, int nrRows, Bitmap * bmpPtr);
 	virtual ~Shadyguy();
 
 	// C++11 make the class non-copShadyguyable
