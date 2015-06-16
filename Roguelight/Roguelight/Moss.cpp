@@ -61,11 +61,7 @@ void Moss::Paint()
 	GAME_ENGINE->SetWorldMatrix(matWorldTransform);
 
 	GAME_ENGINE->DrawBitmap(m_BmpMossPtr);
-}//check
-//2. opitah da napisha when max ammo, da ne dobavq nishto, no ne moga da minavam prez tqh.
-//3. napravih if contact.size<=0, state = jumping, no kogato sym vyrhu moss, stava nqkyv glitch i prepuska ot jumping kym standing... probvah da promenq parametrite, ama nishto/
-//tova 3 moje bi s GetLinearVelocity triabva da stane.. ako e ~=0. neshto takova
-
+}
 void Moss::ResetPos()
 {
 	m_ActMossPtr->SetPosition(m_SpawnPos);

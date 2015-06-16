@@ -29,7 +29,6 @@ ACTOR_WIDTH(width)
 	m_ActActorPtr = new PhysicsActor(m_SpawnPos, 0, BodyType::DYNAMIC);
 	m_ActActorPtr->AddBoxShape(ACTOR_WIDTH, ACTOR_HEIGHT, 0, 0.2, 1);
 	m_ActActorPtr->SetFixedRotation(true);
-	//m_ActActorPtr->SetTrigger(false);
 	m_ActActorPtr->SetGravityScale(1);
 	m_ActActorPtr->AddContactListener(this);
 }

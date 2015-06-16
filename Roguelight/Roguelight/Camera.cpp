@@ -84,7 +84,7 @@ void Camera::Tick(double deltaTime, DOUBLE2 newPos)
 	}
 	if ((m_CameraPos.y + m_CameraSize.y / 2) > m_LevelHeight)
 	{
-		m_CameraPos.y = m_LevelHeight - m_CameraSize.y / 2;
+			m_CameraPos.y = m_LevelHeight - m_CameraSize.y / 2;
 	}
 
 	if (m_CameraPos.x < m_CameraSize.x / 2)
@@ -116,23 +116,3 @@ DOUBLE2 Camera::GetCameraOrigin()
 {
 	return m_CameraPos;
 }
-
-//-------------------------------------------------------
-// ContactListener overloaded member function definitions
-//-------------------------------------------------------
-//void Camera::BeginContact(PhCamerasicsActor *actThisPtr, PhCamerasicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void Camera::EndContact(PhCamerasicsActor *actThisPtr, PhCamerasicsActor *actOtherPtr)
-//{
-//
-//}
-//
-//void Camera::ContactImpulse(PhCamerasicsActor *actThisPtr, double impulse)
-//{
-//
-//}
-
-

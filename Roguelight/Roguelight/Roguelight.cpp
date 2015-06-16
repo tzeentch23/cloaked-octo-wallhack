@@ -81,12 +81,6 @@ void Roguelight::GameStart()
 
 	m_Session->Start(m_ElfPtr->GetHealth(), m_ElfPtr->GetAmmo());
 
-	//temp:
-	/*
-	m_DoorArr.push_back(new Door(DOUBLE2(elfSpawn.x - 100, elfSpawn.y)));*/
-	DOUBLE2 elfSpawn = m_ElfPtr->GetPosition();
-	m_FireflyArr.push_back(new Firefly(DOUBLE2(elfSpawn.x, elfSpawn.y - 100), m_BmpFireflyPtr));
-
 
 	m_HudArr.push_back(new HUD(HUD::Type::HEALTH, this));
 	m_HudArr.push_back(new HUD(HUD::Type::COINS, this));
@@ -233,13 +227,17 @@ void Roguelight::GameTick(double deltaTime)
 		return;
 	}
 
-//	m_GameSoundPtr->Play();
+	m_GameSoundPtr->Play();
 	m_ElfPtr->Tick(deltaTime);
 	m_ElfPos = m_ElfPtr->GetPosition();
 
 	m_CameraPtr->Tick(deltaTime, m_ElfPos);
-	
-	m_CthulhuPtr->Tick(deltaTime);
+
+	if (m_CthulhuPtr->IsAlive())
+	{
+		m_CthulhuPtr->Tick(deltaTime);
+	}
+
 
 	m_ShootTime += deltaTime;
 
@@ -426,8 +424,12 @@ void Roguelight::GamePaint(RECT rect)
 		}
 		m_LampArr[i]->Paint();
 	}
-	m_CthulhuPtr->Paint();
 
+	if (m_CthulhuPtr->IsAlive())
+	{
+		m_CthulhuPtr->Paint();
+	}
+	
 	for (size_t i = 0; i < m_MossArr.size(); i++)
 	{
 		m_MossArr[i]->Paint();
@@ -585,7 +587,7 @@ void Roguelight::ParseItem(wstring & item)
 	}
 	if (item.find(L"Firefly") == 1)
 	{
-		ParseShadyguy(item);
+		ParseFirefly(item);
 	}
 	else if (item.find(L"Moss") == 1)
 	{
@@ -706,14 +708,27 @@ PhysicsActor * Roguelight::GetLevelActor()
 
 void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 {
-	if (IsEnemyHit(m_SkelethonArr, actor))
+	for (size_t i = 0; i < m_SkelethonArr.size(); i++)
+	{
+		if (IsEnemyHit(m_SkelethonArr[i], actor))
+		{
+			return;
+		}
+	}
+
+	for (size_t i = 0; i < m_ShadyguyArr.size(); i++)
+	{
+		if (IsEnemyHit(m_ShadyguyArr[i], actor))
+		{
+			return;
+		}
+	}
+
+	if ( IsEnemyHit(m_CthulhuPtr, actor))
 	{
 		return;
 	}
-	if (IsEnemyHit(m_ShadyguyArr, actor))
-	{
-		return;
-	}
+
 
 	for (size_t i = 0; i < m_LampArr.size(); i++) 
 	{
@@ -725,7 +740,6 @@ void Roguelight::CheckHitEnemy(PhysicsActor * actor)
 			return; 
 		}
 	}
-
 }
 
 
@@ -752,23 +766,18 @@ void Roguelight::fixElfPos()
 
 
 }
-bool Roguelight::IsEnemyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor)
+bool Roguelight::IsEnemyHit(Enemy * enemy, PhysicsActor * actor)
 {
-	for (size_t i = 0; i 
-		< enemies.size(); i++)
-	{
-		if (enemies[i]->GetPhysicsActor() == actor)
+		if (enemy->GetPhysicsActor() == actor)
 		{
-			Enemy * enemy = enemies[i];
-			enemies[i]->DecreaseHealth();
+			enemy->DecreaseHealth();
 			if (!enemy->IsAlive())
 			{
-				DOUBLE2 pos = enemies[i]->GetPosition();
+				DOUBLE2 pos = enemy->GetPosition();
 				NewCoin(pos);
 			}
 			return true;
 		}
-	}
 
 	return false;
 }

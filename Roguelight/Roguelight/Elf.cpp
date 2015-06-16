@@ -99,14 +99,7 @@ void Elf::Tick(double deltatime)
 	if (m_Health > 0)
 	{
 		bool applyImpulse = false;
-		//bool isStanding = m_ActActorPtr->GetContactList().size() > 0;
-		//a taka ne lagva li? lagva po drugiq nachin :D brb wc
-		//ne razbiram kakvo lagva..
-		//ako ne overlapva moss ? ili actother different from moss? ami  ne, shtoto imame ujasno mnogo obekti, ne moje da proveriavame vsichko
 		bool isStanding = abs(m_ActActorPtr->GetLinearVelocity().y) < 50;
-		//bachka ama leko lagva
-		//koe lagva? ami nez nam kamerata ot proverkata li?
-		//OutputDebugString(String(m_ActActorPtr->GetLinearVelocity().y) + String('\n'));
 		if (isStanding)
 		{
 			m_State = State::STANDING;
@@ -157,7 +150,7 @@ void Elf::Tick(double deltatime)
 		}
 
 	
-		if (abs(m_ActActorPtr->GetLinearVelocity().y) < 40) //t.e. da niamame dvijenie po y
+		if (abs(m_ActActorPtr->GetLinearVelocity().y) < 40)
 		{
 			m_JumpTime = 0;
 		}
@@ -253,7 +246,7 @@ void Elf::DecreaseAmmo()
 
 void Elf::IncreaseCoins()
 {
-	//m_GetCoinSndPtr->Play();
+	m_GetCoinSndPtr->Play();
 	++m_Coins;
 }
 
@@ -287,11 +280,11 @@ void Elf::DecreaseHealth()
 
 	if (previousHealth > 0 && m_Health <= 0)
 	{
-	//	m_IsDeadSndPtr->Play();
+		m_IsDeadSndPtr->Play();
 	}
 	else
 	{
-	//	m_DecreaseHealthSndPtr->Play();
+		m_DecreaseHealthSndPtr->Play();
 	}
 }
 

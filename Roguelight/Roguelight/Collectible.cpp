@@ -59,8 +59,6 @@ Collectible::Collectible(DOUBLE2 pos, Type type)
 	}
 	if (type == Type::COINS)
 	{
-		m_ActCollectPtr->AddContactListener(this);
-
 		if (m_BmpCoinPtr == nullptr)
 		{
 			m_BmpCoinPtr = new Bitmap(String("./resources/coins.png"));

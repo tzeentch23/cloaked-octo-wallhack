@@ -9,7 +9,6 @@
 // Include Files
 //-----------------------------------------------------
 
-#include "Skelethon.h"
 //-----------------------------------------------------
 // Firefly Class									
 //-----------------------------------------------------
@@ -38,7 +37,7 @@ private:
 	double m_Scale = 1;
 	double m_Angle = 0;
 	DOUBLE2 m_Position;
-	static const int NR_COLS = 8; 
+	static const int NR_COLS = 7; 
 	static const int NR_ROWS = 1;
 	static const int FRAMERATE = 5;
 	Bitmap *m_BmpPtr = nullptr;

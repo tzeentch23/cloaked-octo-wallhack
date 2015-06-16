@@ -82,16 +82,10 @@ void Skelethon::Tick(double deltaTime)
 
 		DOUBLE2 dir = DOUBLE2(dirX * (rand() % 800 + 100), ((rand() % 800 + 100) * dirY));
 
-		//m_ActActorPtr->ApplyLinearImpulse(dir);
-		//tia e mnogo leka i impulsa maj i idva silen
-		m_ActActorPtr->ApplyForce(dir * GetImpulseForce());
+		m_ActActorPtr->ApplyForce(dir * 100);
 	}
 }
 
-int Skelethon::GetImpulseForce()
-{
-	return 100;
-}
 int Skelethon::GetInitialHealth()
 {
 	return 4;

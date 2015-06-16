@@ -137,7 +137,7 @@ private:
 	std::vector<Firefly*> m_FireflyArr;
 	Bitmap  * m_BmpLvlPtr = nullptr;
 	Bitmap  * m_BmpLvlDarkPtr = nullptr;
-	bool IsEnemyHit(std::vector<Enemy *> & enemies, PhysicsActor * actor);
+	bool IsEnemyHit(Enemy * enemy, PhysicsActor * actor);
 	void NewCoin(DOUBLE2 pos);
 
 	MATRIX3X2 matTranslate, matRotate, matScale, matWorldTransform;
